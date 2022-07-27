@@ -7,6 +7,7 @@
 
 // define constants
 #define DELAY 1
-#define PRESCALE 4
+#define PRESCALE 32
 #define BUFFER_SIZE 20
-#define SHIFT_37 0 // difference between base value and 37
+#define SHIFT 37
+#define VARIANCE 1

@@ -1,18 +1,14 @@
 #include <Arduino.h>
 #include <util/delay.h>
+#include "config.h"
 
-#define LED_R 11
-#define LED_G 10
-#define LED_B 9
-#define MIC_D 12
-#define MIC_A A0
-#define DELAY 1
-#define PRESCALE 64
-
-volatile unsigned long int time=0, timer=0;
-volatile int mic_a=0;
+// define globals
+unsigned long int time=0, timer=0;
+int mic_a=0;
 int r=0, g=0, b=0;
+int *buffer = malloc(BUFFER_SIZE * sizeof(int));
 
+// set pin modes
 void setup()
 {
   pinMode(LED_R, OUTPUT);
@@ -22,6 +18,12 @@ void setup()
   pinMode(MIC_A, INPUT);
 }
 
+void bufferAppend(int v)
+{
+  
+}
+
+// sets rgb of led
 void writeRGB(float r, float g, float b)
 {
   analogWrite(LED_R, fit(r));
@@ -29,26 +31,29 @@ void writeRGB(float r, float g, float b)
   analogWrite(LED_B, fit(b));
 }
 
+// helper function for saturation of color values
 int fit(float v) { return v<0 ? 0 : (v>255 ? 255 : (int)v); }
 
-int genR(int v) { return 127.5 * sin(0.01 * (float)v * (float)time) + 127.5; }
-int genG(int v) { return time; }
-int genB(int v) { return 0; }
+// color generator
+int generator(int x, float f) { return 127.5 * sin(f * (float)x * (float)time) + 127.5; }
 
+// main
 void loop()
 {
   Serial.begin(9600);
   while (1)
   {
+    
     mic_a = analogRead(MIC_A);
-    r = genR(mic_a);
-    g = genG(mic_a);
-    b = genB(mic_a);
+    r = generator(mic_a, 0.01);
+    g = generator(mic_a, 0.01);
+    b = generator(mic_a, 0.01);
     writeRGB(r, g, b);
-    Serial.println(time);
+    Serial.println((r+g+b)/3);
 
+    // update timer
     timer++;
     time = timer / PRESCALE;
     _delay_ms(DELAY);
-    }
+  }
 }

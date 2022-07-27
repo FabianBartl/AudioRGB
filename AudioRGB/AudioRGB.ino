@@ -3,10 +3,10 @@
 #include "config.h"
 
 // define globals
-unsigned long int time, timer=0;
+unsigned long int time, timer = 0;
 int mic_a;
 int r, g, b, rgb;
-int *bufferArray=malloc(BUFFER_SIZE * sizeof(int)), bufferIndex=0;
+int *bufferArray = malloc(BUFFER_SIZE * sizeof(int)), bufferIndex = 0;
 
 // set pin modes
 void setup()
@@ -29,10 +29,8 @@ void bufferAppend(int v)
 int bufferFilter(int t)
 {
   /* filter types:
-   *   0 average (default)
-   *   1 median
-   *   2 min
-   *   3 max
+   *  0 average (default)
+   *  1 median (not implemented yet)
   */
   switch(t)
   {
@@ -42,14 +40,6 @@ int bufferFilter(int t)
       return avr / BUFFER_SIZE;
     case 1:
       break;
-    case 2:
-      int min=F_CPU;
-      for(int i=0; i<BUFFER_SIZE; i++) { min = min < bufferArray[i] ? min : bufferArray[i]; }      
-      return min;
-    case 3:
-      int max=-F_CPU;
-      for(int i=0; i<BUFFER_SIZE; i++) { max = max > bufferArray[i] ? max : bufferArray[i]; }      
-      return max;
     default:
       return bufferFilter(0);
   }
@@ -67,7 +57,12 @@ void writeRGB(float r, float g, float b)
 int fit(float v) { return v<0 ? 0 : (v>255 ? 255 : (int)v); }
 
 // color generator
-int generator(int x, float f) { return 127.5 * sin(f * (float)x * (float)time) + 127.5; }
+int generator(int x, float f)
+{
+  return (255.0 / 2.0)
+    * sin(f * (x-SHIFT_37) * time)
+    + (255.0 / 2.0);
+}
 
 // main
 void loop()
@@ -77,9 +72,9 @@ void loop()
   {
     mic_a = analogRead(MIC_A);
     
-    r = generator(mic_a, 0.01);
-    g = generator(mic_a, 0.01);
-    b = generator(mic_a, 0.01);
+    r = generator(mic_a, 0.001);
+    g = 0; //generator(mic_a, 0.001);
+    b = 0; //generator(mic_a, 0.001);
     rgb=r+g+b;
     writeRGB(r, g, b);
     

@@ -3,10 +3,10 @@
 #include "config.h"
 
 // define globals
-unsigned long int time=0, timer=0;
-int mic_a=0;
-int r=0, g=0, b=0;
-int *buffer = malloc(BUFFER_SIZE * sizeof(int));
+unsigned long int time, timer=0;
+int mic_a;
+int r, g, b, rgb;
+int *bufferArray=malloc(BUFFER_SIZE * sizeof(int)), bufferIndex=0;
 
 // set pin modes
 void setup()
@@ -18,9 +18,41 @@ void setup()
   pinMode(MIC_A, INPUT);
 }
 
+// implements an append function for the buffer array containing the last measured elements
 void bufferAppend(int v)
 {
-  
+  bufferIndex = bufferIndex+1 > BUFFER_SIZE-1 ? 0 : bufferIndex+1;
+  bufferArray[bufferIndex] = v;
+}
+
+// apply a filter to the last measured elements
+int bufferFilter(int t)
+{
+  /* filter types:
+   *   0 average (default)
+   *   1 median
+   *   2 min
+   *   3 max
+  */
+  switch(t)
+  {
+    case 0:
+      int avr=0;
+      for(int i=0; i<BUFFER_SIZE; i++) { avr += bufferArray[i]; }
+      return avr / BUFFER_SIZE;
+    case 1:
+      break;
+    case 2:
+      int min=F_CPU;
+      for(int i=0; i<BUFFER_SIZE; i++) { min = min < bufferArray[i] ? min : bufferArray[i]; }      
+      return min;
+    case 3:
+      int max=-F_CPU;
+      for(int i=0; i<BUFFER_SIZE; i++) { max = max > bufferArray[i] ? max : bufferArray[i]; }      
+      return max;
+    default:
+      return bufferFilter(0);
+  }
 }
 
 // sets rgb of led
@@ -41,15 +73,18 @@ int generator(int x, float f) { return 127.5 * sin(f * (float)x * (float)time) +
 void loop()
 {
   Serial.begin(9600);
-  while (1)
+  while(1)
   {
-    
     mic_a = analogRead(MIC_A);
+    
     r = generator(mic_a, 0.01);
     g = generator(mic_a, 0.01);
     b = generator(mic_a, 0.01);
+    rgb=r+g+b;
     writeRGB(r, g, b);
-    Serial.println((r+g+b)/3);
+    
+    bufferAppend(rgb);
+    Serial.println(bufferFilter(0));
 
     // update timer
     timer++;

@@ -56,12 +56,10 @@ void writeRGB(float r, float g, float b)
 // helper function for saturation of color values
 int fit(float v) { return v<0 ? 0 : (v>255 ? 255 : (int)v); }
 
-// color generator
-int generator(int x, float f)
+// function generator
+float generator(float x, float f, float s)
 {
-  return (255.0 / 2.0)
-    * sin(f * (x-SHIFT_37) * time)
-    + (255.0 / 2.0);
+  return (255.0 / 2.0) * sin(f * (x - SHIFT + time + s)) + (255.0 / 2.0);
 }
 
 // main
@@ -72,9 +70,9 @@ void loop()
   {
     mic_a = analogRead(MIC_A);
     
-    r = generator(mic_a, 0.001);
-    g = 0; //generator(mic_a, 0.001);
-    b = 0; //generator(mic_a, 0.001);
+    r = generator(mic_a, 0.5, 0 * (2 * PI) / 0.5);
+    g = generator(mic_a, 0.5, 1 * (2 * PI) / 0.5);
+    b = generator(mic_a, 0.5, 2 * (2 * PI) / 0.5);
     rgb=r+g+b;
     writeRGB(r, g, b);
     

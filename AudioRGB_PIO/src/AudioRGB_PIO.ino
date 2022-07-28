@@ -2,18 +2,20 @@
   #define F_CPU 16000000UL
 #endif
 
-#include <avr/io.h>
 #include <Arduino.h>
-#include <util/delay.h>
-#include <stdlib.h>
 #include <math.h>
+
+#include <util/delay.h>
+#include <avr/io.h>
+#include <stdlib.h>
+#include <stdint.h>
 
 #include "functions.h"
 #include "config.h"
 
 // define globals
 unsigned long int time, timer = 0;
-int mic_a;
+int aux_l;
 int r, g, b, rgb;
 
 // set pin modes
@@ -22,9 +24,10 @@ void setup()
   pinMode(LED_R, OUTPUT);
   pinMode(LED_G, OUTPUT);
   pinMode(LED_B, OUTPUT);
-  pinMode(MIC_A, INPUT);
+  pinMode(AUX_L, INPUT);
 }
 
+int pinMode() {}
 
 // sets rgb of led
 void writeRGB(float r, float g, float b)
@@ -53,11 +56,11 @@ void loop()
   Serial.begin(9600);
   while(1)
   {
-    mic_a = analogRead(MIC_A);
+    aux_l = analogRead(AUX_L);
     
-    r = generator(mic_a, 0.5, 0 * (2 * PI) / 0.5);
-    g = generator(mic_a, 0.5, 1 * (2 * PI) / 0.5);
-    b = generator(mic_a, 0.5, 2 * (2 * PI) / 0.5);
+    r = generator(aux_l, 0.5, 0 * (2 * PI) / 0.5);
+    g = generator(aux_l, 0.5, 1 * (2 * PI) / 0.5);
+    b = generator(aux_l, 0.5, 2 * (2 * PI) / 0.5);
     rgb=r+g+b;
     writeRGB(r, g, b);
     

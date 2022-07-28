@@ -22,8 +22,8 @@ void writeRGB(int *rgb)
 // function generator
 float generator(float val, float shift)
 {
-  return COLOR_HALF * sin(FREQUENCY * (val + time + shift * (PI / FREQUENCY))) + COLOR_HALF;
-  // return val / SCALE;
+  // return COLOR_HALF * sin(FREQUENCY * (val + time + shift * (PI / FREQUENCY))) + COLOR_HALF;
+  return (val - SHIFT) / SCALE;
 }
 
 void setup()
@@ -65,6 +65,8 @@ void loop()
   // touch sensor
   int *touchArr = (int *)malloc(4 * sizeof(int));
 
+  // tmp
+  int *tmpArr = (int *)malloc(3 * sizeof(int));
 
   while(1)
   {
@@ -86,8 +88,8 @@ void loop()
 
     // color generator
     rgbArr[0] = generator(aux_l_filter, 0);
-    rgbArr[1] = generator(aux_r_filter, 1);
-    rgbArr[2] = generator(0, 2);
+    rgbArr[1] = generator(0, 0);
+    rgbArr[2] = generator(0, 0);
 
     // modify color
     if(touchArr[0]) rgbArr[0] = 0;
@@ -98,12 +100,13 @@ void loop()
     writeRGB(rgbArr);
 
     // plot color as graph
-    plot(rgbArr, 3);
+    // plot(rgbArr, 3);
 
     // plot (filtered) aux values
-    // auxVarsL[0] = aux_l;
-    // auxVarsL[1] = aux_l_filter;
-    // plot(auxVarsL, 2);
+    tmpArr[0] = aux_l;
+    tmpArr[1] = aux_l_filter;
+    tmpArr[2] = rgbArr[0];
+    plot(tmpArr, 3);
 
     // update timer
     ticks++;

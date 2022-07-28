@@ -15,9 +15,10 @@
   #define AUX_R A1
 
   // define constants
-  #define BUFFER_SIZE 20
+  #define BUFFER_SIZE 5
 
-  #define SCALE 3
+  #define SCALE 1
+  #define SHIFT 380.0 / 1.5
   #define FREQUENCY 0.5f
 
   #define COLOR_MIN 0

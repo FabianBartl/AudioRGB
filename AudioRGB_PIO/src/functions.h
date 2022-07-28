@@ -5,9 +5,10 @@
   void bufferAppend(int val, int *arr, size_t *ind);
   int bufferFilter(int *arr);
   
-  // saturation of (color) values
+  // saturation / mapping of (color) values
   int saturate(int val);
   int saturate(int val, int lowerLim, int upperLim);
+  int map(int val, int inMin, int inMax, int outMin, int outMax);
 
   // serial plotter
   void plot(int *valArr, int lenArr);

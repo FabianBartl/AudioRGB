@@ -17,8 +17,8 @@
   // define constants
   #define BUFFER_SIZE 3
 
-  #define SHIFT COLOR_HALF
-  #define SCALE 0.64f  // 400 aux range / 256 color range = 0.64 
+  #define ZERO_POINT 380
+  #define HALF_RANGE 200
   #define FREQUENCY 0.5f
 
   #define COLOR_MIN 0

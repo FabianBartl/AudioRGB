@@ -24,12 +24,15 @@ int bufferFilter(int *arr)
   return sum / BUFFER_SIZE;
 }
 
-// ----------------------------
-// saturation of (color) values
-// ----------------------------
+// --------------------------------------
+// saturation / mapping of (color) values
+// --------------------------------------
 
 int saturate(int val) { return saturate(val, COLOR_MIN, COLOR_MAX); }
 int saturate(int val, int lowerLim, int upperLim) { return (val < lowerLim) ? lowerLim : ((val > upperLim) ? upperLim : val); }
+
+int map(int val, int inMin, int inMax, int outMin, int outMax)
+{ return (val - inMin) * (outMax - outMin) / (inMax - inMin) + outMin; }
 
 // --------------
 // serial plotter

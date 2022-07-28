@@ -23,7 +23,7 @@ void writeRGB(int *rgb)
 float generator(float val, float shift)
 {
   // return COLOR_HALF * sin(FREQUENCY * (val + time + shift * (PI / FREQUENCY))) + COLOR_HALF;
-  return val * SCALE - SHIFT;
+  return map(val, ZERO_POINT-HALF_RANGE, ZERO_POINT+HALF_RANGE, COLOR_MIN, COLOR_MAX);
 }
 
 void setup()
@@ -94,7 +94,7 @@ void loop()
 
     // select color
     if( touchArr[0]) rgbArr[0] = 0;
-    if(!touchArr[1]) rgbArr[1] = 0;
+    if( touchArr[1]) rgbArr[1] = 0;
     if( touchArr[2]) rgbArr[2] = 0;
 
     // set rgb of led

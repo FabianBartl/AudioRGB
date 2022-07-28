@@ -2,11 +2,10 @@
 #define CONFIG_H_INCLUDED
 
     // define pins
-    #define LED_R 11
-    #define LED_G 10
-    #define LED_B 9
-    #define MIC_D 12
-    #define MIC_A A0
+    #define LED_R PINB3
+    #define LED_G PINB2
+    #define LED_B PINB1
+    #define MIC_A PINC0
 
     // define constants
     #define DELAY 1

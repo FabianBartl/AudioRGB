@@ -8,11 +8,11 @@
     #define AUX_L PC0
     #define AUX_R PC1
 
-    #define LED_R B3
-    #define LED_G B2
-    #define LED_B B1
-    #define AUX_L C0
-    #define AUX_R C1
+    #define _LED_R B3
+    #define _LED_G B2
+    #define _LED_B B1
+    #define _AUX_L C0
+    #define _AUX_R C1
 
     // define constants
     #define DELAY 1

@@ -21,13 +21,11 @@ int r, g, b, rgb;
 // set pin modes
 void setup()
 {
-  pinMode(LED_R, OUTPUT);
-  pinMode(LED_G, OUTPUT);
-  pinMode(LED_B, OUTPUT);
-  pinMode(AUX_L, INPUT);
+  _pinMode(_LED_R, _OUTPUT);
+  _pinMode(_LED_G, _OUTPUT);
+  _pinMode(_LED_B, _OUTPUT);
+  _pinMode(_AUX_L, _INPUT_PULLUP);
 }
-
-int pinMode() {}
 
 // sets rgb of led
 void writeRGB(float r, float g, float b)
@@ -49,6 +47,13 @@ float generator(float x, float f, float s)
 // main
 void loop()
 {
+  while(1)
+  {
+    analogWrite(LED_R, 255);
+    analogWrite(LED_G, 255);
+    analogWrite(LED_B, 255);
+  }
+
   // left channel
   int *bufArrL = (int *)malloc(BUFFER_SIZE * sizeof(int));
   size_t bufIndL = 0;

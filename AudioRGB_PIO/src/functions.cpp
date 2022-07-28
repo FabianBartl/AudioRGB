@@ -16,27 +16,28 @@ int _pin2port(int pin)
   // find out the appropriate PORT
   switch(pin)
   {
-    case B0: return PB0;
-    case B1: return PB1;
-    case B2: return PB2;
-    case B3: return PB3;
-    case B4: return PB4;
-    case B5: return PB5;
-    case C0: return PC0;
-    case C1: return PC1;
-    case C2: return PC2;
-    case C3: return PC3;
-    case C4: return PC4;
-    case C5: return PC5;
-    case D0: return PD0;
-    case D1: return PD1;
-    case D2: return PD2;
-    case D3: return PD3;
-    case D4: return PD4;
-    case D5: return PD5;
-    case D6: return PD6;
-    case D7: return PD7;
+    case B0: return PORTB0;
+    case B1: return PORTB1;
+    case B2: return PORTB2;
+    case B3: return PORTB3;
+    case B4: return PORTB4;
+    case B5: return PORTB5;
+    case C0: return PORTC0;
+    case C1: return PORTC1;
+    case C2: return PORTC2;
+    case C3: return PORTC3;
+    case C4: return PORTC4;
+    case C5: return PORTC5;
+    case D0: return PORTD0;
+    case D1: return PORTD1;
+    case D2: return PORTD2;
+    case D3: return PORTD3;
+    case D4: return PORTD4;
+    case D5: return PORTD5;
+    case D6: return PORTD6;
+    case D7: return PORTD7;
   }
+  return -1;
 }
 
 // helper pin -> DDR
@@ -66,6 +67,7 @@ int _pin2ddr(int pin)
     case D6: return DDD6;
     case D7: return DDD7;
   }
+  return -1;
 }
 
 // set pin mode
@@ -108,38 +110,15 @@ void _pinMode(int pin, int mode)
   // set pin mode
   switch(mode)
   {
+    case _INPUT_PULLUP:
+      *PORT |= (1<<_pin2port(pin)); //pull-up
     case _INPUT:
-      *DDR &= ~(1<<pin); //input
-      *PORT |= (1<<pin); //pull-up
+      *DDR &= ~(1<<_pin2ddr(pin)); //input
       break;
     case _OUTPUT:
-      *DDR |= (1<<pin); //output
+      *DDR |= (1<<_pin2ddr(pin)); //output
       break;
   }
-}
-
-// read analog pin
-int _analogRead(int pin)
-{
-  return 0;
-}
-
-// write analog pin
-void _analogWrite(int pin)
-{
-
-}
-
-// read digital pin
-int _digitalRead(int pin)
-{
-  return 0;
-}
-
-// write digital pin
-void _digitalWrite(int pin)
-{
-
 }
 
 // ----------------

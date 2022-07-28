@@ -3,7 +3,8 @@
 
     // states
     #define _INPUT 0
-    #define _OUTPUT 1
+    #define _INPUT_PULLUP 1
+    #define _OUTPUT 2
     #define _LOW 0
     #define _HIGH 1
 

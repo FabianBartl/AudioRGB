@@ -9,7 +9,7 @@
 #include "functions.h"
 #include "config.h"
 
-unsigned long int ticks = 0, time = 0; 
+unsigned long int ticks = 0, time = 0;
 
 // sets rgb of led
 void writeRGB(int *rgb)
@@ -20,10 +20,10 @@ void writeRGB(int *rgb)
 }
 
 // function generator
-float generator(float val, float frequency, float phase)
+float generator(float val, float shift)
 {
-  return COLOR_HALF * sin(TWO_PI * frequency * (val + time) + phase) + COLOR_HALF;
-  // return COLOR_HALF * sin(frequency * (val - SHIFT + TIME + phase)) + COLOR_HALF;
+  return COLOR_HALF * sin(FREQUENCY * (val + time + shift * (PI / FREQUENCY))) + COLOR_HALF;
+  // return val / SCALE;
 }
 
 void setup()
@@ -32,8 +32,16 @@ void setup()
   pinMode(LED_R, OUTPUT);
   pinMode(LED_G, OUTPUT);
   pinMode(LED_B, OUTPUT);
+
+  pinMode(TCH_1, INPUT_PULLUP);
+  pinMode(TCH_2, INPUT_PULLUP);
+  pinMode(TCH_3, INPUT_PULLUP);
+  pinMode(TCH_4, INPUT_PULLUP);
+
   pinMode(AUX_L, INPUT_PULLUP);
+  pinMode(AUX_R, INPUT_PULLUP);
   
+  // start serial
   Serial.begin(9600);
 }
 
@@ -44,18 +52,23 @@ void loop()
   int *bufArrL = (int *)malloc(BUFFER_SIZE * sizeof(int));
   size_t bufIndL = 0;
   int aux_l, aux_l_filter;
+  int auxVarsL[2] = {aux_l, aux_l_filter};
 
   // right channel
   int *bufArrR = (int *)malloc(BUFFER_SIZE * sizeof(int));
   size_t bufIndR = 0;
   int aux_r, aux_r_filter;
+  int auxVarsR[2] = {aux_r, aux_r_filter};
 
   // rgb led
   int *rgbArr = (int *)malloc(3 * sizeof(int));
+  // touch sensor
+  int *touchArr = (int *)malloc(4 * sizeof(int));
+
 
   while(1)
   {
-    // analog read
+    // analog read aux
     aux_l = analogRead(AUX_L);
     aux_r = analogRead(AUX_R);
     // write circular buffer
@@ -64,16 +77,33 @@ void loop()
     // apply filter
     aux_l_filter = bufferFilter(bufArrL);
     aux_r_filter = bufferFilter(bufArrR);
-    
+
+    // digital read touch
+    touchArr[0] = digitalRead(TCH_1);
+    touchArr[1] = digitalRead(TCH_2);
+    touchArr[2] = digitalRead(TCH_3);
+    touchArr[3] = digitalRead(TCH_4);
+
     // color generator
-    rgbArr[0] = generator(aux_l_filter, 0.5, 0);
-    rgbArr[1] = generator(aux_r_filter, 0.5, 2);
-    rgbArr[2] = generator(0, 0.5, 4);
+    rgbArr[0] = generator(aux_l_filter, 0);
+    rgbArr[1] = generator(aux_r_filter, 1);
+    rgbArr[2] = generator(0, 2);
+
+    // modify color
+    if(touchArr[0]) rgbArr[0] = 0;
+    if(touchArr[1]) rgbArr[1] = 0;
+    if(touchArr[2]) rgbArr[2] = 0;
+
     // set rgb of led
     writeRGB(rgbArr);
 
     // plot color as graph
     plot(rgbArr, 3);
+
+    // plot (filtered) aux values
+    // auxVarsL[0] = aux_l;
+    // auxVarsL[1] = aux_l_filter;
+    // plot(auxVarsL, 2);
 
     // update timer
     ticks++;

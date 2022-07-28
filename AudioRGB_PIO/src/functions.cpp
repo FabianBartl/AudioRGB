@@ -43,7 +43,7 @@ void plot(int *valArr, int lenArr)
     Serial.print(",");
   }
   Serial.print(valArr[lenArr-1]);
-  
+
   Serial.println("");
   Serial.flush();
 }

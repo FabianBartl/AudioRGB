@@ -92,7 +92,7 @@ void loop()
     rgbArr[1] = generator(aux_l_filter, 0);
     rgbArr[2] = generator(aux_l_filter, 0);
 
-    // modify color
+    // select color
     if( touchArr[0]) rgbArr[0] = 0;
     if(!touchArr[1]) rgbArr[1] = 0;
     if( touchArr[2]) rgbArr[2] = 0;
@@ -100,15 +100,12 @@ void loop()
     // set rgb of led
     writeRGB(rgbArr);
 
-    // plot color as graph
-    // plot(rgbArr, 3);
-
     // plot
-    pltArr[3] = aux_l;        // yellow
-    pltArr[4] = aux_l_filter; // purple
-    pltArr[1] = saturate(rgbArr[0]);    // red
-    pltArr[2] = saturate(rgbArr[1]);    // green
-    pltArr[0] = saturate(rgbArr[2]);    // blue
+    pltArr[3] = aux_l;                // yellow
+    pltArr[4] = aux_l_filter;         // purple
+    pltArr[1] = saturate(rgbArr[0]);  // red
+    pltArr[2] = saturate(rgbArr[1]);  // green
+    pltArr[0] = saturate(rgbArr[2]);  // blue
     plot(pltArr, pltLen);
 
     // update timer

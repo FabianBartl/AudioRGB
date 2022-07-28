@@ -21,10 +21,10 @@ int r, g, b, rgb;
 // set pin modes
 void setup()
 {
-  _pinMode(_LED_R, _OUTPUT);
-  _pinMode(_LED_G, _OUTPUT);
-  _pinMode(_LED_B, _OUTPUT);
-  _pinMode(_AUX_L, _INPUT_PULLUP);
+  pinMode(LED_R, OUTPUT);
+  pinMode(LED_G, OUTPUT);
+  pinMode(LED_B, OUTPUT);
+  pinMode(AUX_L, INPUT_PULLUP);
 }
 
 // sets rgb of led
@@ -36,7 +36,7 @@ void writeRGB(float r, float g, float b)
 }
 
 // helper function for saturation of color values
-int fit(float v) { return v<0 ? 0 : (v>255 ? 255 : (int)v); }
+int fit(float v) { return v < 0 ? 0 : (v > 255 ? 255 : (int)v); }
 
 // function generator
 float generator(float x, float f, float s)

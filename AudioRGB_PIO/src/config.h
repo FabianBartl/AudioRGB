@@ -15,10 +15,10 @@
   #define AUX_R A1
 
   // define constants
-  #define BUFFER_SIZE 5
+  #define BUFFER_SIZE 3
 
-  #define SCALE 1
-  #define SHIFT 380.0 / 1.5
+  #define SHIFT COLOR_HALF
+  #define SCALE 0.64f  // 400 aux range / 256 color range = 0.64 
   #define FREQUENCY 0.5f
 
   #define COLOR_MIN 0

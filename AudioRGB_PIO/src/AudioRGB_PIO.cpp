@@ -23,7 +23,7 @@ void writeRGB(int *rgb)
 float generator(float val, float shift)
 {
   // return COLOR_HALF * sin(FREQUENCY * (val + time + shift * (PI / FREQUENCY))) + COLOR_HALF;
-  return (val - SHIFT) / SCALE;
+  return val * SCALE - SHIFT;
 }
 
 void setup()
@@ -65,8 +65,9 @@ void loop()
   // touch sensor
   int *touchArr = (int *)malloc(4 * sizeof(int));
 
-  // tmp
-  int *tmpArr = (int *)malloc(3 * sizeof(int));
+  // plot array
+  int pltLen = 5;
+  int *pltArr = (int *)malloc(pltLen * sizeof(int));
 
   while(1)
   {
@@ -88,13 +89,13 @@ void loop()
 
     // color generator
     rgbArr[0] = generator(aux_l_filter, 0);
-    rgbArr[1] = generator(0, 0);
-    rgbArr[2] = generator(0, 0);
+    rgbArr[1] = generator(aux_l_filter, 0);
+    rgbArr[2] = generator(aux_l_filter, 0);
 
     // modify color
-    if(touchArr[0]) rgbArr[0] = 0;
-    if(touchArr[1]) rgbArr[1] = 0;
-    if(touchArr[2]) rgbArr[2] = 0;
+    if( touchArr[0]) rgbArr[0] = 0;
+    if(!touchArr[1]) rgbArr[1] = 0;
+    if( touchArr[2]) rgbArr[2] = 0;
 
     // set rgb of led
     writeRGB(rgbArr);
@@ -102,11 +103,13 @@ void loop()
     // plot color as graph
     // plot(rgbArr, 3);
 
-    // plot (filtered) aux values
-    tmpArr[0] = aux_l;
-    tmpArr[1] = aux_l_filter;
-    tmpArr[2] = rgbArr[0];
-    plot(tmpArr, 3);
+    // plot
+    pltArr[3] = aux_l;        // yellow
+    pltArr[4] = aux_l_filter; // purple
+    pltArr[1] = saturate(rgbArr[0]);    // red
+    pltArr[2] = saturate(rgbArr[1]);    // green
+    pltArr[0] = saturate(rgbArr[2]);    // blue
+    plot(pltArr, pltLen);
 
     // update timer
     ticks++;

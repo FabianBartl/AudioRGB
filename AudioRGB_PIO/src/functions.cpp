@@ -35,6 +35,7 @@ int saturate(int val, int lowerLim, int upperLim) { return (val < lowerLim) ? lo
 // serial plotter
 // --------------
 
+// blue, red, green, yellow, purple
 void plot(int *valArr, int lenArr)
 {
   for(int i=0; i < lenArr-1; i++)

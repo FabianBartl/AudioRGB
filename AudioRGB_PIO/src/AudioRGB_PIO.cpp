@@ -14,9 +14,13 @@ unsigned long int ticks = 0;
 void setup()
 {
   // set pin modes
-  pinMode(LED_R, OUTPUT);
-  pinMode(LED_G, OUTPUT);
-  pinMode(LED_B, OUTPUT);
+  pinMode(LED_L_R, OUTPUT);
+  pinMode(LED_L_G, OUTPUT);
+  pinMode(LED_L_B, OUTPUT);
+
+  pinMode(LED_R_R, OUTPUT);
+  pinMode(LED_R_G, OUTPUT);
+  pinMode(LED_R_B, OUTPUT);
 
   pinMode(TCH_1, INPUT_PULLUP);
   pinMode(TCH_2, INPUT_PULLUP);
@@ -26,7 +30,8 @@ void setup()
   pinMode(AUX_L, INPUT_PULLUP);
   pinMode(AUX_R, INPUT_PULLUP);
 
-  pinMode(RNG, INPUT);
+  pinMode(RNG_1, INPUT);
+  pinMode(RNG_2, INPUT);
   
   // start serial
   Serial.begin(9600);
@@ -37,24 +42,33 @@ void loop()
 {
   // left channel
   int *bufArrL = (int *)malloc(BUFFER_SIZE_AUX * sizeof(int));
+  emptyArray(bufArrL, BUFFER_SIZE_AUX);
   size_t bufIndL = 0;
   int aux_l, aux_l_filter;
-
   // right channel
   int *bufArrR = (int *)malloc(BUFFER_SIZE_AUX * sizeof(int));
+  emptyArray(bufArrR, BUFFER_SIZE_AUX);
   size_t bufIndR = 0;
   int aux_r, aux_r_filter;
 
-  // rgb led
-  int *rgbArr = (int *)malloc(3 * sizeof(int));
-  int colSel = 0, colVal = COLOR_HALF;
-  int colSelPrev = 0, colValPrev = COLOR_HALF;
+  // rgb led left
+  int *rgbArrL = (int *)malloc(ARRAY_SIZE_RGB * sizeof(int));
+  emptyArray(rgbArrL, ARRAY_SIZE_RGB);
+  int colSelL = 0, colValL = COLOR_HALF;
+  int colSelPrevL = 0, colValPrevL = COLOR_HALF;
+  // rgb led right
+  int *rgbArrR = (int *)malloc(ARRAY_SIZE_RGB * sizeof(int));
+  emptyArray(rgbArrR, ARRAY_SIZE_RGB);
+  int colSelR = 0, colValR = COLOR_HALF;
+  int colSelPrevR = 0, colValPrevR = COLOR_HALF;
+  
   // touch sensor
-  int *touchArr = (int *)malloc(4 * sizeof(int));
+  int *touchArr = (int *)malloc(ARRAY_SIZE_TCH * sizeof(int));
 
   // plot array
-  int pltLen = 5;
+  int pltLen = 4;
   int *pltArr = (int *)malloc(pltLen * sizeof(int));
+  emptyArray(pltArr, pltLen);
 
   while(1)
   {
@@ -74,44 +88,83 @@ void loop()
     touchArr[2] = digitalRead(TCH_3);
     touchArr[3] = digitalRead(TCH_4);
 
-    // color generator
-    rgbArr[0] = generator(aux_l_filter);
-    rgbArr[1] = generator(aux_l_filter);
-    rgbArr[2] = generator(aux_l_filter);
+    // color generator for left side
+    rgbArrL[0] = generator(aux_l_filter);
+    rgbArrL[1] = generator(aux_l_filter);
+    rgbArrL[2] = generator(aux_l_filter);
+    // color generator for right side
+    rgbArrR[0] = generator(aux_r_filter);
+    rgbArrR[1] = generator(aux_r_filter);
+    rgbArrR[2] = generator(aux_r_filter);
 
-    // modify color
-    if(ticks % COLOR_CYCLE == 0)
+    // modify left color
+    if(ticks % COLOR_L_CYCLE == 0)
     {
       // save previous color
-      colSelPrev = colSel;
-      colValPrev = colVal;
+      colSelPrevL = colSelL;
+      colValPrevL = colValL;
       // get next color
-      colSel = noise(3);
-      colVal = rgbArr[colSel];
+      colSelL = noise(RNG_1, ARRAY_SIZE_RGB);
+      colValL = rgbArrL[colSelL];
     }
     // fade in previous color
-    colValPrev += COLOR_FADE;
-    rgbArr[colSelPrev] = min(colValPrev, rgbArr[colSelPrev]);
+    colValPrevL += COLOR_L_FADE;
+    rgbArrL[colSelPrevL] = min(colValPrevL, rgbArrL[colSelPrevL]);
     // fade out next color, if unequal to the previous color
-    if(colSel != colSelPrev)
+    if(colSelL != colSelPrevL)
     {
-      colVal -= COLOR_FADE;
-      rgbArr[colSel] = colVal;
+      colValL -= COLOR_L_FADE;
+      rgbArrL[colSelL] = colValL;
     }
 
-    // if( touchArr[0]) rgbArr[0] = 0;
-    // if( touchArr[1]) rgbArr[1] = 0;
-    // if( touchArr[2]) rgbArr[2] = 0;
+    // modify right color
+    if(ticks % COLOR_R_CYCLE == 0)
+    {
+      // save previous color
+      colSelPrevR = colSelR;
+      colValPrevR = colValR;
+      // get next color
+      colSelR = noise(RNG_2, ARRAY_SIZE_RGB);
+      colValR = rgbArrR[colSelR];
+    }
+    // fade in previous color
+    colValPrevR += COLOR_R_FADE;
+    rgbArrR[colSelPrevR] = min(colValPrevR, rgbArrR[colSelPrevR]);
+    // fade out next color, if unequal to the previous color
+    if(colSelR != colSelPrevR)
+    {
+      colValR -= COLOR_R_FADE;
+      rgbArrR[colSelR] = colValR;
+    }
 
-    // set rgb of led
-    writeRGB(rgbArr);
+    // select side
+    switch(touchArr[0])
+    {
+      // left side
+      case 0:
+        // select color
+        if(touchArr[1]) rgbArrL[0] = 255;
+        if(touchArr[2]) rgbArrL[1] = 255;
+        if(touchArr[3]) rgbArrL[2] = 255;
+        break;
+      // right side
+      case 1:
+        // select color
+        if(touchArr[1]) rgbArrR[0] = 255;
+        if(touchArr[2]) rgbArrR[1] = 255;
+        if(touchArr[3]) rgbArrR[2] = 255;
+        break;
+    }
+
+    // set rgb of leds
+    writeRGB(LED_L, rgbArrL);
+    writeRGB(LED_R, rgbArrR);
 
     // plot
-    pltArr[3] = aux_l;                // yellow
-    pltArr[4] = aux_l_filter;         // purple
-    pltArr[1] = saturate(rgbArr[0]);  // red
-    pltArr[2] = saturate(rgbArr[1]);  // green
-    pltArr[0] = saturate(rgbArr[2]);  // blue
+    pltArr[0] = aux_l_filter; // blue
+    pltArr[1] = aux_r_filter; // red
+    pltArr[2] = arraySum(rgbArrL, ARRAY_SIZE_RGB); // green
+    pltArr[3] = arraySum(rgbArrR, ARRAY_SIZE_RGB); // yellow
     plot(pltArr, pltLen);
 
     // update timers

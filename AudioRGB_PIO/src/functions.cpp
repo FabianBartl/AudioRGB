@@ -63,18 +63,28 @@ void plot(int *valArr, int lenArr)
 // noise generator
 // ---------------
 
-int noise() { return analogRead(RNG); }
-int noise(int mod) { return noise() % mod; }
+int noise(int pin) { return analogRead(pin); }
+int noise(int pin, int mod) { return noise(pin) % mod; }
 
 // ---
 // rgb
 // ---
 
-void writeRGB(int *rgb)
+void writeRGB(int pin, int *rgb)
 {
-  analogWrite(LED_R, saturate(rgb[0]));
-  analogWrite(LED_G, saturate(rgb[1]));
-  analogWrite(LED_B, saturate(rgb[2]));
+  switch(pin)
+  {
+    case LED_R:
+      analogWrite(LED_R_R, saturate(rgb[0]));
+      analogWrite(LED_R_G, saturate(rgb[1]));
+      analogWrite(LED_R_B, saturate(rgb[2]));
+      break;
+    case LED_L:
+      analogWrite(LED_L_R, saturate(rgb[0]));
+      analogWrite(LED_L_G, saturate(rgb[1]));
+      analogWrite(LED_L_B, saturate(rgb[2]));
+      break;
+  }
 }
 
 // color generator
@@ -87,4 +97,20 @@ float generator(float val)
     COLOR_MIN,
     COLOR_MAX
   );
+}
+
+
+// -----
+// array
+// -----
+
+void emptyArray(int *arr, size_t arrLen) { fillArray(0, arr, arrLen); }
+void fillArray(int val, int *arr, size_t arrLen) { for(int i=0; i < arrLen; i++) arr[i] = val; }
+
+int arrayAvr(int *arr, int arrLen) { return arraySum(arr, arrLen) / arrLen; }
+int arraySum(int *arr, int arrLen)
+{
+  int sum = 0;
+  for(int i=0; i < arrLen; i++) sum += arr[i];
+  return sum;
 }

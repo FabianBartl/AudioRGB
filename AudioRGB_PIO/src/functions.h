@@ -17,11 +17,17 @@
   void plot(int *valArr, char *symArr, int lenArr);
 
   // noise generator
-  int noise();
-  int noise(int mod);
+  int noise(int pin);
+  int noise(int pin, int mod);
 
   // rgb
-  void writeRGB(int *rgb);
+  void writeRGB(int pin, int *rgb);
   float generator(float val);
+
+  // array
+  void emptyArray(int *arr, size_t arrLen);
+  void fillArray(int val, int *arr, size_t arrLen);
+  int arrayAvr(int *arr, int arrLen);
+  int arraySum(int *arr, int arrLen);
 
 #endif

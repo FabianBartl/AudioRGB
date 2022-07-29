@@ -11,17 +11,6 @@
 
 unsigned long int ticks = 0;
 
-// sets rgb of led
-void writeRGB(int *rgb)
-{
-  analogWrite(LED_R, saturate(rgb[0]));
-  analogWrite(LED_G, saturate(rgb[1]));
-  analogWrite(LED_B, saturate(rgb[2]));
-}
-
-// function generator
-float generator(float val) { return transform(val, VOLUME_MIN, VOLUME_MAX, COLOR_MIN, COLOR_MAX); }
-
 void setup()
 {
   // set pin modes

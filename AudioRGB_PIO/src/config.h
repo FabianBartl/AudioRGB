@@ -17,10 +17,11 @@
   #define RNG A2
 
   // define constants
-  #define BUFFER_SIZE_AUX 3
+  #define BUFFER_SIZE_AUX 2
 
   #define VOLUME_MIN 180
   #define VOLUME_MAX 580
+  #define VOLUME_BOOST 1 //30%->5, 100%->1
 
   #define COLOR_MIN 0
   #define COLOR_MAX 255

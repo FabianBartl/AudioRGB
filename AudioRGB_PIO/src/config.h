@@ -14,11 +14,13 @@
   #define AUX_L A0
   #define AUX_R A1
 
+  #define RNG A2
+
   // define constants
   #define BUFFER_SIZE 3
 
-  #define ZERO_POINT 380
-  #define HALF_RANGE 200
+  #define VOLUME_MIN 180
+  #define VOLUME_MAX 580
   #define FREQUENCY 0.5f
 
   #define COLOR_MIN 0

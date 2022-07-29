@@ -8,10 +8,13 @@
   // saturation / mapping of (color) values
   int saturate(int val);
   int saturate(int val, int lowerLim, int upperLim);
-  int map(int val, int inMin, int inMax, int outMin, int outMax);
+  int transform(int val, int inMin, int inMax, int outMin, int outMax);
 
   // serial plotter
   void plot(int *valArr, int lenArr);
   void plot(int *valArr, char *symArr, int lenArr);
+
+  // noise generator
+  int noise();
 
 #endif

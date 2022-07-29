@@ -20,10 +20,11 @@ void writeRGB(int *rgb)
 }
 
 // function generator
-float generator(float val, float shift)
+float generator(float val)
 {
-  // return COLOR_HALF * sin(FREQUENCY * (val + time + shift * (PI / FREQUENCY))) + COLOR_HALF;
-  return map(val, ZERO_POINT-HALF_RANGE, ZERO_POINT+HALF_RANGE, COLOR_MIN, COLOR_MAX);
+  // return (val - VOLUME_MIN) * (COLOR_MAX / (VOLUME_MAX - VOLUME_MIN));
+  // return val - (VOLUME_MIN + ((VOLUME_MAX - VOLUME_MIN) / 2) - COLOR_HALF);
+  return transform(val, VOLUME_MIN, VOLUME_MAX, COLOR_MIN, COLOR_MAX);
 }
 
 void setup()
@@ -67,6 +68,7 @@ void loop()
 
   // plot array
   int pltLen = 5;
+  // int pltLen = 1;
   int *pltArr = (int *)malloc(pltLen * sizeof(int));
 
   while(1)
@@ -88,9 +90,9 @@ void loop()
     touchArr[3] = digitalRead(TCH_4);
 
     // color generator
-    rgbArr[0] = generator(aux_l_filter, 0);
-    rgbArr[1] = generator(aux_l_filter, 0);
-    rgbArr[2] = generator(aux_l_filter, 0);
+    rgbArr[0] = generator(aux_l_filter);
+    rgbArr[1] = generator(aux_l_filter);
+    rgbArr[2] = generator(aux_l_filter);
 
     // select color
     if( touchArr[0]) rgbArr[0] = 0;
@@ -106,6 +108,7 @@ void loop()
     pltArr[1] = saturate(rgbArr[0]);  // red
     pltArr[2] = saturate(rgbArr[1]);  // green
     pltArr[0] = saturate(rgbArr[2]);  // blue
+    // pltArr[0] = noise();
     plot(pltArr, pltLen);
 
     // update timer

@@ -12,7 +12,7 @@
 // implements an append function for the buffer array containing the last measured elements
 void bufferAppend(int val, int *arr, size_t *ind)
 {
-  *ind = (*ind+1 > BUFFER_SIZE-1) ? 0 : *ind+1;
+  *ind = (*ind+1 > BUFFER_SIZE_AUX-1) ? 0 : *ind+1;
   arr[*ind] = val;
 }
 
@@ -20,8 +20,8 @@ void bufferAppend(int val, int *arr, size_t *ind)
 int bufferFilter(int *arr)
 {
   int sum = 0;
-  for(size_t i=0; i < BUFFER_SIZE; i++) { sum += arr[i]; }
-  return sum / BUFFER_SIZE;
+  for(size_t i=0; i < BUFFER_SIZE_AUX; i++) { sum += arr[i]; }
+  return sum / BUFFER_SIZE_AUX;
 }
 
 // --------------------------------------
@@ -68,7 +68,5 @@ void plot(int *valArr, int lenArr)
 // noise generator
 // ---------------
 
-int noise()
-{
-  return analogRead(RNG);
-}
+int noise() { return analogRead(RNG); }
+int noise(int mod) { return noise() % mod; }

@@ -41,6 +41,8 @@ void setup()
 
   pinMode(AUX_L, INPUT_PULLUP);
   pinMode(AUX_R, INPUT_PULLUP);
+
+  pinMode(RNG, INPUT);
   
   // start serial
   Serial.begin(9600);
@@ -50,16 +52,20 @@ void setup()
 void loop()
 {
   // left channel
-  int *bufArrL = (int *)malloc(BUFFER_SIZE * sizeof(int));
+  int *bufArrL = (int *)malloc(BUFFER_SIZE_AUX * sizeof(int));
   size_t bufIndL = 0;
   int aux_l, aux_l_filter;
-  int auxVarsL[2] = {aux_l, aux_l_filter};
 
   // right channel
-  int *bufArrR = (int *)malloc(BUFFER_SIZE * sizeof(int));
+  int *bufArrR = (int *)malloc(BUFFER_SIZE_AUX * sizeof(int));
   size_t bufIndR = 0;
   int aux_r, aux_r_filter;
-  int auxVarsR[2] = {aux_r, aux_r_filter};
+
+  // noise buffer
+  int *noiseArr = (int *)malloc(BUFFER_SIZE_RNG * sizeof(int));
+  size_t noiseInd = 0;
+  int rng, rng_filter;
+  unsigned long int rng_walk, rng_filter_walk;
 
   // rgb led
   int *rgbArr = (int *)malloc(3 * sizeof(int));
@@ -67,8 +73,8 @@ void loop()
   int *touchArr = (int *)malloc(4 * sizeof(int));
 
   // plot array
-  int pltLen = 5;
-  // int pltLen = 1;
+  // int pltLen = 5;
+  int pltLen = 1;
   int *pltArr = (int *)malloc(pltLen * sizeof(int));
 
   while(1)
@@ -82,6 +88,13 @@ void loop()
     // apply filter
     aux_l_filter = bufferFilter(bufArrL);
     aux_r_filter = bufferFilter(bufArrR);
+
+    // noise
+    rng = noise(3) - 1;
+    bufferAppend(rng, noiseArr, &noiseInd);
+    rng_filter = bufferFilter(noiseArr);
+    rng_walk += rng;
+    rng_filter_walk += rng_filter;
 
     // digital read touch
     touchArr[0] = digitalRead(TCH_1);
@@ -103,12 +116,12 @@ void loop()
     writeRGB(rgbArr);
 
     // plot
-    pltArr[3] = aux_l;                // yellow
-    pltArr[4] = aux_l_filter;         // purple
-    pltArr[1] = saturate(rgbArr[0]);  // red
-    pltArr[2] = saturate(rgbArr[1]);  // green
-    pltArr[0] = saturate(rgbArr[2]);  // blue
-    // pltArr[0] = noise();
+    // pltArr[3] = aux_l;                // yellow
+    // pltArr[4] = aux_l_filter;         // purple
+    // pltArr[1] = saturate(rgbArr[0]);  // red
+    // pltArr[2] = saturate(rgbArr[1]);  // green
+    // pltArr[0] = saturate(rgbArr[2]);  // blue
+    pltArr[0] = rng_walk;
     plot(pltArr, pltLen);
 
     // update timer

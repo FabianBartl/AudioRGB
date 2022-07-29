@@ -16,5 +16,6 @@
 
   // noise generator
   int noise();
+  int noise(int mod);
 
 #endif

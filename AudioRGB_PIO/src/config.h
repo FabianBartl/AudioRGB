@@ -21,14 +21,14 @@
 
   #define VOLUME_MIN 180
   #define VOLUME_MAX 580
-  #define FREQUENCY 0.5f
 
   #define COLOR_MIN 0
   #define COLOR_MAX 255
   #define COLOR_HALF 127.5f
 
+  #define COLOR_CYCLE 30
+  #define COLOR_FADE 10
+
   #define DELAY 1
-  #define PRESCALE 16
-  #define RNG_CYCLE 15
 
 #endif

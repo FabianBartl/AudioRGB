@@ -32,14 +32,6 @@ int saturate(int val) { return saturate(val, COLOR_MIN, COLOR_MAX); }
 int saturate(int val, int lowerLim, int upperLim) { return (val < lowerLim) ? lowerLim : ((val > upperLim) ? upperLim : val); }
 
 int transform(int val, int inMin, int inMax, int outMin, int outMax)
-// { return (val - inMin) * (outMax - outMin) / (inMax - inMin) + outMin; }
-// { return (val - inMin - outMin) * (outMax) / (inMax - inMin); }
-// {
-//   int deltaY = outMax - outMin;
-//   int deltaX = inMax - inMin;
-//   int offset = inMin - outMin;
-//   return (val - offset) * (deltaY / deltaX);
-// }
 {
   int inHalf = inMin + (inMax - inMin) / 2;
   int outHalf = outMin + (outMax - outMin) / 2;
@@ -59,7 +51,7 @@ void plot(int *valArr, int lenArr)
     Serial.print(",");
   }
   Serial.print(valArr[lenArr-1]);
-
+  // flush data
   Serial.println("");
   Serial.flush();
 }

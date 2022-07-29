@@ -9,7 +9,7 @@
 #include "functions.h"
 #include "config.h"
 
-unsigned long int ticks = 0, time = 0;
+unsigned long int ticks = 0;
 
 // sets rgb of led
 void writeRGB(int *rgb)
@@ -20,12 +20,7 @@ void writeRGB(int *rgb)
 }
 
 // function generator
-float generator(float val)
-{
-  // return (val - VOLUME_MIN) * (COLOR_MAX / (VOLUME_MAX - VOLUME_MIN));
-  // return val - (VOLUME_MIN + ((VOLUME_MAX - VOLUME_MIN) / 2) - COLOR_HALF);
-  return transform(val, VOLUME_MIN, VOLUME_MAX, COLOR_MIN, COLOR_MAX);
-}
+float generator(float val) { return transform(val, VOLUME_MIN, VOLUME_MAX, COLOR_MIN, COLOR_MAX); }
 
 void setup()
 {
@@ -63,13 +58,12 @@ void loop()
 
   // rgb led
   int *rgbArr = (int *)malloc(3 * sizeof(int));
+  int colSel = 0, colVal = COLOR_HALF;
+  int colSelPrev = 0, colValPrev = COLOR_HALF;
   // touch sensor
   int *touchArr = (int *)malloc(4 * sizeof(int));
-  // rng
-  int randInt = noise(3);
 
   // plot array
-  // int pltLen = 5;
   int pltLen = 5;
   int *pltArr = (int *)malloc(pltLen * sizeof(int));
 
@@ -96,9 +90,26 @@ void loop()
     rgbArr[1] = generator(aux_l_filter);
     rgbArr[2] = generator(aux_l_filter);
 
-    // select color
-    if(ticks % RNG_CYCLE == 0) randInt = noise(3);
-    rgbArr[randInt] = 0;
+    // modify color
+    if(ticks % COLOR_CYCLE == 0)
+    {
+      // save previous color
+      colSelPrev = colSel;
+      colValPrev = colVal;
+      // get next color
+      colSel = noise(3);
+      colVal = rgbArr[colSel];
+    }
+    // fade in previous color
+    colValPrev += COLOR_FADE;
+    rgbArr[colSelPrev] = min(colValPrev, rgbArr[colSelPrev]);
+    // fade out next color, if unequal to the previous color
+    if(colSel != colSelPrev)
+    {
+      colVal -= COLOR_FADE;
+      rgbArr[colSel] = colVal;
+    }
+
     // if( touchArr[0]) rgbArr[0] = 0;
     // if( touchArr[1]) rgbArr[1] = 0;
     // if( touchArr[2]) rgbArr[2] = 0;
@@ -116,7 +127,6 @@ void loop()
 
     // update timers
     ticks++;
-    time = ticks / PRESCALE;
     _delay_ms(DELAY);
   }
 }

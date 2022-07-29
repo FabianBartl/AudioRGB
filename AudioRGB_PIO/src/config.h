@@ -18,7 +18,6 @@
 
   // define constants
   #define BUFFER_SIZE_AUX 3
-  #define BUFFER_SIZE_RNG 5
 
   #define VOLUME_MIN 180
   #define VOLUME_MAX 580
@@ -28,9 +27,8 @@
   #define COLOR_MAX 255
   #define COLOR_HALF 127.5f
 
-  #define DELAY 10
+  #define DELAY 1
   #define PRESCALE 16
-
-  #define ADC_MAX 1023 //10 bit
+  #define RNG_CYCLE 15
 
 #endif

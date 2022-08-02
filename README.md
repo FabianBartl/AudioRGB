@@ -17,7 +17,7 @@
 |  $4$ | `input pull-up` | touch pad    | pad 2           |
 |  $7$ | `input pull-up` | touch pad    | pad 3           |
 |  $8$ | `input pull-up` | touch pad    | pad 4           |
-|      | `             ` |              |                 |
+|      |                 |              |                 |
 | $A0$ | `input pull-up` | analog audio | left channel    |
 | $A1$ | `input pull-up` | analog audio | right channel   |
 |      |                 |              |                 |
@@ -26,7 +26,7 @@
 
 ## Results
 
-**[Random walk](https://en.wikipedia.org/wiki/Random_walk) by reading analog floating bits**
+**[Random walk](https://en.wikipedia.org/wiki/Random_walk) by reading analog floating bits from pin $A2$**
 
 ![](img/random-walk-by-reading-analog-floating-bits.png)
 
@@ -34,16 +34,17 @@
 | :---- | :---------- |
 | blue  | random walk |
 
-***
+--- <!-- -->
 
 **Fade random color in / out while playing music**
 
 ![](img/fade-random-color-in-out.png)
 
-| Graph  | Data           | y-value    |
+| Graph  | Data           | Value      |
 | :----- | :------------- | :--------- |
 | yellow | audio          | volume     |
 | purple | filtered audio | volume     |
+|        |                |            |
 | red    | red value      | brightness |
 | green  | green value    | brightness |
 | blue   | blue value     | brightness |

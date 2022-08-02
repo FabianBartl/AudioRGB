@@ -30,13 +30,13 @@
 
 | Pin Name | GPIO mode        | GPIO Pull-up/-down | User Label    | Component       | Data            |
 | :------- | :--------------- | :----------------- | :------------ | :-------------- | :-------------- |
-| `PB10`   | `analog output`  | *none*             | `LED_L_R`     | LED left        | red             |
-| `PB4`    | `analog output`  | *none*             | `LED_L_G`     | LED left        | green           |
-| `PB1`    | `analog output`  | *none*             | `LED_L_B`     | LED left        | blue            |
+| `PB10`   | `pwm output`     | *none*             | `LED_L_R`     | LED left        | red             |
+| `PB4`    | `pwm output`     | *none*             | `LED_L_G`     | LED left        | green           |
+| `PB1`    | `pwm output`     | *none*             | `LED_L_B`     | LED left        | blue            |
 |          |                  |                    |               |                 |                 |
-| `PA7`    | `analog output`  | *none*             | `LED_R_R`     | LED right       | red             |
-| `PB6`    | `analog output`  | *none*             | `LED_R_G`     | LED right       | green           |
-| `PC7`    | `analog output`  | *none*             | `LED_R_B`     | LED right       | blue            |
+| `PA7`    | `pwm output`     | *none*             | `LED_R_R`     | LED right       | red             |
+| `PB6`    | `pwm output`     | *none*             | `LED_R_G`     | LED right       | green           |
+| `PC7`    | `pwm output`     | *none*             | `LED_R_B`     | LED right       | blue            |
 |          |                  |                    |               |                 |                 |
 | `PA10`   | `digital input`  | `Pull-down`        | `TCH_1`       | touchpad        | pad 1           |
 | `PB5`    | `digital input`  | `Pull-down`        | `TCH_2`       | touchpad        | pad 2           |
@@ -52,8 +52,8 @@
 | `PB8`    | `digital output` | `Pull-up`          | `LCD_I2C_SCL` | LCD Display     | I2C clock       |
 | `PB9`    | `digital output` | `Pull-up`          | `LCD_I2C_SDA` | LCD Display     | I2C data        |
 |          |                  |                    |               |                 |                 |
-| `PC13`   | `digital input`  | `Pull-down`        | `BUTTON_OB`   | on-board button |                 |
-| `PA5`    | `digital output` | `Pull-down`        | `LED_OB`      | on-board LED    |                 |
+| `PC13`   | `digital input`  | `Pull-down`        | `BUTTON_OB`   | on-board button | *none*          |
+| `PA5`    | `digital output` | `Pull-down`        | `LED_OB`      | on-board LED    | *none*          |
 
 
 ## Results

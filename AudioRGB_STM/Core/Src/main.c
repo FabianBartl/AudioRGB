@@ -21,12 +21,14 @@
 #include "adc.h"
 #include "dma.h"
 #include "i2c.h"
+#include "tim.h"
 #include "usart.h"
 #include "gpio.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "config.h"
+#include "functions.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -36,6 +38,7 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
+
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -92,6 +95,9 @@ int main(void)
   MX_DMA_Init();
   MX_ADC1_Init();
   MX_I2C1_Init();
+  MX_TIM1_Init();
+  MX_TIM2_Init();
+  MX_TIM3_Init();
   /* USER CODE BEGIN 2 */
 
   /* USER CODE END 2 */
@@ -102,7 +108,12 @@ int main(void)
   {
 	HAL_GPIO_TogglePin(LED_OB_GPIO_Port, LED_OB_Pin);
     HAL_Delay(1000);
-	/* USER CODE END WHILE */
+
+    TIM1->CCR1 = 255;
+    TIM1->CCR2 = 255;
+    TIM1->CCR3 = 255;
+    HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_1);
+    /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
   }

@@ -14,18 +14,17 @@ int bufferFilter(int *arr);
 
 // saturate, transform, amplify
 int saturate(int val);
-int saturate(int val, int lowerLim, int upperLim);
+int saturateLimits(int val, int lowerLim, int upperLim);
 int transform(int val, int inMin, int inMax, int outMin, int outMax);
 int amplify(int val);
-int amplify(int val, int fac);
+int amplifyFactor(int val, int fac);
 
 // serial plotter
-void plot(int *valArr, int lenArr);
-void plot(int *valArr, char *symArr, int lenArr);
+void plotArduino(int *valArr, int lenArr);
 
 // noise generator
 int noise(int pin);
-int noise(int pin, int mod);
+int noiseLimit(int pin, int mod);
 
 // rgb
 void writeRGB(int pin, int *rgb);

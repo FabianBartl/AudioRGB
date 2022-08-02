@@ -28,29 +28,32 @@
 
 ![](img/nucleo-64-pin-configuration.png)
 
-| Pin Name | GPIO mode        | GPIO Pull-up/-down | User Label  | Component       | Data            |
-| :------- | :--------------- | :----------------- | :---------- | :-------------- | :-------------- |
-| `PB10`   | `analog output`  | *none*             | `LED_L_R`   | LED left        | red             |
-| `PB4`    | `analog output`  | *none*             | `LED_L_G`   | LED left        | green           |
-| `PB1`    | `analog output`  | *none*             | `LED_L_B`   | LED left        | blue            |
-|          |                  |                    |             |                 |                 |
-| `PA7`    | `analog output`  | *none*             | `LED_R_R`   | LED right       | red             |
-| `PB6`    | `analog output`  | *none*             | `LED_R_G`   | LED right       | green           |
-| `PC7`    | `analog output`  | *none*             | `LED_R_B`   | LED right       | blue            |
-|          |                  |                    |             |                 |                 |
-| `PA10`   | `digital input`  | `Pull-down`        | `TCH_1`     | touchpad        | pad 1           |
-| `PB5`    | `digital input`  | `Pull-down`        | `TCH_2`     | touchpad        | pad 2           |
-| `PA8`    | `digital input`  | `Pull-down`        | `TCH_3`     | touchpad        | pad 3           |
-| `PA9`    | `digital input`  | `Pull-down`        | `TCH_4`     | touchpad        | pad 4           |
-|          |                  |                    |             |                 |                 |
-| `PA1`    | `analog input`   | *none*             | `AUX_L`     | analog audio    | left channel    |
-| `PA4`    | `analog input`   | *none*             | `AUX_R`     | analog audio    | right channel   |
-|          |                  |                    |             |                 |                 |
-| `PC2`    | `analog input`   | *none*             | `RNG_1`     | *none*          | *floating-bits* |
-| `PC4`    | `analog input`   | *none*             | `RNG_2`     | *none*          | *floating-bits* |
-|          |                  |                    |             |                 |                 |
-| `PC13`   | `digital input`  | `Pull-down`        | `BUTTON_OB` | on-board button |                 |
-| `PA5`    | `digital output` | `Pull-down`        | `LED_OB`    | on-board LED    |                 |
+| Pin Name | GPIO mode        | GPIO Pull-up/-down | User Label    | Component       | Data            |
+| :------- | :--------------- | :----------------- | :------------ | :-------------- | :-------------- |
+| `PB10`   | `analog output`  | *none*             | `LED_L_R`     | LED left        | red             |
+| `PB4`    | `analog output`  | *none*             | `LED_L_G`     | LED left        | green           |
+| `PB1`    | `analog output`  | *none*             | `LED_L_B`     | LED left        | blue            |
+|          |                  |                    |               |                 |                 |
+| `PA7`    | `analog output`  | *none*             | `LED_R_R`     | LED right       | red             |
+| `PB6`    | `analog output`  | *none*             | `LED_R_G`     | LED right       | green           |
+| `PC7`    | `analog output`  | *none*             | `LED_R_B`     | LED right       | blue            |
+|          |                  |                    |               |                 |                 |
+| `PA10`   | `digital input`  | `Pull-down`        | `TCH_1`       | touchpad        | pad 1           |
+| `PB5`    | `digital input`  | `Pull-down`        | `TCH_2`       | touchpad        | pad 2           |
+| `PA8`    | `digital input`  | `Pull-down`        | `TCH_3`       | touchpad        | pad 3           |
+| `PA9`    | `digital input`  | `Pull-down`        | `TCH_4`       | touchpad        | pad 4           |
+|          |                  |                    |               |                 |                 |
+| `PA1`    | `analog input`   | *none*             | `AUX_L`       | analog audio    | left channel    |
+| `PA4`    | `analog input`   | *none*             | `AUX_R`       | analog audio    | right channel   |
+|          |                  |                    |               |                 |                 |
+| `PC2`    | `analog input`   | *none*             | `RNG_1`       | *none*          | *floating-bits* |
+| `PC4`    | `analog input`   | *none*             | `RNG_2`       | *none*          | *floating-bits* |
+|          |                  |                    |               |                 |                 |
+| `PB8`    | `digital output` | `Pull-up`          | `LCD_I2C_SCL` | LCD Display     | I2C clock       |
+| `PB9`    | `digital output` | `Pull-up`          | `LCD_I2C_SDA` | LCD Display     | I2C data        |
+|          |                  |                    |               |                 |                 |
+| `PC13`   | `digital input`  | `Pull-down`        | `BUTTON_OB`   | on-board button |                 |
+| `PA5`    | `digital output` | `Pull-down`        | `LED_OB`      | on-board LED    |                 |
 
 
 ## Results

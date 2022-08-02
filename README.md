@@ -43,14 +43,14 @@
 | `PA8`    | `digital input`  | `Pull-down`        | `TCH_3`     | touchpad        | pad 3           |
 | `PA9`    | `digital input`  | `Pull-down`        | `TCH_4`     | touchpad        | pad 4           |
 |          |                  |                    |             |                 |                 |
-| `PC13`   | `digital input`  | `Pull-down`        | `BUTTON_OB` | on-board button |                 |
-| `PA5`    | `digital output` | `Pull-down`        | `LED_OB`    | pn-board LED    |                 |
-|          |                  |                    |             |                 |                 |
 | `PA1`    | `analog input`   | *none*             | `AUX_L`     | analog audio    | left channel    |
 | `PA4`    | `analog input`   | *none*             | `AUX_R`     | analog audio    | right channel   |
 |          |                  |                    |             |                 |                 |
 | `PC2`    | `analog input`   | *none*             | `RNG_1`     | *none*          | *floating-bits* |
 | `PC4`    | `analog input`   | *none*             | `RNG_2`     | *none*          | *floating-bits* |
+|          |                  |                    |             |                 |                 |
+| `PC13`   | `digital input`  | `Pull-down`        | `BUTTON_OB` | on-board button |                 |
+| `PA5`    | `digital output` | `Pull-down`        | `LED_OB`    | on-board LED    |                 |
 
 
 ## Results

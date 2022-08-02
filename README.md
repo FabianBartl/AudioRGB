@@ -38,10 +38,10 @@
 | `PB6`    | `analog output` | *none*             | `LED_R_G`  | LED right    | green           |
 | `PC7`    | `analog output` | *none*             | `LED_R_B`  | LED right    | blue            |
 |          |                 |                    |            |              |                 |
-| `PA7`    | `digital input` | `Pull-down`        | `TCH_1`    | touch pad    | pad 1           |
-| `PB6`    | `digital input` | `Pull-down`        | `TCH_2`    | touch pad    | pad 2           |
-| `PC7`    | `digital input` | `Pull-down`        | `TCH_3`    | touch pad    | pad 3           |
-| `PC7`    | `digital input` | `Pull-down`        | `TCH_4`    | touch pad    | pad 4           |
+| `PA10`   | `digital input` | `Pull-down`        | `TCH_1`    | touch pad    | pad 1           |
+| `PB5`    | `digital input` | `Pull-down`        | `TCH_2`    | touch pad    | pad 2           |
+| `PA8`    | `digital input` | `Pull-down`        | `TCH_3`    | touch pad    | pad 3           |
+| `PA9`    | `digital input` | `Pull-down`        | `TCH_4`    | touch pad    | pad 4           |
 |          |                 |                    |            |              |                 |
 | `PC13`   | `digital input` | `Pull-down`        | `B1`       | blue button  | on-board button |
 |          |                 |                    |            |              |                 |

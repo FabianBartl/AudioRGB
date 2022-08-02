@@ -4,25 +4,25 @@
 ## Arduino Pin Configuration
 
 | Pin  | Mode            | Label     | Component    | Data            |
-| ---: | :-------------- | :-------- | :----------- | :-------------- |
-|  $6$ | `output`        | `LED_L_R` | LED left     | red             |
-|  $5$ | `output`        | `LED_L_G` | LED left     | green           |
-|  $3$ | `output`        | `LED_L_B` | LED left     | blue            |
+| :--- | :-------------- | :-------- | :----------- | :-------------- |
+| `6`  | `pwm output`    | `LED_L_R` | LED left     | red             |
+| `5`  | `pwm output`    | `LED_L_G` | LED left     | green           |
+| `3`  | `pwm output`    | `LED_L_B` | LED left     | blue            |
 |      |                 |           |              |                 |
-| $11$ | `output`        | `LED_R_R` | LED right    | red             |
-| $10$ | `output`        | `LED_R_G` | LED right    | green           |
-|  $9$ | `output`        | `LED_R_B` | LED right    | blue            |
+| `11` | `pwm output`    | `LED_R_R` | LED right    | red             |
+| `10` | `pwm output`    | `LED_R_G` | LED right    | green           |
+| `9`  | `pwm output`    | `LED_R_B` | LED right    | blue            |
 |      |                 |           |              |                 |
-|  $2$ | `input pull-up` | `TCH_1`   | touchpad     | pad 1           |
-|  $4$ | `input pull-up` | `TCH_2`   | touchpad     | pad 2           |
-|  $7$ | `input pull-up` | `TCH_3`   | touchpad     | pad 3           |
-|  $8$ | `input pull-up` | `TCH_4`   | touchpad     | pad 4           |
+| `2`  | `input pull-up` | `TCH_1`   | touchpad     | pad 1           |
+| `4`  | `input pull-up` | `TCH_2`   | touchpad     | pad 2           |
+| `7`  | `input pull-up` | `TCH_3`   | touchpad     | pad 3           |
+| `8`  | `input pull-up` | `TCH_4`   | touchpad     | pad 4           |
 |      |                 |           |              |                 |
-| $A0$ | `input pull-up` | `AUX_L`   | analog audio | left channel    |
-| $A1$ | `input pull-up` | `AUX_R`   | analog audio | right channel   |
+| `A0` | `input`         | `AUX_L`   | analog audio | left channel    |
+| `A1` | `input`         | `AUX_R`   | analog audio | right channel   |
 |      |                 |           |              |                 |
-| $A2$ | `input`         | `RNG_1`   | *none*       | *floating-bits* |
-| $A3$ | `input`         | `RNG_2`   | *none*       | *floating-bits* |
+| `A2` | `input`         | `RNG_1`   | *none*       | noise           |
+| `A3` | `input`         | `RNG_2`   | *none*       | noise           |
 
 ## Nucleo-64 Pin Configuration
 
@@ -45,11 +45,11 @@
 | `PA8`    | `digital input`  | `Pull-down`         | `TCH_3`       | touchpad        | pad 3           |
 | `PA9`    | `digital input`  | `Pull-down`         | `TCH_4`       | touchpad        | pad 4           |
 |          |                  |                     |               |                 |                 |
-| `PA1`    | `analog input`   | $12$ bit            | `AUX_L`       | analog audio    | left channel    |
-| `PA4`    | `analog input`   | $12$ bit            | `AUX_R`       | analog audio    | right channel   |
+| `PA1`    | `analog input`   | 12 bit              | `AUX_L`       | analog audio    | left channel    |
+| `PA4`    | `analog input`   | 12 bit              | `AUX_R`       | analog audio    | right channel   |
 |          |                  |                     |               |                 |                 |
-| `PC2`    | `analog input`   | $12$ bit            | `RNG_1`       | *none*          | *noise*         |
-| `PC4`    | `analog input`   | $12$ bit            | `RNG_2`       | *none*          | *noise*         |
+| `PC2`    | `analog input`   | 12 bit              | `RNG_1`       | *none*          | noise           |
+| `PC4`    | `analog input`   | 12 bit              | `RNG_2`       | *none*          | noise           |
 |          |                  |                     |               |                 |                 |
 | `PB8`    | `digital output` | `Pull-up`           | `LCD_I2C_SCL` | LCD Display     | I2C clock       |
 | `PB9`    | `digital output` | `Pull-up`           | `LCD_I2C_SDA` | LCD Display     | I2C data        |
@@ -60,7 +60,7 @@
 
 ## Results
 
-**[Random walk](https://en.wikipedia.org/wiki/Random_walk) by reading analog floating bits from pin $A2$**
+**[Random walk](https://en.wikipedia.org/wiki/Random_walk) by reading analog floating bits from pin `A2`**
 
 ![](img/random-walk-by-reading-analog-floating-bits.png)
 

@@ -34,7 +34,7 @@
 | :---- | :---------- |
 | blue  | random walk |
 
---- <!-- -->
+***
 
 **Fade random color in / out while playing music**
 

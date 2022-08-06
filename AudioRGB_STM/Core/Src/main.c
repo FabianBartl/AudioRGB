@@ -118,11 +118,15 @@ int main(void)
   MX_TIM2_Init();
   MX_TIM3_Init();
   /* USER CODE BEGIN 2 */
-  // setup rgb led
+  // start pwm timer for rgb led
   HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_3);
   HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_2);
   HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_1);
   writeRGBArray(rgbArr);
+
+  // start timer for adc to dma
+  HAL_TIM_Base_Start_IT(&htim1);
+  HAL_ADC_Start_DMA(&hadc1, (uint32_t *)adcArr, ARRAY_SIZE_ADC);
   /* USER CODE END 2 */
 
   /* Infinite loop */

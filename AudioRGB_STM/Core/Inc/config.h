@@ -29,6 +29,6 @@
 #define COLOR_R_CYCLE 30
 #define COLOR_R_FADE 10
 
-#define DELAY 1
+#define DELAY 10
 
 #endif /* INC_CONFIG_H_ */

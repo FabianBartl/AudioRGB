@@ -29,6 +29,7 @@
 /* USER CODE BEGIN Includes */
 #include "config.h"
 #include "functions.h"
+#include <stdlib.h>
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -70,7 +71,37 @@ void SystemClock_Config(void);
 int main(void)
 {
   /* USER CODE BEGIN 1 */
+  // left channel
+  int *bufArrL = (int *)malloc(BUFFER_SIZE_AUX * sizeof(int));
+  emptyArray(bufArrL, BUFFER_SIZE_AUX);
+  size_t bufIndL = 0;
+  int aux_l, aux_l_filter;
 
+  // right channel
+  int *bufArrR = (int *)malloc(BUFFER_SIZE_AUX * sizeof(int));
+  emptyArray(bufArrR, BUFFER_SIZE_AUX);
+  size_t bufIndR = 0;
+  int aux_r, aux_r_filter;
+
+  // left rgb led
+  int *rgbArrL = (int *)malloc(ARRAY_SIZE_RGB * sizeof(int));
+  emptyArray(rgbArrL, ARRAY_SIZE_RGB);
+  size_t colSelL = 0, colSelPrevL = 0;
+  int colValL = COLOR_HALF, colValPrevL = COLOR_HALF;
+
+  // right rgb led
+  int *rgbArrR = (int *)malloc(ARRAY_SIZE_RGB * sizeof(int));
+  emptyArray(rgbArrR, ARRAY_SIZE_RGB);
+  size_t colSelR = 0, colSelPrevR = 0;
+  int colValR = COLOR_HALF, colValPrevR = COLOR_HALF;
+
+  // touch sensor
+  int *touchArr = (int *)malloc(ARRAY_SIZE_TCH * sizeof(int));
+
+  // plot array
+  size_t pltLen = 4;
+  int *pltArr = (int *)malloc(pltLen * sizeof(int));
+  emptyArray(pltArr, pltLen);
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -100,19 +131,37 @@ int main(void)
   MX_TIM3_Init();
   /* USER CODE BEGIN 2 */
 
+  // setup left rgb led
+  HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_3);
+  HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_2);
+  HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_1);
+  writeRGBArray(LED_L, rgbArrL);
+
+  // setup right rgb led
+  HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_1);
+  HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_2);
+  HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_3);
+  writeRGBArray(LED_R, rgbArrR);
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  while (1)
+  for (int i=0, s=0; 1; i++)
   {
-	HAL_GPIO_TogglePin(LED_OB_GPIO_Port, LED_OB_Pin);
-    HAL_Delay(1000);
+	//HAL_GPIO_TogglePin(LED_OB_GPIO_Port, LED_OB_Pin);
+    //HAL_Delay(1000);
 
-    TIM1->CCR1 = 255;
-    TIM1->CCR2 = 255;
-    TIM1->CCR3 = 255;
-    HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_1);
+	// set left rgb led
+	rgbArrL[s] = i;
+	writeRGBArray(LED_L, rgbArrL);
+
+	// reset color
+	if (i > COLOR_MAX)
+	{
+	  i = 0;
+	  s = (s + 1) % ARRAY_SIZE_RGB;
+	}
+	HAL_Delay(DELAY);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */

@@ -1,0 +1,16 @@
+functions.c:18:6:bufferAppend	24	static
+functions.c:25:5:bufferFilter	24	static
+functions.c:36:5:saturate	16	static
+functions.c:37:5:saturateLimits	24	static
+functions.c:39:5:transform	32	static
+functions.c:46:5:amplify	16	static
+functions.c:47:5:amplifyFactor	16	static
+functions.c:73:5:noiseLimit	16	static
+functions.c:74:5:noise	16	static
+functions.c:83:6:writeRGBArray	16	static
+functions.c:84:6:writeRGB	24	static
+functions.c:111:7:generator	32	static
+functions.c:126:6:emptyArray	16	static
+functions.c:127:6:fillArray	32	static
+functions.c:129:5:arrayAvr	16	static
+functions.c:130:5:arraySum	24	static

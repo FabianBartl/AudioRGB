@@ -30,6 +30,7 @@
 #include "config.h"
 #include "functions.h"
 #include <stdlib.h>
+#include <stdio.h>
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -61,7 +62,12 @@ void SystemClock_Config(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-
+void _write(int file, char *ptr, int len)
+{
+  for (int i=0; i < len; i++)
+	ITM_SendChar((*ptr++));
+}
+uint16_t aux = 0, aux_filter = 0, count = 0;
 /* USER CODE END 0 */
 
 /**
@@ -74,23 +80,23 @@ int main(void)
   // audio channel
   int *bufArr = (int *)malloc(BUFFER_SIZE_AUX * sizeof(int));
   emptyArray(bufArr, BUFFER_SIZE_AUX);
-  size_t bufInd = 0;
-  int aux, aux_filter;
+  const size_t bufInd = 0;
+  //int aux = 0, aux_filter = 0;
 
   // rgb led
   int *rgbArr = (int *)malloc(ARRAY_SIZE_RGB * sizeof(int));
   emptyArray(rgbArr, ARRAY_SIZE_RGB);
-  size_t colSel = 0, colSelPrev = 0;
+  const size_t colSel = 0, colSelPrev = 0;
   int colVal = COLOR_HALF, colValPrev = COLOR_HALF;
 
   // touch sensor
   int *touchArr = (int *)malloc(ARRAY_SIZE_TCH * sizeof(int));
 
   // plot array
-  size_t pltLen = 4;
+  const size_t pltLen = 3;
   int *pltArr = (int *)malloc(pltLen * sizeof(int));
   emptyArray(pltArr, pltLen);
-  /* USER CODE END 1 */
+/* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
 
@@ -131,21 +137,21 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  for (int i=0, s=0; 1; i++)
+  for (int i=0; 1; i++)
   {
-	//HAL_GPIO_TogglePin(LED_OB_GPIO_Port, LED_OB_Pin);
-    //HAL_Delay(1000);
+	// get aux
+	//aux = transform(adcArr[1], VOLUME_MIN, VOLUME_MAX, COLOR_MIN, COLOR_MAX);
+	aux = adcArr[0];
+	aux_filter = adcArr[1];
 
 	// set rgb led
-	rgbArr[s] = i;
-	writeRGBArray(rgbArr);
+	//writeRGB(aux, 0, 0);
 
-	// reset color
-	if (i > COLOR_MAX)
-	{
-	  i = 0;
-	  s = (s + 1) % ARRAY_SIZE_RGB;
-	}
+	// serial debug
+	count = i;
+	printf("i=%d, aux=%d, aux_filter=%d\n", count, aux, aux_filter);
+
+	// wait
 	HAL_Delay(DELAY);
     /* USER CODE END WHILE */
 

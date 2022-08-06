@@ -52,7 +52,7 @@ int amplifyFactor(int val, int fac) { return val * fac; }
 
 /*
 // blue, red, green, yellow, purple
-void plotArduino(int *valArr, size_t lenArr)
+void plotArduino(int *valArr, const size_t lenArr)
 {
 	for(int i=0; i < lenArr-1; i++)
 	{
@@ -110,11 +110,11 @@ float generator(float val)
 // arrays
 // ------
 
-void emptyArray(int *arr, size_t arrLen) { fillArray(0, arr, arrLen); }
-void fillArray(int val, int *arr, size_t arrLen) { for(int i=0; i < arrLen; i++) arr[i] = val; }
+void emptyArray(int *arr, const size_t arrLen) { fillArray(0, arr, arrLen); }
+void fillArray(int val, int *arr, const size_t arrLen) { for(int i=0; i < arrLen; i++) arr[i] = val; }
 
-int arrayAvr(int *arr, size_t arrLen) { return arraySum(arr, arrLen) / arrLen; }
-int arraySum(int *arr, size_t arrLen)
+int arrayAvr(int *arr, const size_t arrLen) { return arraySum(arr, arrLen) / arrLen; }
+int arraySum(int *arr, const size_t arrLen)
 {
 	int sum = 0;
 	for(int i=0; i < arrLen; i++) sum += arr[i];

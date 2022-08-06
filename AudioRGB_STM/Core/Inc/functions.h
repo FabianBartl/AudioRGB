@@ -20,7 +20,7 @@ int amplify(int val);
 int amplifyFactor(int val, int fac);
 
 // serial plotter
-void plotArduino(int *valArr, size_t lenArr);
+void plotArduino(int *valArr, const size_t lenArr);
 
 // noise generator
 int noise(int pin);
@@ -32,9 +32,9 @@ void writeRGBArray(int *rgb);
 float generator(float val);
 
 // arrays
-void emptyArray(int *arr, size_t arrLen);
-void fillArray(int val, int *arr, size_t arrLen);
-int arrayAvr(int *arr, size_t arrLen);
-int arraySum(int *arr, size_t arrLen);
+void emptyArray(int *arr, const size_t arrLen);
+void fillArray(int val, int *arr, const size_t arrLen);
+int arrayAvr(int *arr, const size_t arrLen);
+int arraySum(int *arr, const size_t arrLen);
 
 #endif /* INC_FUNCTIONS_H_ */

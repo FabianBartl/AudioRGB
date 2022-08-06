@@ -65,7 +65,7 @@
 
 ## Results
 
-**[Random walk](https://en.wikipedia.org/wiki/Random_walk) by reading analog floating bits from pin `A2`**
+**[Random walk](https://en.wikipedia.org/wiki/Random_walk) by analog reading of noise from pin `A2`**
 
 ![](img/random-walk-by-reading-analog-floating-bits.png)
 

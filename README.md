@@ -57,6 +57,13 @@
 | `PC13`   | `digital input`  | `Pull-down`         | `BUTTON_OB`   | on-board button | *none*          |
 | `PA5`    | `digital output` | `Pull-down`         | `LED_OB`      | on-board LED    | *none*          |
 
+## Audio-Jack Data
+
+| Pin Name | Cable Color | Data          | Resistance    |
+| :------- | :---------- | :------------ | :------------ |
+| *Tip*    | blue        | left channel  | $\sim1\Omega$ |
+| *Ring*   | orange      | right channel | $\sim2\Omega$ |
+| *Sleeve* | black       | ground        | $\sim3\Omega$ |
 
 ## Results
 

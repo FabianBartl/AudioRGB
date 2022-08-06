@@ -50,7 +50,7 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-
+uint16_t adcArr[ARRAY_SIZE_ADC];
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -71,29 +71,17 @@ void SystemClock_Config(void);
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-  // left channel
-  int *bufArrL = (int *)malloc(BUFFER_SIZE_AUX * sizeof(int));
-  emptyArray(bufArrL, BUFFER_SIZE_AUX);
-  size_t bufIndL = 0;
-  int aux_l, aux_l_filter;
+  // audio channel
+  int *bufArr = (int *)malloc(BUFFER_SIZE_AUX * sizeof(int));
+  emptyArray(bufArr, BUFFER_SIZE_AUX);
+  size_t bufInd = 0;
+  int aux, aux_filter;
 
-  // right channel
-  int *bufArrR = (int *)malloc(BUFFER_SIZE_AUX * sizeof(int));
-  emptyArray(bufArrR, BUFFER_SIZE_AUX);
-  size_t bufIndR = 0;
-  int aux_r, aux_r_filter;
-
-  // left rgb led
-  int *rgbArrL = (int *)malloc(ARRAY_SIZE_RGB * sizeof(int));
-  emptyArray(rgbArrL, ARRAY_SIZE_RGB);
-  size_t colSelL = 0, colSelPrevL = 0;
-  int colValL = COLOR_HALF, colValPrevL = COLOR_HALF;
-
-  // right rgb led
-  int *rgbArrR = (int *)malloc(ARRAY_SIZE_RGB * sizeof(int));
-  emptyArray(rgbArrR, ARRAY_SIZE_RGB);
-  size_t colSelR = 0, colSelPrevR = 0;
-  int colValR = COLOR_HALF, colValPrevR = COLOR_HALF;
+  // rgb led
+  int *rgbArr = (int *)malloc(ARRAY_SIZE_RGB * sizeof(int));
+  emptyArray(rgbArr, ARRAY_SIZE_RGB);
+  size_t colSel = 0, colSelPrev = 0;
+  int colVal = COLOR_HALF, colValPrev = COLOR_HALF;
 
   // touch sensor
   int *touchArr = (int *)malloc(ARRAY_SIZE_TCH * sizeof(int));
@@ -130,18 +118,11 @@ int main(void)
   MX_TIM2_Init();
   MX_TIM3_Init();
   /* USER CODE BEGIN 2 */
-
-  // setup left rgb led
+  // setup rgb led
   HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_3);
   HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_2);
   HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_1);
-  writeRGBArray(LED_L, rgbArrL);
-
-  // setup right rgb led
-  HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_1);
-  HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_2);
-  HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_3);
-  writeRGBArray(LED_R, rgbArrR);
+  writeRGBArray(rgbArr);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -151,9 +132,9 @@ int main(void)
 	//HAL_GPIO_TogglePin(LED_OB_GPIO_Port, LED_OB_Pin);
     //HAL_Delay(1000);
 
-	// set left rgb led
-	rgbArrL[s] = i;
-	writeRGBArray(LED_L, rgbArrL);
+	// set rgb led
+	rgbArr[s] = i;
+	writeRGBArray(rgbArr);
 
 	// reset color
 	if (i > COLOR_MAX)
@@ -203,11 +184,11 @@ void SystemClock_Config(void)
   RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
                               |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
   RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
-  RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
+  RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV2;
   RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV2;
   RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
 
-  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_2) != HAL_OK)
+  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_1) != HAL_OK)
   {
     Error_Handler();
   }

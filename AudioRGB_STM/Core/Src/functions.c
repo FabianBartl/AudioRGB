@@ -80,30 +80,17 @@ int noise(int pin)
 // rgbs
 // ----
 
-void writeRGBArray(int pin, int *rgb) { writeRGB(pin, rgb[0], rgb[1], rgb[2]); }
-void writeRGB(int pin, int r, int g, int b)
+void writeRGBArray(int *rgb) { writeRGB(rgb[0], rgb[1], rgb[2]); }
+void writeRGB(int r, int g, int b)
 {
-	switch (pin)
-	{
-		case LED_L:
-			TIM3->CCR3 = saturate(r);
-			TIM3->CCR1 = saturate(g);
-			TIM3->CCR2 = saturate(g);
-			break;
-		case LED_R:
-			TIM1->CCR1 = saturate(r);
-			TIM1->CCR2 = saturate(g);
-			TIM1->CCR3 = saturate(b);
-			break;
-	}
+	TIM3->CCR3 = saturate(r);
+	TIM3->CCR1 = saturate(g);
+	TIM3->CCR2 = saturate(g);
 /*
 	// prevent higher pulses than period
 	if (TIM3->CCR3 > TIM3->ARR) TIM3->CCR3 = 0;
 	if (TIM3->CCR1 > TIM3->ARR) TIM3->CCR1 = 0;
 	if (TIM3->CCR2 > TIM3->ARR) TIM3->CCR2 = 0;
-	if (TIM1->CCR1 > TIM1->ARR) TIM1->CCR1 = 0;
-	if (TIM1->CCR2 > TIM1->ARR) TIM1->CCR2 = 0;
-	if (TIM1->CCR3 > TIM1->ARR) TIM1->CCR3 = 0;
 */
 }
 

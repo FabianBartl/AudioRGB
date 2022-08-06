@@ -27,8 +27,8 @@ int noise(int pin);
 int noiseLimit(int pin, int mod);
 
 // rgb
-void writeRGB(int pin, int r, int g, int b);
-void writeRGBArray(int pin, int *rgb);
+void writeRGB(int r, int g, int b);
+void writeRGBArray(int *rgb);
 float generator(float val);
 
 // arrays

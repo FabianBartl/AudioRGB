@@ -50,7 +50,12 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
+// for dynamic generator range
+uint16_t dynamic_VOLUME_MIN = MIN_UINT16;
+uint16_t dynamic_VOLUME_MAX = MAX_UINT16;
 
+// for in-loop ticks
+uint32_t ticks = 0;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -85,12 +90,6 @@ int main(void)
 
 	// touch sensor
 	uint8_t *touchArr = (uint8_t *)malloc(CHANNEL_COUNT_TCH * sizeof(uint8_t));
-
-	// noise generator
-	uint16_t rng = 0;
-
-	// in-loop ticks
-	uint32_t ticks = 0;
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/

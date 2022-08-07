@@ -88,7 +88,7 @@ int main(void)
 
 	// noise generator
 	int rng = 0;
-/* USER CODE END 1 */
+  /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
 

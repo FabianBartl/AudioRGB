@@ -1455,7 +1455,7 @@ int main(void)
 	int rng = 0;
  8000b7c:	2300      	movs	r3, #0
  8000b7e:	60bb      	str	r3, [r7, #8]
-/* USER CODE END 1 */
+  /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
 
@@ -2885,7 +2885,7 @@ void HAL_TIM_MspPostInit(TIM_HandleTypeDef* timHandle)
     PC7     ------> TIM3_CH2
     PB4     ------> TIM3_CH1
     */
-    GPIO_InitStruct.Pin = LED_R_Pin|LED_G_Pin;
+    GPIO_InitStruct.Pin = LED_R_Pin|LED_B_Pin;
  8001362:	2311      	movs	r3, #17
  8001364:	617b      	str	r3, [r7, #20]
     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
@@ -2906,7 +2906,7 @@ void HAL_TIM_MspPostInit(TIM_HandleTypeDef* timHandle)
  800137c:	480d      	ldr	r0, [pc, #52]	; (80013b4 <HAL_TIM_MspPostInit+0xac>)
  800137e:	f001 f92d 	bl	80025dc <HAL_GPIO_Init>
 
-    GPIO_InitStruct.Pin = LED_B_Pin;
+    GPIO_InitStruct.Pin = LED_G_Pin;
  8001382:	2380      	movs	r3, #128	; 0x80
  8001384:	617b      	str	r3, [r7, #20]
     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
@@ -2921,7 +2921,7 @@ void HAL_TIM_MspPostInit(TIM_HandleTypeDef* timHandle)
     GPIO_InitStruct.Alternate = GPIO_AF2_TIM3;
  8001392:	2302      	movs	r3, #2
  8001394:	627b      	str	r3, [r7, #36]	; 0x24
-    HAL_GPIO_Init(LED_B_GPIO_Port, &GPIO_InitStruct);
+    HAL_GPIO_Init(LED_G_GPIO_Port, &GPIO_InitStruct);
  8001396:	f107 0314 	add.w	r3, r7, #20
  800139a:	4619      	mov	r1, r3
  800139c:	4806      	ldr	r0, [pc, #24]	; (80013b8 <HAL_TIM_MspPostInit+0xb0>)

@@ -88,6 +88,9 @@ int main(void)
 
 	// noise generator
 	uint16_t rng = 0;
+
+	// in-loop ticks
+	uint32_t ticks = 0;
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -145,12 +148,12 @@ int main(void)
 		rgbArr[2] = generator(aux_filter);
 
 		// modify color
-		//...
 
 		// set rgb of led
 		writeRGBArray(rgbArr);
 
-		// wait
+		// update in-loop ticks and wait
+		ticks++;
 		HAL_Delay(DELAY);
     /* USER CODE END WHILE */
 

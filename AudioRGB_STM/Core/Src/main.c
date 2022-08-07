@@ -44,7 +44,7 @@
 
 /* Private macro -------------------------------------------------------------*/
 /* USER CODE BEGIN PM */
-
+#define min(a,b) (a<b?a:b)
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
@@ -72,23 +72,26 @@ int main(void)
 {
   /* USER CODE BEGIN 1 */
 	// left audio channel
-	int *buffArr = (int *)malloc(BUFFER_SIZE_AUX * sizeof(int));
+	uint16_t *buffArr = (uint16_t *)malloc(BUFFER_SIZE_AUX * sizeof(uint16_t));
 	emptyArray(buffArr, BUFFER_SIZE_AUX);
 	size_t buffInd = 0;
-	int aux = 0, aux_filter = 0;
+	uint16_t aux = 0, aux_filter = 0;
 
 	// rgb led
-	int *rgbArr = (int *)malloc(ARRAY_SIZE_RGB * sizeof(int));
+	uint8_t *rgbArr = (uint8_t *)malloc(ARRAY_SIZE_RGB * sizeof(uint8_t));
 	emptyArray(rgbArr, ARRAY_SIZE_RGB);
 	size_t colSel = 0, colSelPrev = 0;
-	int colVal = COLOR_HALF, colValPrev = COLOR_HALF;
+	uint8_t colVal = COLOR_HALF, colValPrev = COLOR_HALF;
 
 	// touch sensor
 	int *touchArr = (int *)malloc(CHANNEL_COUNT_TCH * sizeof(int));
 
 	// noise generator
-	int rng = 0;
-/* USER CODE END 1 */
+	uint16_t rng = 0;
+
+	// in-loop ticks
+	uint32_t ticks = 0;
+  /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
 
@@ -145,12 +148,32 @@ int main(void)
 		rgbArr[2] = generator(aux_filter);
 
 		// modify color
-		//...
+		/*
+		if (ticks % COLOR_CYCLE == 0)
+		{
+			// save previous color
+			colSelPrev = colSel;
+			colValPrev = colVal;
+			// get next random color
+			colSel = noiseLimit(ARRAY_SIZE_RGB);
+			colVal = rgbArr[colSel];
+		}
+		// fade in previous color
+		colValPrev += COLOR_FADE;
+		rgbArr[colSelPrev] = min(colValPrev, rgbArr[colSelPrev]);
+		// fade out next color, if unequal to the previous color
+		if (colSel != colSelPrev)
+		{
+			colVal -= COLOR_FADE;
+			rgbArr[colSel] = colVal;
+		}
+		*/
 
 		// set rgb of led
 		writeRGBArray(rgbArr);
 
-		// wait
+		// update in-loop ticks and wait
+		ticks++;
 		HAL_Delay(DELAY);
     /* USER CODE END WHILE */
 

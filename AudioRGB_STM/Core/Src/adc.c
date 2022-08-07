@@ -105,7 +105,7 @@ void MX_ADC1_Init(void)
 		Error_Handler();
 	}
 
-	// jump to ADC1_Init 2
+	// jump to user code ADC1_Init 2
 	goto SKIP_ADC1_INIT_Generated;
 
   /* USER CODE END ADC1_Init 1 */

@@ -148,6 +148,24 @@ int main(void)
 		rgbArr[2] = generator(aux_filter);
 
 		// modify color
+		if (ticks % COLOR_CYCLE == 0)
+		{
+			// save previous color
+			colSelPrev = colSel;
+			colValPrev = colVal;
+			// get next random color
+			colSel = noiseLimit(ARRAY_SIZE_RGB);
+			colVal = rgbArr[colSel];
+		}
+		// fade in previous color
+		colValPrev += COLOR_FADE;
+		rgbArr[colSelPrev] = min(colValPrev, rgbArr[colSelPrev]);
+		// fade out next color, if unequal to the previous color
+		if (colSel != colSelPrev)
+		{
+			colVal -= COLOR_FADE;
+			rgbArr[colSel] = colVal;
+		}
 
 		// set rgb of led
 		writeRGBArray(rgbArr);

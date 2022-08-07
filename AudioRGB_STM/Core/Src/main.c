@@ -87,7 +87,7 @@ int main(void)
   int *touchArr = (int *)malloc(CHANNEL_COUNT_TCH * sizeof(int));
 
   // noise generator
-  int noise = 0;
+  int rng = 0;
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/

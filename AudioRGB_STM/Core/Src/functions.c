@@ -50,10 +50,10 @@ int amplifyFactor(int val, int fac) { return val * fac; }
 // noise generator
 // ---------------
 
-int noiseLimit(int pin, int mod) { return noise(pin) % mod; }
-int noise(int pin)
+int noiseLimit(int mod) { return noise() % mod; }
+int noise()
 {
-	return analogRead(pin);
+	return 0;
 }
 
 // ----
@@ -66,7 +66,6 @@ void writeRGB(int r, int g, int b)
 	TIM3->CCR3 = saturate(r);
 	TIM3->CCR1 = saturate(g);
 	TIM3->CCR2 = saturate(g);
-
 	// prevent higher pulses than period
 	if (TIM3->CCR3 > TIM3->ARR) TIM3->CCR3 = 0;
 	if (TIM3->CCR1 > TIM3->ARR) TIM3->CCR1 = 0;

@@ -9,8 +9,8 @@ functions.c:53:5:noiseLimit	16	static
 functions.c:54:5:noise	16	static
 functions.c:63:6:writeRGBArray	16	static
 functions.c:64:6:writeRGB	24	static
-functions.c:77:7:generator	24	static
-functions.c:92:6:emptyArray	16	static
-functions.c:93:6:fillArray	32	static
-functions.c:95:5:arrayAvr	16	static
-functions.c:96:5:arraySum	24	static
+functions.c:76:7:generator	24	static
+functions.c:91:6:emptyArray	16	static
+functions.c:92:6:fillArray	32	static
+functions.c:94:5:arrayAvr	16	static
+functions.c:95:5:arraySum	24	static

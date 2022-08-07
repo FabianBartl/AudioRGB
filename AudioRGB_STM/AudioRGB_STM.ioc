@@ -1,11 +1,17 @@
 #MicroXplorer Configuration settings - do not modify
 ADC1.Channel-1\#ChannelRegularConversion=ADC_CHANNEL_1
+ADC1.Channel-3\#ChannelRegularConversion=ADC_CHANNEL_12
+ADC1.ClockPrescaler=ADC_CLOCK_SYNC_PCLK_DIV8
 ADC1.ContinuousConvMode=ENABLE
-ADC1.IPParameters=Rank-1\#ChannelRegularConversion,master,Channel-1\#ChannelRegularConversion,SamplingTime-1\#ChannelRegularConversion,NbrOfConversionFlag,NbrOfConversion,ContinuousConvMode
-ADC1.NbrOfConversion=1
+ADC1.EnableAnalogWatchDog=false
+ADC1.IPParameters=Rank-1\#ChannelRegularConversion,master,Channel-1\#ChannelRegularConversion,SamplingTime-1\#ChannelRegularConversion,NbrOfConversionFlag,NbrOfConversion,ContinuousConvMode,ScanConvMode,EnableAnalogWatchDog,Rank-3\#ChannelRegularConversion,Channel-3\#ChannelRegularConversion,SamplingTime-3\#ChannelRegularConversion,ClockPrescaler
+ADC1.NbrOfConversion=2
 ADC1.NbrOfConversionFlag=1
 ADC1.Rank-1\#ChannelRegularConversion=1
-ADC1.SamplingTime-1\#ChannelRegularConversion=ADC_SAMPLETIME_3CYCLES
+ADC1.Rank-3\#ChannelRegularConversion=2
+ADC1.SamplingTime-1\#ChannelRegularConversion=ADC_SAMPLETIME_144CYCLES
+ADC1.SamplingTime-3\#ChannelRegularConversion=ADC_SAMPLETIME_3CYCLES
+ADC1.ScanConvMode=ENABLE
 ADC1.master=1
 Dma.Request0=TIM3_CH3
 Dma.Request1=TIM3_CH2

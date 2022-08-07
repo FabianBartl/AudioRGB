@@ -34,8 +34,8 @@ int bufferFilter(int *arr)
 // saturate, transform, amplify
 // ----------------------------
 
-int saturate(int val) { return saturateLimits(val, COLOR_MIN, COLOR_MAX); }
 int saturateLimits(int val, int lowerLim, int upperLim) { return (val < lowerLim) ? lowerLim : ((val > upperLim) ? upperLim : val); }
+int saturate(int val) { return saturateLimits(val, COLOR_MIN, COLOR_MAX); }
 
 int transform(int val, int inMin, int inMax, int outMin, int outMax)
 {
@@ -44,14 +44,13 @@ int transform(int val, int inMin, int inMax, int outMin, int outMax)
 	return val - (inHalf - outHalf);
 }
 
-int amplify(int val) { return amplifyFactor(val, VOLUME_BOOST); }
 int amplifyFactor(int val, int fac) { return val * fac; }
+int amplify(int val) { return amplifyFactor(val, VOLUME_BOOST); }
 
 // ---------------
 // noise generator
 // ---------------
 
-int noiseLimit(int mod) { return noise() % mod; }
 int noise()
 {
 	// get noise from adc
@@ -63,12 +62,12 @@ int noise()
 		HAL_ADC_Stop(&hadc1);
 	}
 }
+int noiseLimit(int mod) { return noise() % mod; }
 
 // ----
 // rgbs
 // ----
 
-void writeRGBArray(int *rgb) { writeRGB(rgb[0], rgb[1], rgb[2]); }
 void writeRGB(int r, int g, int b)
 {
 	TIM3->CCR3 = saturate(r);
@@ -79,6 +78,7 @@ void writeRGB(int r, int g, int b)
 	if (TIM3->CCR1 > TIM3->ARR) TIM3->CCR1 = 0;
 	if (TIM3->CCR2 > TIM3->ARR) TIM3->CCR2 = 0;
 }
+void writeRGBArray(int *rgb) { writeRGB(rgb[0], rgb[1], rgb[2]); }
 
 // color generator
 float generator(float val)
@@ -96,13 +96,13 @@ float generator(float val)
 // arrays
 // ------
 
-void emptyArray(int *arr, const size_t arrLen) { fillArray(0, arr, arrLen); }
 void fillArray(int val, int *arr, const size_t arrLen) { for(int i=0; i < arrLen; i++) arr[i] = val; }
+void emptyArray(int *arr, const size_t arrLen) { fillArray(0, arr, arrLen); }
 
-int arrayAvr(int *arr, const size_t arrLen) { return arraySum(arr, arrLen) / arrLen; }
 int arraySum(int *arr, const size_t arrLen)
 {
 	int sum = 0;
 	for(int i=0; i < arrLen; i++) sum += arr[i];
 	return sum;
 }
+int arrayAvr(int *arr, const size_t arrLen) { return arraySum(arr, arrLen) / arrLen; }

@@ -35,15 +35,15 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING, OCTETS
  15 .debug_ranges 00001020  00000000  00000000  000394b8  2**3
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 16 .debug_macro  00018bdd  00000000  00000000  0003a4d8  2**0
+ 16 .debug_macro  00018be3  00000000  00000000  0003a4d8  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 17 .debug_line   00017152  00000000  00000000  000530b5  2**0
+ 17 .debug_line   00017152  00000000  00000000  000530bb  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 18 .debug_str    0009b4f4  00000000  00000000  0006a207  2**0
+ 18 .debug_str    0009b507  00000000  00000000  0006a20d  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 19 .comment      00000053  00000000  00000000  001056fb  2**0
+ 19 .comment      00000053  00000000  00000000  00105714  2**0
                   CONTENTS, READONLY
- 20 .debug_frame  00004988  00000000  00000000  00105750  2**2
+ 20 .debug_frame  00004988  00000000  00000000  00105768  2**2
                   CONTENTS, READONLY, DEBUGGING, OCTETS
 
 Disassembly of section .text:
@@ -485,7 +485,7 @@ void MX_ADC1_Init(void)
  8000578:	f000 fbee 	bl	8000d58 <Error_Handler>
 	}
 
-	// jump to ADC1_Init 2
+	// jump to user code ADC1_Init 2
 	goto SKIP_ADC1_INIT_Generated;
  800057c:	bf00      	nop
     Error_Handler();

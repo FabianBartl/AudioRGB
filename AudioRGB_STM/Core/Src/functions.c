@@ -9,8 +9,6 @@
 #include "tim.h"
 #include "adc.h"
 
-#define min(a,b) (a<b?a:b)
-
 // ---------------
 // circular buffer
 // ---------------
@@ -52,6 +50,13 @@ int transform(int val, int inMin, int inMax, int outMin, int outMax)
 
 int amplifyFactor(int val, int fac) { return val * fac; }
 int amplify(int val) { return amplifyFactor(val, VOLUME_BOOST); }
+
+// --------
+// min, max
+// --------
+
+int min(int a, int b) { return (a < b) ? a : b; }
+int max(int a, int b) { return (a > b) ? a : b; }
 
 // ---------------
 // noise generator

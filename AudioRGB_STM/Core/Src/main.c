@@ -44,7 +44,7 @@
 
 /* Private macro -------------------------------------------------------------*/
 /* USER CODE BEGIN PM */
-#define min(a,b) (a<b?a:b)
+
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/

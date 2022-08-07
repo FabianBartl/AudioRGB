@@ -19,6 +19,10 @@ int transform(int val, int inMin, int inMax, int outMin, int outMax);
 int amplifyFactor(int val, int fac);
 int amplify(int val);
 
+// min, max
+int min(int a, int b);
+int max(int a, int b);
+
 // noise generator
 int noise();
 int noiseLimit(int mod);

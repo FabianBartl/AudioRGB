@@ -7,6 +7,7 @@
 
 #include "config.h"
 #include "tim.h"
+#include <stdlib.h>
 
 // ---------------
 // circular buffer
@@ -50,18 +51,15 @@ int amplifyFactor(int val, int fac) { return val * fac; }
 // noise generator
 // ---------------
 
-int noiseLimit(int pin, int mod) { return noise(pin) % mod; }
-int noise(int pin)
-{
-	return analogRead(pin);
-}
+int noiseLimit(volatile uint16_t *dma, int mod) { return noise() % mod; }
+int noise(volatile uint16_t *dma) { return dma[1]; }
 
 // ----
 // rgbs
 // ----
 
-void writeRGBArray(int *rgb) { writeRGB(rgb[0], rgb[1], rgb[2]); }
-void writeRGB(int r, int g, int b)
+void writeRGBArray(uint8_t *rgb) { writeRGB(rgb[0], rgb[1], rgb[2]); }
+void writeRGB(uint8_t r, uint8_t g, uint8_t b)
 {
 	TIM3->CCR3 = saturate(r);
 	TIM3->CCR1 = saturate(g);
@@ -90,12 +88,12 @@ float generator(float val)
 // ------
 
 void emptyArray(int *arr, const size_t arrLen) { fillArray(0, arr, arrLen); }
-void fillArray(int val, int *arr, const size_t arrLen) { for(int i=0; i < arrLen; i++) arr[i] = val; }
+void fillArray(int val, int *arr, const size_t arrLen) { for (int i=0; i < arrLen; i++) arr[i] = val; }
 
 int arrayAvr(int *arr, const size_t arrLen) { return arraySum(arr, arrLen) / arrLen; }
 int arraySum(int *arr, const size_t arrLen)
 {
 	int sum = 0;
-	for(int i=0; i < arrLen; i++) sum += arr[i];
+	for (int i=0; i < arrLen; i++) sum += arr[i];
 	return sum;
 }

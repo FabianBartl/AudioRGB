@@ -20,12 +20,12 @@ int amplify(int val);
 int amplifyFactor(int val, int fac);
 
 // noise generator
-int noise(int pin);
-int noiseLimit(int pin, int mod);
+int noise();
+int noiseLimit(int mod);
 
 // rgb
-void writeRGB(int r, int g, int b);
-void writeRGBArray(int *rgb);
+void writeRGB(uint8_t r, uint8_t g, uint8_t b);
+void writeRGBArray(uint8_t *rgb);
 float generator(float val);
 
 // arrays

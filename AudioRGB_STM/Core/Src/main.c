@@ -44,7 +44,8 @@
 
 /* Private macro -------------------------------------------------------------*/
 /* USER CODE BEGIN PM */
-
+#define min(a,b) (a<b?a:b)
+#define max(a,b) (a>b?a:b)
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
@@ -71,23 +72,29 @@ void SystemClock_Config(void);
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-  // left audio channel
-  int *buffArr = (int *)malloc(BUFFER_SIZE_AUX * sizeof(int));
-  emptyArray(buffArr, BUFFER_SIZE_AUX);
-  size_t buffInd = 0;
-  int aux = 0, aux_filter = 0;
+	// left audio channel
+	uint16_t *buffArr = (uint16_t *)malloc(BUFFER_SIZE_AUX * sizeof(uint16_t));
+	emptyArray(buffArr, BUFFER_SIZE_AUX);
+	size_t buffInd = 0;
+	uint16_t aux = 0, aux_filter = 0;
 
-  // rgb led
-  int *rgbArr = (int *)malloc(ARRAY_SIZE_RGB * sizeof(int));
-  emptyArray(rgbArr, ARRAY_SIZE_RGB);
-  size_t colSel = 0, colSelPrev = 0;
-  int colVal = COLOR_HALF, colValPrev = COLOR_HALF;
+	// dma circular buffer
+	volatile uint16_t buffDMA[CHANNEL_COUNT_ADC];
 
-  // touch sensor
-  int *touchArr = (int *)malloc(CHANNEL_COUNT_TCH * sizeof(int));
+	// rgb led
+	uint8_t *rgbArr = (uint8_t *)malloc(ARRAY_SIZE_RGB * sizeof(uint8_t));
+	emptyArray(rgbArr, ARRAY_SIZE_RGB);
+	size_t colSel = 0, colSelPrev = 0;
+	uint8_t colVal = COLOR_HALF, colValPrev = COLOR_HALF;
 
-  // noise generator
-  int noise = 0;
+	// touch sensor
+	int *touchArr = (int *)malloc(CHANNEL_COUNT_TCH * sizeof(int));
+
+	// noise generator
+	uint16_t rng = 0;
+
+	// in-loop ticks
+	uint32_t ticks = 0;
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -116,44 +123,60 @@ int main(void)
   MX_TIM2_Init();
   MX_TIM3_Init();
   /* USER CODE BEGIN 2 */
+	// start pwm timer for rgb
+	HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_3);
+	HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_2);
+	HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_1);
+	writeRGBArray(rgbArr);
 
-  // setup rgb led
-  HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_3);
-  HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_2);
-  HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_1);
-  writeRGBArray(rgbArr);
+	// start adc to dma
+	HAL_ADC_Start_DMA(&hadc1, (uint32_t *)&buffDMA, CHANNEL_COUNT_ADC);
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  while (1)
-  {
-	// get audio from adc, write buffer and apply filter
-	HAL_ADC_Start(&hadc1);
-	if (HAL_ADC_PollForConversion(&hadc1, TIMEOUT_ADC) == HAL_OK)
+	while (1)
 	{
-	  aux = HAL_ADC_GetValue(&hadc1);
-	  bufferAppend(aux, buffArr, &buffInd);
-	  aux_filter = bufferFilter(buffArr);
-	}
+		// get audio from adc via dma, write buffer and apply filter
+		aux = buffDMA[0];
+		bufferAppend(aux, buffArr, &buffInd);
+		aux_filter = bufferFilter(buffArr);
 
-	// color generator
-	rgbArr[0] = generator(aux_filter);
-	rgbArr[1] = generator(aux_filter);
-	rgbArr[2] = generator(aux_filter);
+		// color generator
+		rgbArr[0] = generator(aux_filter);
+		rgbArr[1] = generator(aux_filter);
+		rgbArr[2] = generator(aux_filter);
 
-	// modify color
-	//...
+		// modify color
+		if (ticks % COLOR_CYCLE == 0)
+		{
+			// save previous color
+			colSelPrev = colSel;
+			colValPrev = colVal;
+			// get next random color
+			colSel = noise(buffDMA, ARRAY_SIZE_RGB);
+			colVal = rgbArr[colSel];
+		}
+		// fade in previous color
+		colValPrev += COLOR_FADE;
+		rgbArr[colSelPrev] = min(colValPrev, rgbArr[colSelPrev]);
+		// fade out next color, if unequal to the previous color
+		if (colSel != colSelPrev)
+		{
+			colVal -= COLOR_FADE;
+			rgbArr[colSel] = colVal;
+		}
 
-	// set rgb of led
-	writeRGBArray(rgbArr);
+		// set rgb of led
+		writeRGBArray(rgbArr);
 
-	// wait
-	HAL_Delay(DELAY);
+		// update in-loop ticks and wait
+		ticks++;
+		HAL_Delay(DELAY);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-  }
+	}
   /* USER CODE END 3 */
 }
 

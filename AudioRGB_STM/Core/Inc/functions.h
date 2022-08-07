@@ -19,10 +19,6 @@ int transform(int val, int inMin, int inMax, int outMin, int outMax);
 int amplifyFactor(int val, int fac);
 int amplify(int val);
 
-// min, max
-int min(int a, int b);
-int max(int a, int b);
-
 // noise generator
 int noise();
 int noiseLimit(int mod);
@@ -30,15 +26,12 @@ int noiseLimit(int mod);
 // rgb
 void writeRGB(int r, int g, int b);
 void writeRGBArray(int *rgb);
-int generator(int val);
-int generatorLimit(int val, int lowerLim, int upperLim);
+float generator(float val);
 
 // arrays
 void fillArray(int val, int *arr, const size_t arrLen);
 void emptyArray(int *arr, const size_t arrLen);
 int arraySum(int *arr, const size_t arrLen);
 int arrayAvr(int *arr, const size_t arrLen);
-int arrayMin(int *arr, const size_t arrLen);
-int arrayMax(int *arr, const size_t arrLen);
 
 #endif /* INC_FUNCTIONS_H_ */

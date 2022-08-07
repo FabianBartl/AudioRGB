@@ -44,17 +44,13 @@
 
 /* Private macro -------------------------------------------------------------*/
 /* USER CODE BEGIN PM */
-
+#define min(a,b) (a<b?a:b)
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-// for dynamic generator range
-uint16_t dynamic_VOLUME_MIN = MIN_UINT16;
-uint16_t dynamic_VOLUME_MAX = MAX_UINT16;
-// for in-loop ticks
-uint32_t ticks = 0;
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -89,6 +85,12 @@ int main(void)
 
 	// touch sensor
 	uint8_t *touchArr = (uint8_t *)malloc(CHANNEL_COUNT_TCH * sizeof(uint8_t));
+
+	// noise generator
+	uint16_t rng = 0;
+
+	// in-loop ticks
+	uint32_t ticks = 0;
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -141,17 +143,12 @@ int main(void)
 			aux_filter = bufferFilter(buffArr, &buffInd);
 		}
 
-		// calculate min / max of buffer for dynamic generator range
-		dynamic_VOLUME_MIN = arrayMin(buffArr, &buffInd);
-		dynamic_VOLUME_MAX = arrayMax(buffArr, &buffInd);
-
 		// color generator
 		rgbArr[0] = generator(aux_filter);
 		rgbArr[1] = generator(aux_filter);
 		rgbArr[2] = generator(aux_filter);
 
 		// modify color
-		/*
 		if (ticks % COLOR_CYCLE == 0)
 		{
 			// save previous color
@@ -170,7 +167,6 @@ int main(void)
 			colVal -= COLOR_FADE;
 			rgbArr[colSel] = colVal;
 		}
-		*/
 
 		// set rgb of led
 		writeRGBArray(rgbArr);

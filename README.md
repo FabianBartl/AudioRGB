@@ -57,7 +57,7 @@
 | *Ring*   | orange      | right channel | $\sim2\Omega$ |
 | *Sleeve* | black       | ground        | $\sim3\Omega$ |
 
-## Results
+## Results from Arduino
 
 **[Random walk](https://en.wikipedia.org/wiki/Random_walk) by analog reading of noise from pin `A2`**
 

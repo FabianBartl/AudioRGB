@@ -10,9 +10,10 @@
 
 #define DEBUG 1
 
-#define BUFFER_SIZE_AUX 2
-#define ARRAY_SIZE_RGB 3
+#define BUFFER_SIZE_AUX 20
+#define FILTER_SIZE_AUX 2
 
+#define CHANNEL_COUNT_RGB 3
 #define CHANNEL_COUNT_TCH 4
 #define CHANNEL_COUNT_ADC 2
 

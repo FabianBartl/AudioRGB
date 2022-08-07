@@ -9,6 +9,8 @@
 #include "tim.h"
 #include "adc.h"
 
+#define min(a,b) (a<b?a:b)
+
 // ---------------
 // circular buffer
 // ---------------
@@ -22,11 +24,15 @@ void bufferAppend(int val, int *arr, int *ind)
 	arr[*ind] = val;
 }
 
-// apply an average-filter to the buffer array
-int bufferFilter(int *arr)
+// apply an average-filter to the last elements of the buffer array
+int bufferFilter(int *arr, int *ind)
 {
 	int sum = 0;
-	for(int i=0; i < BUFFER_SIZE_AUX; i++) sum += arr[i];
+	for(int i=0, p=0; i < FILTER_SIZE_AUX; i++)
+	{
+		p = (*ind-i < 0) ? BUFFER_SIZE_AUX-1 : *ind-i;
+		sum += arr[p];
+	}
 	return sum / BUFFER_SIZE_AUX;
 }
 
@@ -70,13 +76,10 @@ int noiseLimit(int mod) { return noise() % mod; }
 
 void writeRGB(int r, int g, int b)
 {
-	TIM3->CCR3 = saturate(r);
-	TIM3->CCR1 = saturate(g);
-	TIM3->CCR2 = saturate(g);
 	// prevent higher pulses than period
-	if (TIM3->CCR3 > TIM3->ARR) TIM3->CCR3 = 0;
-	if (TIM3->CCR1 > TIM3->ARR) TIM3->CCR1 = 0;
-	if (TIM3->CCR2 > TIM3->ARR) TIM3->CCR2 = 0;
+	TIM4->CCR1 = min(saturate(r), TIM4->ARR);
+	TIM3->CCR2 = min(saturate(g), TIM3->ARR);
+	TIM3->CCR1 = min(saturate(b), TIM3->ARR);
 }
 void writeRGBArray(int *rgb) { writeRGB(rgb[0], rgb[1], rgb[2]); }
 

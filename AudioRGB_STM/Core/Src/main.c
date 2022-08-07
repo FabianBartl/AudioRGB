@@ -78,8 +78,8 @@ int main(void)
 	uint16_t aux = 0, aux_filter = 0;
 
 	// rgb led (uint8_t doesn't work)
-	uint16_t *rgbArr = (uint16_t *)malloc(ARRAY_SIZE_RGB * sizeof(uint16_t));
-	emptyArray(rgbArr, ARRAY_SIZE_RGB);
+	uint16_t *rgbArr = (uint16_t *)malloc(CHANNEL_COUNT_RGB * sizeof(uint16_t));
+	emptyArray(rgbArr, CHANNEL_COUNT_RGB);
 	size_t colSel = 0, colSelPrev = 0;
 	uint16_t colVal = COLOR_HALF, colValPrev = COLOR_HALF;
 
@@ -118,9 +118,10 @@ int main(void)
   MX_TIM1_Init();
   MX_TIM2_Init();
   MX_TIM3_Init();
+  MX_TIM4_Init();
   /* USER CODE BEGIN 2 */
 	// setup rgb led
-	HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_3);
+	HAL_TIM_PWM_Start(&htim4, TIM_CHANNEL_1);
 	HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_2);
 	HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_1);
 	writeRGBArray(rgbArr);
@@ -139,7 +140,7 @@ int main(void)
 			HAL_ADC_Stop(&hadc1);
 			// write buffer and apply filter
 			bufferAppend(aux, buffArr, &buffInd);
-			aux_filter = bufferFilter(buffArr);
+			aux_filter = bufferFilter(buffArr, &buffInd);
 		}
 
 		// color generator
@@ -154,7 +155,7 @@ int main(void)
 			colSelPrev = colSel;
 			colValPrev = colVal;
 			// get next random color
-			colSel = noiseLimit(ARRAY_SIZE_RGB);
+			colSel = noiseLimit(CHANNEL_COUNT_RGB);
 			colVal = rgbArr[colSel];
 		}
 		// fade in previous color

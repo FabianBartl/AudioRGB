@@ -31,8 +31,8 @@
 | Pin Name | GPIO mode        | GPIO Config | User Label    | Component       | Data               |
 | :------- | :--------------- | :---------- | :------------ | :-------------- | :----------------- |
 | `PB0`    | `pwm output`     | `TIM3_CH3`  | `LED_R`       | LED left        | red                |
-| `PB4`    | `pwm output`     | `TIM3_CH2`  | `LED_G`       | LED left        | green              |
-| `PC7`    | `pwm output`     | `TIM3_CH1`  | `LED_B`       | LED left        | blue               |
+| `PB4`    | `pwm output`     | `TIM3_CH1`  | `LED_G`       | LED left        | green              |
+| `PC7`    | `pwm output`     | `TIM3_CH2`  | `LED_B`       | LED left        | blue               |
 |          |                  |             |               |                 |                    |
 | `PA10`   | `digital input`  | `Pull-down` | `TCH_1`       | touchpad        | pad 1              |
 | `PB5`    | `digital input`  | `Pull-down` | `TCH_2`       | touchpad        | pad 2              |

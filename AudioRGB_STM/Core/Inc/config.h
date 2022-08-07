@@ -27,7 +27,7 @@
 #define COLOR_CYCLE 30
 #define COLOR_FADE 10
 
-#define DELAY 1
+#define DELAY 10
 #define TIMEOUT_ADC 10
 
 #endif /* INC_CONFIG_H_ */

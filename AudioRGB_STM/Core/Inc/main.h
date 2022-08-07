@@ -71,8 +71,8 @@ void Error_Handler(void);
 #define LED_OB_GPIO_Port GPIOA
 #define LED_R_Pin GPIO_PIN_0
 #define LED_R_GPIO_Port GPIOB
-#define LED_G_Pin GPIO_PIN_7
-#define LED_G_GPIO_Port GPIOC
+#define LED_B_Pin GPIO_PIN_7
+#define LED_B_GPIO_Port GPIOC
 #define TCH_3_Pin GPIO_PIN_8
 #define TCH_3_GPIO_Port GPIOA
 #define TCH_4_Pin GPIO_PIN_9
@@ -85,8 +85,8 @@ void Error_Handler(void);
 #define TCK_GPIO_Port GPIOA
 #define SWO_Pin GPIO_PIN_3
 #define SWO_GPIO_Port GPIOB
-#define LED_B_Pin GPIO_PIN_4
-#define LED_B_GPIO_Port GPIOB
+#define LED_G_Pin GPIO_PIN_4
+#define LED_G_GPIO_Port GPIOB
 #define TCH_2_Pin GPIO_PIN_5
 #define TCH_2_GPIO_Port GPIOB
 #define LCD_I2C_SCL_Pin GPIO_PIN_8

@@ -8,8 +8,6 @@
 #ifndef INC_CONFIG_H_
 #define INC_CONFIG_H_
 
-#define DEBUG 1
-
 #define BUFFER_SIZE_AUX 20
 #define FILTER_SIZE_AUX 2
 
@@ -30,5 +28,11 @@
 
 #define DELAY 10
 #define TIMEOUT_ADC 3
+
+#define MIN_INT32 -4294967296
+#define MAX_INT32 4294967295
+
+#define MIN_UINT16 0
+#define MAX_UINT16 65535
 
 #endif /* INC_CONFIG_H_ */

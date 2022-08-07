@@ -8,11 +8,12 @@
 #ifndef INC_CONFIG_H_
 #define INC_CONFIG_H_
 
-#define BUFFER_SIZE_AUX 2
+#define DEBUG 1
 
+#define BUFFER_SIZE_AUX 2
 #define ARRAY_SIZE_RGB 3
-#define ARRAY_SIZE_TCH 4
-#define ARRAY_SIZE_ADC 2
+#define CHANNEL_COUNT_TCH 4
+#define CHANNEL_COUNT_ADC 2
 
 #define VOLUME_MIN -2048
 #define VOLUME_MAX 2047

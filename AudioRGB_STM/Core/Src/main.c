@@ -19,7 +19,6 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "adc.h"
-#include "dma.h"
 #include "i2c.h"
 #include "tim.h"
 #include "usart.h"
@@ -51,7 +50,12 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-uint16_t adcArr[ARRAY_SIZE_ADC];
+// for ADC to DMA
+volatile uint16_t adcResultsDMA[CHANNEL_COUNT_ADC];
+volatile int adcConversionComplete = 0; // set by callback
+
+// for debug interface
+int aux = 0, rng = 0;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -62,12 +66,11 @@ void SystemClock_Config(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-void _write(int file, char *ptr, int len)
+void _write(int file, char *ptr, int len) // used by printf()
 {
   for (int i=0; i < len; i++)
 	ITM_SendChar((*ptr++));
 }
-uint16_t aux = 0, aux_filter = 0, count = 0;
 /* USER CODE END 0 */
 
 /**
@@ -90,13 +93,8 @@ int main(void)
   int colVal = COLOR_HALF, colValPrev = COLOR_HALF;
 
   // touch sensor
-  int *touchArr = (int *)malloc(ARRAY_SIZE_TCH * sizeof(int));
-
-  // plot array
-  const size_t pltLen = 3;
-  int *pltArr = (int *)malloc(pltLen * sizeof(int));
-  emptyArray(pltArr, pltLen);
-/* USER CODE END 1 */
+  int *touchArr = (int *)malloc(CHANNEL_COUNT_TCH * sizeof(int));
+  /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
 
@@ -111,13 +109,12 @@ int main(void)
   SystemClock_Config();
 
   /* USER CODE BEGIN SysInit */
-
+  MX_DMA_Init(); // must called before MX_ADC1_Init() !
   /* USER CODE END SysInit */
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_USART2_UART_Init();
-  MX_DMA_Init();
   MX_ADC1_Init();
   MX_I2C1_Init();
   MX_TIM1_Init();
@@ -129,27 +126,35 @@ int main(void)
   HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_2);
   HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_1);
   writeRGBArray(rgbArr);
-
-  // start timer for adc to dma
-  HAL_TIM_Base_Start_IT(&htim1);
-  HAL_ADC_Start_DMA(&hadc1, (uint32_t *)adcArr, ARRAY_SIZE_ADC);
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  for (int i=0; 1; i++)
+  int i = 0, fadeIn = 1;
+  while (1)
   {
-	// get aux
-	//aux = transform(adcArr[1], VOLUME_MIN, VOLUME_MAX, COLOR_MIN, COLOR_MAX);
-	aux = adcArr[0];
-	aux_filter = adcArr[1];
+	// get adc from dma
+	HAL_ADC_Start_DMA(&hadc1, (uint32_t *)adcResultsDMA, CHANNEL_COUNT_ADC);
+	while (adcConversionComplete == 0);
+	adcConversionComplete = 0;
+
+	aux = transform(0, VOLUME_MIN, VOLUME_MAX, COLOR_MIN, COLOR_MAX);
+
+	// toggle and apply fade direction
+	if (i > COLOR_MAX) fadeIn = 0;
+	else if (i < COLOR_MIN) fadeIn = 1;
+	fadeIn ? i++ : i--;
 
 	// set rgb led
-	//writeRGB(aux, 0, 0);
+	writeRGB(i, 0, 0);
 
 	// serial debug
-	count = i;
-	printf("i=%d, aux=%d, aux_filter=%d\n", count, aux, aux_filter);
+	if (DEBUG)
+	{
+		aux = adcResultsDMA[0];
+		rng = adcResultsDMA[1];
+		printf("aux=%d,rng=%d", aux, rng);
+	}
 
 	// wait
 	HAL_Delay(DELAY);
@@ -194,11 +199,11 @@ void SystemClock_Config(void)
   RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
                               |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
   RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
-  RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV2;
+  RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
   RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV2;
   RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
 
-  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_1) != HAL_OK)
+  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_2) != HAL_OK)
   {
     Error_Handler();
   }

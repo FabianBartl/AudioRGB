@@ -11,8 +11,11 @@ functions.c:65:5:noise	8	static
 functions.c:76:5:noiseLimit	16	static
 functions.c:82:6:writeRGB	24	static
 functions.c:89:6:writeRGBArray	16	static
-functions.c:92:5:generator	24	static
-functions.c:107:6:fillArray	32	static
-functions.c:108:6:emptyArray	16	static
-functions.c:110:5:arraySum	24	static
-functions.c:116:5:arrayAvr	16	static
+functions.c:92:5:generatorLimit	32	static
+functions.c:102:5:generator	16	static
+functions.c:108:6:fillArray	32	static
+functions.c:109:6:emptyArray	16	static
+functions.c:111:5:arraySum	24	static
+functions.c:117:5:arrayAvr	16	static
+functions.c:119:5:arrayMin	24	static
+functions.c:125:5:arrayMax	24	static

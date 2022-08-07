@@ -89,16 +89,17 @@ void writeRGB(int r, int g, int b)
 void writeRGBArray(int *rgb) { writeRGB(rgb[0], rgb[1], rgb[2]); }
 
 // color generator
-int generator(int val)
+int generatorLimit(int val, int lowerLim, int upperLim)
 {
 	return transform(
 		amplify(val),
-		VOLUME_MIN,
-		VOLUME_MAX,
+		lowerLim,
+		upperLim,
 		COLOR_MIN,
 		COLOR_MAX
 	);
 }
+int generator(int val) { return generatorLimit(val, VOLUME_MIN, VOLUME_MAX); }
 
 // ------
 // arrays
@@ -114,3 +115,16 @@ int arraySum(int *arr, const size_t arrLen)
 	return sum;
 }
 int arrayAvr(int *arr, const size_t arrLen) { return arraySum(arr, arrLen) / arrLen; }
+
+int arrayMin(int *arr, const size_t arrLen)
+{
+	int minVal = MAX_INT32;
+	for (size_t i=0; i < arrLen; i++) minVal = min(minVal, arr[i]);
+	return minVal;
+}
+int arrayMax(int *arr, const size_t arrLen)
+{
+	int maxVal = MIN_INT32;
+	for (size_t i=0; i < arrLen; i++) maxVal = max(maxVal, arr[i]);
+	return maxVal;
+}

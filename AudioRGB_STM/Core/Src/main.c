@@ -71,37 +71,23 @@ void SystemClock_Config(void);
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-  // left channel
-  int *bufArrL = (int *)malloc(BUFFER_SIZE_AUX * sizeof(int));
-  emptyArray(bufArrL, BUFFER_SIZE_AUX);
-  size_t bufIndL = 0;
-  int aux_l, aux_l_filter;
+  // left audio channel
+  int *buffArr = (int *)malloc(BUFFER_SIZE_AUX * sizeof(int));
+  emptyArray(buffArr, BUFFER_SIZE_AUX);
+  size_t buffInd = 0;
+  int aux = 0, aux_filter = 0;
 
-  // right channel
-  int *bufArrR = (int *)malloc(BUFFER_SIZE_AUX * sizeof(int));
-  emptyArray(bufArrR, BUFFER_SIZE_AUX);
-  size_t bufIndR = 0;
-  int aux_r, aux_r_filter;
-
-  // left rgb led
-  int *rgbArrL = (int *)malloc(ARRAY_SIZE_RGB * sizeof(int));
-  emptyArray(rgbArrL, ARRAY_SIZE_RGB);
-  size_t colSelL = 0, colSelPrevL = 0;
-  int colValL = COLOR_HALF, colValPrevL = COLOR_HALF;
-
-  // right rgb led
-  int *rgbArrR = (int *)malloc(ARRAY_SIZE_RGB * sizeof(int));
-  emptyArray(rgbArrR, ARRAY_SIZE_RGB);
-  size_t colSelR = 0, colSelPrevR = 0;
-  int colValR = COLOR_HALF, colValPrevR = COLOR_HALF;
+  // rgb led
+  int *rgbArr = (int *)malloc(ARRAY_SIZE_RGB * sizeof(int));
+  emptyArray(rgbArr, ARRAY_SIZE_RGB);
+  size_t colSel = 0, colSelPrev = 0;
+  int colVal = COLOR_HALF, colValPrev = COLOR_HALF;
 
   // touch sensor
-  int *touchArr = (int *)malloc(ARRAY_SIZE_TCH * sizeof(int));
+  int *touchArr = (int *)malloc(CHANNEL_COUNT_TCH * sizeof(int));
 
-  // plot array
-  size_t pltLen = 4;
-  int *pltArr = (int *)malloc(pltLen * sizeof(int));
-  emptyArray(pltArr, pltLen);
+  // noise generator
+  int noise = 0;
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -131,36 +117,38 @@ int main(void)
   MX_TIM3_Init();
   /* USER CODE BEGIN 2 */
 
-  // setup left rgb led
+  // setup rgb led
   HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_3);
   HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_2);
   HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_1);
-  writeRGBArray(LED_L, rgbArrL);
-
-  // setup right rgb led
-  HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_1);
-  HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_2);
-  HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_3);
-  writeRGBArray(LED_R, rgbArrR);
+  writeRGBArray(rgbArr);
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  for (int i=0, s=0; 1; i++)
+  while (1)
   {
-	//HAL_GPIO_TogglePin(LED_OB_GPIO_Port, LED_OB_Pin);
-    //HAL_Delay(1000);
-
-	// set left rgb led
-	rgbArrL[s] = i;
-	writeRGBArray(LED_L, rgbArrL);
-
-	// reset color
-	if (i > COLOR_MAX)
+	// get audio from adc, write buffer and apply filter
+	HAL_ADC_Start(&hadc1);
+	if (HAL_ADC_PollForConversion(&hadc1, TIMEOUT_ADC) == HAL_OK)
 	{
-	  i = 0;
-	  s = (s + 1) % ARRAY_SIZE_RGB;
+	  aux = HAL_ADC_GetValue(&hadc1);
+	  bufferAppend(aux, buffArr, &buffInd);
+	  aux_filter = bufferFilter(buffArr);
 	}
+
+	// color generator
+	rgbArr[0] = generator(aux_filter);
+	rgbArr[1] = generator(aux_filter);
+	rgbArr[2] = generator(aux_filter);
+
+	// modify color
+	//...
+
+	// set rgb of led
+	writeRGBArray(rgbArr);
+
+	// wait
 	HAL_Delay(DELAY);
     /* USER CODE END WHILE */
 

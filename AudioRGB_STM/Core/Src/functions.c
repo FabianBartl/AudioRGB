@@ -46,26 +46,6 @@ int transform(int val, int inMin, int inMax, int outMin, int outMax)
 int amplify(int val) { return amplifyFactor(val, VOLUME_BOOST); }
 int amplifyFactor(int val, int fac) { return val * fac; }
 
-// --------------
-// serial plotter
-// --------------
-
-/*
-// blue, red, green, yellow, purple
-void plotArduino(int *valArr, size_t lenArr)
-{
-	for(int i=0; i < lenArr-1; i++)
-	{
-		Serial.print(valArr[i]);
-		Serial.print(",");
-	}
-	Serial.print(valArr[lenArr-1]);
-	// flush data
-	Serial.println("");
-	Serial.flush();
-}
-*/
-
 // ---------------
 // noise generator
 // ---------------
@@ -80,31 +60,17 @@ int noise(int pin)
 // rgbs
 // ----
 
-void writeRGBArray(int pin, int *rgb) { writeRGB(pin, rgb[0], rgb[1], rgb[2]); }
-void writeRGB(int pin, int r, int g, int b)
+void writeRGBArray(int *rgb) { writeRGB(rgb[0], rgb[1], rgb[2]); }
+void writeRGB(int r, int g, int b)
 {
-	switch (pin)
-	{
-		case LED_L:
-			TIM3->CCR3 = saturate(r);
-			TIM3->CCR1 = saturate(g);
-			TIM3->CCR2 = saturate(g);
-			break;
-		case LED_R:
-			TIM1->CCR1 = saturate(r);
-			TIM1->CCR2 = saturate(g);
-			TIM1->CCR3 = saturate(b);
-			break;
-	}
-/*
+	TIM3->CCR3 = saturate(r);
+	TIM3->CCR1 = saturate(g);
+	TIM3->CCR2 = saturate(g);
+
 	// prevent higher pulses than period
 	if (TIM3->CCR3 > TIM3->ARR) TIM3->CCR3 = 0;
 	if (TIM3->CCR1 > TIM3->ARR) TIM3->CCR1 = 0;
 	if (TIM3->CCR2 > TIM3->ARR) TIM3->CCR2 = 0;
-	if (TIM1->CCR1 > TIM1->ARR) TIM1->CCR1 = 0;
-	if (TIM1->CCR2 > TIM1->ARR) TIM1->CCR2 = 0;
-	if (TIM1->CCR3 > TIM1->ARR) TIM1->CCR3 = 0;
-*/
 }
 
 // color generator
@@ -112,8 +78,8 @@ float generator(float val)
 {
 	return transform(
 		amplify(val),
-		amplify(VOLUME_MIN),
-		amplify(VOLUME_MAX),
+		VOLUME_MIN,
+		VOLUME_MAX,
 		COLOR_MIN,
 		COLOR_MAX
 	);
@@ -123,11 +89,11 @@ float generator(float val)
 // arrays
 // ------
 
-void emptyArray(int *arr, size_t arrLen) { fillArray(0, arr, arrLen); }
-void fillArray(int val, int *arr, size_t arrLen) { for(int i=0; i < arrLen; i++) arr[i] = val; }
+void emptyArray(int *arr, const size_t arrLen) { fillArray(0, arr, arrLen); }
+void fillArray(int val, int *arr, const size_t arrLen) { for(int i=0; i < arrLen; i++) arr[i] = val; }
 
-int arrayAvr(int *arr, size_t arrLen) { return arraySum(arr, arrLen) / arrLen; }
-int arraySum(int *arr, size_t arrLen)
+int arrayAvr(int *arr, const size_t arrLen) { return arraySum(arr, arrLen) / arrLen; }
+int arraySum(int *arr, const size_t arrLen)
 {
 	int sum = 0;
 	for(int i=0; i < arrLen; i++) sum += arr[i];

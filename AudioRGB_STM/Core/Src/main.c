@@ -72,22 +72,22 @@ int main(void)
 {
   /* USER CODE BEGIN 1 */
 	// left audio channel
-	int *buffArr = (int *)malloc(BUFFER_SIZE_AUX * sizeof(int));
+	uint16_t *buffArr = (uint16_t *)malloc(BUFFER_SIZE_AUX * sizeof(uint16_t));
 	emptyArray(buffArr, BUFFER_SIZE_AUX);
 	size_t buffInd = 0;
-	int aux = 0, aux_filter = 0;
+	uint16_t aux = 0, aux_filter = 0;
 
 	// rgb led
-	int *rgbArr = (int *)malloc(ARRAY_SIZE_RGB * sizeof(int));
+	uint16_t *rgbArr = (uint16_t *)malloc(ARRAY_SIZE_RGB * sizeof(uint16_t));
 	emptyArray(rgbArr, ARRAY_SIZE_RGB);
 	size_t colSel = 0, colSelPrev = 0;
-	int colVal = COLOR_HALF, colValPrev = COLOR_HALF;
+	uint16_t colVal = COLOR_HALF, colValPrev = COLOR_HALF;
 
 	// touch sensor
-	int *touchArr = (int *)malloc(CHANNEL_COUNT_TCH * sizeof(int));
+	uint8_t *touchArr = (uint8_t *)malloc(CHANNEL_COUNT_TCH * sizeof(uint8_t));
 
 	// noise generator
-	int rng = 0;
+	uint16_t rng = 0;
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/

@@ -81,7 +81,7 @@ void writeRGB(int r, int g, int b)
 void writeRGBArray(int *rgb) { writeRGB(rgb[0], rgb[1], rgb[2]); }
 
 // color generator
-float generator(float val)
+int generator(int val)
 {
 	return transform(
 		amplify(val),

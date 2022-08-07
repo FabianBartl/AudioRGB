@@ -71,24 +71,24 @@ void SystemClock_Config(void);
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-  // left audio channel
-  int *buffArr = (int *)malloc(BUFFER_SIZE_AUX * sizeof(int));
-  emptyArray(buffArr, BUFFER_SIZE_AUX);
-  size_t buffInd = 0;
-  int aux = 0, aux_filter = 0;
+	// left audio channel
+	int *buffArr = (int *)malloc(BUFFER_SIZE_AUX * sizeof(int));
+	emptyArray(buffArr, BUFFER_SIZE_AUX);
+	size_t buffInd = 0;
+	int aux = 0, aux_filter = 0;
 
-  // rgb led
-  int *rgbArr = (int *)malloc(ARRAY_SIZE_RGB * sizeof(int));
-  emptyArray(rgbArr, ARRAY_SIZE_RGB);
-  size_t colSel = 0, colSelPrev = 0;
-  int colVal = COLOR_HALF, colValPrev = COLOR_HALF;
+	// rgb led
+	int *rgbArr = (int *)malloc(ARRAY_SIZE_RGB * sizeof(int));
+	emptyArray(rgbArr, ARRAY_SIZE_RGB);
+	size_t colSel = 0, colSelPrev = 0;
+	int colVal = COLOR_HALF, colValPrev = COLOR_HALF;
 
-  // touch sensor
-  int *touchArr = (int *)malloc(CHANNEL_COUNT_TCH * sizeof(int));
+	// touch sensor
+	int *touchArr = (int *)malloc(CHANNEL_COUNT_TCH * sizeof(int));
 
-  // noise generator
-  int rng = 0;
-  /* USER CODE END 1 */
+	// noise generator
+	int rng = 0;
+/* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
 
@@ -116,44 +116,46 @@ int main(void)
   MX_TIM2_Init();
   MX_TIM3_Init();
   /* USER CODE BEGIN 2 */
-
-  // setup rgb led
-  HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_3);
-  HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_2);
-  HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_1);
-  writeRGBArray(rgbArr);
+	// setup rgb led
+	HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_3);
+	HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_2);
+	HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_1);
+	writeRGBArray(rgbArr);
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  while (1)
-  {
-	// get audio from adc, write buffer and apply filter
-	HAL_ADC_Start(&hadc1);
-	if (HAL_ADC_PollForConversion(&hadc1, TIMEOUT_ADC) == HAL_OK)
+	while (1)
 	{
-	  aux = HAL_ADC_GetValue(&hadc1);
-	  bufferAppend(aux, buffArr, &buffInd);
-	  aux_filter = bufferFilter(buffArr);
-	}
+		// get audio from adc
+		ADC_Select_CH1();
+		HAL_ADC_Start(&hadc1);
+		if (HAL_ADC_PollForConversion(&hadc1, TIMEOUT_ADC) == HAL_OK)
+		{
+			aux = HAL_ADC_GetValue(&hadc1);
+			HAL_ADC_Stop(&hadc1);
+			// write buffer and apply filter
+			bufferAppend(aux, buffArr, &buffInd);
+			aux_filter = bufferFilter(buffArr);
+		}
 
-	// color generator
-	rgbArr[0] = generator(aux_filter);
-	rgbArr[1] = generator(aux_filter);
-	rgbArr[2] = generator(aux_filter);
+		// color generator
+		rgbArr[0] = generator(aux_filter);
+		rgbArr[1] = generator(aux_filter);
+		rgbArr[2] = generator(aux_filter);
 
-	// modify color
-	//...
+		// modify color
+		//...
 
-	// set rgb of led
-	writeRGBArray(rgbArr);
+		// set rgb of led
+		writeRGBArray(rgbArr);
 
-	// wait
-	HAL_Delay(DELAY);
+		// wait
+		HAL_Delay(DELAY);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-  }
+	}
   /* USER CODE END 3 */
 }
 

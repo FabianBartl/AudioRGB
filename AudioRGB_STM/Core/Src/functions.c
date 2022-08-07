@@ -7,6 +7,7 @@
 
 #include "config.h"
 #include "tim.h"
+#include "adc.h"
 
 // ---------------
 // circular buffer
@@ -53,7 +54,14 @@ int amplifyFactor(int val, int fac) { return val * fac; }
 int noiseLimit(int mod) { return noise() % mod; }
 int noise()
 {
-	return 0;
+	// get noise from adc
+	ADC_Select_CH12();
+	HAL_ADC_Start(&hadc1);
+	if (HAL_ADC_PollForConversion(&hadc1, TIMEOUT_ADC) == HAL_OK)
+	{
+		return HAL_ADC_GetValue(&hadc1);
+		HAL_ADC_Stop(&hadc1);
+	}
 }
 
 // ----

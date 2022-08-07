@@ -1517,7 +1517,7 @@ int main(void)
  8000bc8:	2300      	movs	r3, #0
  8000bca:	85fb      	strh	r3, [r7, #46]	; 0x2e
 
-	// rgb led
+	// rgb led (uint8_t doesn't work)
 	uint16_t *rgbArr = (uint16_t *)malloc(ARRAY_SIZE_RGB * sizeof(uint16_t));
  8000bcc:	2006      	movs	r0, #6
  8000bce:	f003 fd39 	bl	8004644 <malloc>

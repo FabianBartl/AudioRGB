@@ -77,7 +77,7 @@ int main(void)
 	size_t buffInd = 0;
 	uint16_t aux = 0, aux_filter = 0;
 
-	// rgb led
+	// rgb led (uint8_t doesn't work)
 	uint16_t *rgbArr = (uint16_t *)malloc(ARRAY_SIZE_RGB * sizeof(uint16_t));
 	emptyArray(rgbArr, ARRAY_SIZE_RGB);
 	size_t colSel = 0, colSelPrev = 0;

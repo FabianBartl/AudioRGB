@@ -20,8 +20,8 @@ int amplifyFactor(int val, int fac);
 int amplify(int val);
 
 // noise generator
-int noise(int pin);
-int noiseLimit(int pin, int mod);
+int noise();
+int noiseLimit(int mod);
 
 // rgb
 void writeRGB(int r, int g, int b);

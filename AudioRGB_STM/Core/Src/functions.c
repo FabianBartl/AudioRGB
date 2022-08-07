@@ -16,17 +16,17 @@
 // implements an append function for a circular array
 // when the array is full, the values at the beginning are overwritten
 // the buffer array contains the last measured ADC elements to smooth the audio signal
-void bufferAppend(int val, int *arr, int *ind)
+void bufferAppend(int val, int *arr, size_t *ind)
 {
 	*ind = (*ind+1 > BUFFER_SIZE_AUX-1) ? 0 : *ind+1;
 	arr[*ind] = val;
 }
 
 // apply an average-filter to the last elements of the buffer array
-int bufferFilter(int *arr, int *ind)
+int bufferFilter(int *arr, size_t *ind)
 {
 	int sum = 0;
-	for(int i=0, p=0; i < FILTER_SIZE_AUX; i++)
+	for(size_t i=0, p=0; i < FILTER_SIZE_AUX; i++)
 	{
 		p = (*ind-i < 0) ? BUFFER_SIZE_AUX-1 : *ind-i;
 		sum += arr[p];
@@ -110,7 +110,7 @@ void emptyArray(int *arr, const size_t arrLen) { fillArray(0, arr, arrLen); }
 int arraySum(int *arr, const size_t arrLen)
 {
 	int sum = 0;
-	for(int i=0; i < arrLen; i++) sum += arr[i];
+	for(size_t i=0; i < arrLen; i++) sum += arr[i];
 	return sum;
 }
 int arrayAvr(int *arr, const size_t arrLen) { return arraySum(arr, arrLen) / arrLen; }

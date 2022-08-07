@@ -9,8 +9,8 @@
 #define INC_FUNCTIONS_H_
 
 // circular buffer
-void bufferAppend(int val, int *arr, int *ind);
-int bufferFilter(int *arr, int *ind);
+void bufferAppend(int val, int *arr, size_t *ind);
+int bufferFilter(int *arr, size_t *ind);
 
 // saturate, transform, amplify
 int saturateLimits(int val, int lowerLim, int upperLim);

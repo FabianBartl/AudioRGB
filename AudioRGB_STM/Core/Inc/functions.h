@@ -30,12 +30,15 @@ int noiseLimit(int mod);
 // rgb
 void writeRGB(int r, int g, int b);
 void writeRGBArray(int *rgb);
-float generator(float val);
+int generator(int val);
+int generatorLimit(int val, int lowerLim, int upperLim);
 
 // arrays
 void fillArray(int val, int *arr, const size_t arrLen);
 void emptyArray(int *arr, const size_t arrLen);
 int arraySum(int *arr, const size_t arrLen);
 int arrayAvr(int *arr, const size_t arrLen);
+int arrayMin(int *arr, const size_t arrLen);
+int arrayMax(int *arr, const size_t arrLen);
 
 #endif /* INC_FUNCTIONS_H_ */

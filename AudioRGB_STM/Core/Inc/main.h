@@ -57,8 +57,6 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
-#define BUTTON_OB_Pin GPIO_PIN_13
-#define BUTTON_OB_GPIO_Port GPIOC
 #define RNG_Pin GPIO_PIN_2
 #define RNG_GPIO_Port GPIOC
 #define AUX_Pin GPIO_PIN_1
@@ -67,16 +65,8 @@ void Error_Handler(void);
 #define USART_TX_GPIO_Port GPIOA
 #define USART_RX_Pin GPIO_PIN_3
 #define USART_RX_GPIO_Port GPIOA
-#define LED_OB_Pin GPIO_PIN_5
-#define LED_OB_GPIO_Port GPIOA
 #define LED_G_Pin GPIO_PIN_7
 #define LED_G_GPIO_Port GPIOC
-#define TCH_3_Pin GPIO_PIN_8
-#define TCH_3_GPIO_Port GPIOA
-#define TCH_4_Pin GPIO_PIN_9
-#define TCH_4_GPIO_Port GPIOA
-#define TCH_1_Pin GPIO_PIN_10
-#define TCH_1_GPIO_Port GPIOA
 #define TMS_Pin GPIO_PIN_13
 #define TMS_GPIO_Port GPIOA
 #define TCK_Pin GPIO_PIN_14
@@ -85,8 +75,6 @@ void Error_Handler(void);
 #define SWO_GPIO_Port GPIOB
 #define LED_B_Pin GPIO_PIN_4
 #define LED_B_GPIO_Port GPIOB
-#define TCH_2_Pin GPIO_PIN_5
-#define TCH_2_GPIO_Port GPIOB
 #define LED_R_Pin GPIO_PIN_6
 #define LED_R_GPIO_Port GPIOB
 #define LCD_I2C_SCL_Pin GPIO_PIN_8

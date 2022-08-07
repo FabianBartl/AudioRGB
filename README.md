@@ -34,20 +34,12 @@
 | `PC7`    | `pwm output`     | `TIM3_CH2` via `DMA1` | `LED_G`       | LED left        | green              |
 | `PB4`    | `pwm output`     | `TIM3_CH1` via `DMA1` | `LED_B`       | LED left        | blue               |
 |          |                  |                       |               |                 |                    |
-| `PA10`   | `digital input`  | `Pull-down`           | `TCH_1`       | touchpad        | pad 1              |
-| `PB5`    | `digital input`  | `Pull-down`           | `TCH_2`       | touchpad        | pad 2              |
-| `PA8`    | `digital input`  | `Pull-down`           | `TCH_3`       | touchpad        | pad 3              |
-| `PA9`    | `digital input`  | `Pull-down`           | `TCH_4`       | touchpad        | pad 4              |
-|          |                  |                       |               |                 |                    |
 | `PA1`    | `analog input`   | 12 bit                | `AUX`         | analog audio    | left audio channel |
 |          |                  |                       |               |                 |                    |
 | `PC2`    | `analog input`   | 12 bit                | `RNG`         | *none*          | noise              |
 |          |                  |                       |               |                 |                    |
 | `PB8`    | `digital output` | `Pull-up`             | `LCD_I2C_SCL` | LCD Display     | I2C clock          |
 | `PB9`    | `digital output` | `Pull-up`             | `LCD_I2C_SDA` | LCD Display     | I2C data           |
-|          |                  |                       |               |                 |                    |
-| `PC13`   | `digital input`  | `Pull-down`           | `BUTTON_OB`   | on-board button |                    |
-| `PA5`    | `digital output` | `Pull-down`           | `LED_OB`      | on-board LED    |                    |
 
 ## Audio-Jack Data
 

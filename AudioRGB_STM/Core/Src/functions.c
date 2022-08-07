@@ -92,14 +92,14 @@ void writeRGBArray(int *rgb) { writeRGB(rgb[0], rgb[1], rgb[2]); }
 int generatorLimit(int val, int lowerLim, int upperLim)
 {
 	return transform(
-		amplify(val),
+		val,
 		lowerLim,
 		upperLim,
 		COLOR_MIN,
 		COLOR_MAX
 	);
 }
-int generator(int val) { return generatorLimit(val, VOLUME_MIN, VOLUME_MAX); }
+int generator(int val) { return generatorLimit(amplify(val), VOLUME_MIN, VOLUME_MAX); }
 
 // ------
 // arrays

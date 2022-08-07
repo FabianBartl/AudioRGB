@@ -142,6 +142,10 @@ int main(void)
 			aux_filter = bufferFilter(buffArr, &buffInd);
 		}
 
+		// calculate min and max of buffer for dynamic generator range
+		dynamic_VOLUME_MIN = arrayMin(buffArr, BUFFER_SIZE_AUX);
+		dynamic_VOLUME_MAX = arrayMax(buffArr, BUFFER_SIZE_AUX);
+
 		// color generator
 		rgbArr[0] = generator(aux_filter);
 		rgbArr[1] = generator(aux_filter);

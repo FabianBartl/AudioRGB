@@ -24,17 +24,21 @@
  * Input Channel 4 (right audio channel): 24 bit, 48 kHz -> 20.83 µs sample time
  * Input Channel 12: n/a
  *
- * 84 MHz PCLK2 / 8 (Prescaler) -> 10.5 MHz
+ * 84 MHz PCLK2 / 2 (Prescaler) -> 48 MHz
  *
- * Channel 1: 144 cycles sample time -> 15.14 µs sample time
- * Channel 4: 144 cycles sample time -> 15.14 µs sample time
- * Channel 12: 3 cycles sample time -> 1.714 µs sample time
+ * Channel 1: 3 cycles sample time -> 0.43 µs sample time
+ * Channel 4: 3 cycles sample time -> 0.43 µs sample time
+ * Channel 12: 3 cycles sample time -> 0.43 µs sample time
  *
  * Formula:
+ * -> https://www.wolframalpha.com/input?i2d=true&i=Divide%5B3%2B15%2CDivide%5B84+MHz%2C2%5D%5D+
  *
  * [sample time] + [adc clock cycles]
  * ---------------------------------- -> [1/MHz] == [µs]
  *   [frequency MHz] / [prescaler]
+ *
+ * Alternative: ADC via DMA
+ * -> https://youtu.be/EsZLgqhqfO0
  */
 
 /* USER CODE END Header */
@@ -51,7 +55,7 @@ void ADC_Select_CH1(void)
 	*/
 	sConfig.Channel = ADC_CHANNEL_1;
 	sConfig.Rank = 1; // has to be 1, because it's only one channel selected
-	sConfig.SamplingTime = ADC_SAMPLETIME_144CYCLES;
+	sConfig.SamplingTime = ADC_SAMPLETIME_3CYCLES;
 	if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
 	{
 		Error_Handler();
@@ -65,7 +69,7 @@ void ADC_Select_CH4(void)
 	*/
 	sConfig.Channel = ADC_CHANNEL_4;
 	sConfig.Rank = 1; // has to be 1, because it's only one channel selected
-	sConfig.SamplingTime = ADC_SAMPLETIME_144CYCLES;
+	sConfig.SamplingTime = ADC_SAMPLETIME_3CYCLES;
 	if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
 	{
 		Error_Handler();
@@ -104,7 +108,7 @@ void MX_ADC1_Init(void)
 	*/
   	// Copied from below for editing as user code and skip generated code with goto
 	hadc1.Instance = ADC1;
-	hadc1.Init.ClockPrescaler = ADC_CLOCK_SYNC_PCLK_DIV8;
+	hadc1.Init.ClockPrescaler = ADC_CLOCK_SYNC_PCLK_DIV4;
 	hadc1.Init.Resolution = ADC_RESOLUTION_12B;
 	hadc1.Init.ScanConvMode = ENABLE;
 	hadc1.Init.ContinuousConvMode = ENABLE;
@@ -127,7 +131,7 @@ void MX_ADC1_Init(void)
   /** Configure the global features of the ADC (Clock, Resolution, Data Alignment and number of conversion)
   */
   hadc1.Instance = ADC1;
-  hadc1.Init.ClockPrescaler = ADC_CLOCK_SYNC_PCLK_DIV8;
+  hadc1.Init.ClockPrescaler = ADC_CLOCK_SYNC_PCLK_DIV4;
   hadc1.Init.Resolution = ADC_RESOLUTION_12B;
   hadc1.Init.ScanConvMode = ENABLE;
   hadc1.Init.ContinuousConvMode = ENABLE;
@@ -146,7 +150,7 @@ void MX_ADC1_Init(void)
   */
   sConfig.Channel = ADC_CHANNEL_1;
   sConfig.Rank = 1;
-  sConfig.SamplingTime = ADC_SAMPLETIME_144CYCLES;
+  sConfig.SamplingTime = ADC_SAMPLETIME_3CYCLES;
   if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
   {
     Error_Handler();
@@ -163,7 +167,6 @@ void MX_ADC1_Init(void)
   */
   sConfig.Channel = ADC_CHANNEL_12;
   sConfig.Rank = 3;
-  sConfig.SamplingTime = ADC_SAMPLETIME_3CYCLES;
   if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
   {
     Error_Handler();

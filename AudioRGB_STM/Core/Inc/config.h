@@ -8,16 +8,16 @@
 #ifndef INC_CONFIG_H_
 #define INC_CONFIG_H_
 
-#define BUFFER_SIZE_AUX 20
-#define FILTER_SIZE_AUX 2
+#define DEBUG 1
+
+#define BUFFER_SIZE_AUX 2
 
 #define CHANNEL_COUNT_RGB 3
-#define CHANNEL_COUNT_TCH 4
-#define CHANNEL_COUNT_ADC 2
+#define CHANNEL_COUNT_ADC 3
 
 #define VOLUME_MIN 100
-#define VOLUME_MAX 500
-#define VOLUME_BOOST 4
+#define VOLUME_MAX 1000
+#define VOLUME_BOOST 1
 
 #define COLOR_MIN 0
 #define COLOR_MAX 255

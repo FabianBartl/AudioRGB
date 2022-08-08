@@ -10,7 +10,7 @@
 
 // circular buffer
 void bufferAppend(int val, int *arr, size_t *ind);
-int bufferFilter(int *arr, size_t *ind);
+int bufferFilter(int *arr);
 
 // saturate, transform, amplify
 int saturateLimits(int val, int lowerLim, int upperLim);

@@ -1,6 +1,6 @@
-adc.c:47:6:ADC_Select_CH1	24	static
-adc.c:61:6:ADC_Select_CH4	24	static
-adc.c:75:6:ADC_Select_CH12	24	static
-adc.c:93:6:MX_ADC1_Init	24	static,ignoring_inline_asm
-adc.c:179:6:HAL_ADC_MspInit	48	static
-adc.c:214:6:HAL_ADC_MspDeInit	16	static
+adc.c:51:6:ADC_Select_CH1	24	static
+adc.c:65:6:ADC_Select_CH4	24	static
+adc.c:79:6:ADC_Select_CH12	24	static
+adc.c:97:6:MX_ADC1_Init	24	static,ignoring_inline_asm
+adc.c:182:6:HAL_ADC_MspInit	48	static
+adc.c:217:6:HAL_ADC_MspDeInit	16	static

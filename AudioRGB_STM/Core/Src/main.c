@@ -29,7 +29,10 @@
 /* USER CODE BEGIN Includes */
 #include "config.h"
 #include "functions.h"
+
+#include <string.h>
 #include <stdlib.h>
+#include <stdio.h>
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -50,8 +53,7 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-// for in-loop ticks
-uint32_t ticks = 0;
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -73,25 +75,29 @@ int main(void)
 {
   /* USER CODE BEGIN 1 */
 	// left audio channel
-	uint16_t *buffArrL = (uint16_t *)malloc(BUFFER_SIZE_AUX * sizeof(uint16_t));
+	int *buffArrL = (int *)malloc(BUFFER_SIZE_AUX * sizeof(int));
 	emptyArray(buffArrL, BUFFER_SIZE_AUX);
 	size_t buffIndL = 0;
-	uint16_t auxValL = 0, auxFilterL = 0;
+	int auxValL = 0, auxFilterL = 0;
 
 	// right audio channel
-	uint16_t *buffArrR = (uint16_t *)malloc(BUFFER_SIZE_AUX * sizeof(uint16_t));
+	int *buffArrR = (int *)malloc(BUFFER_SIZE_AUX * sizeof(int));
 	emptyArray(buffArrR, BUFFER_SIZE_AUX);
 	size_t buffIndR = 0;
-	uint16_t auxValR = 0, auxFilterR = 0;
+	int auxValR = 0, auxFilterR = 0;
 
 	// rgb led (uint8_t doesn't work)
-	uint16_t *rgbArr = (uint16_t *)malloc(CHANNEL_COUNT_RGB * sizeof(uint16_t));
+	int *rgbArr = (int *)malloc(CHANNEL_COUNT_RGB * sizeof(int));
 	emptyArray(rgbArr, CHANNEL_COUNT_RGB);
+	int r = 0, g = 0, b = 0;
 	size_t colSel = 0, colSelPrev = 0;
-	uint16_t colVal = COLOR_HALF, colValPrev = COLOR_HALF;
+	int colVal = 0, colValPrev = 0;
 
-	// touch sensor
-	uint8_t *touchArr = (uint8_t *)malloc(CHANNEL_COUNT_TCH * sizeof(uint8_t));
+	// nanokernel tick counter
+	uint32_t ticks = 0;
+
+	// uart message transmit buffer
+	char buffMsg[20];
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -125,7 +131,7 @@ int main(void)
 	HAL_TIM_PWM_Start(&htim4, TIM_CHANNEL_1);
 	HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_2);
 	HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_1);
-	writeRGB(COLOR_HALF, COLOR_HALF, COLOR_HALF);
+	writeRGB(r, g, b);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -141,7 +147,7 @@ int main(void)
 			HAL_ADC_Stop(&hadc1);
 			// write buffer and apply filter
 			bufferAppend(auxValL, buffArrL, &buffIndL);
-			auxFilterL = bufferFilter(buffArrL, &buffIndL);
+			auxFilterL = bufferFilter(buffArrL);
 		}
 
 		// get right audio channel from adc
@@ -153,17 +159,32 @@ int main(void)
 			HAL_ADC_Stop(&hadc1);
 			// write buffer and apply filter
 			bufferAppend(auxValR, buffArrR, &buffIndR);
-			auxFilterR = bufferFilter(buffArrR, &buffIndR);
+			auxFilterR = bufferFilter(buffArrR);
 		}
 
-		// generate color and write rgb
-		writeRGB(
-			generator(auxFilterL),
-			5,
-			generator(auxFilterR)
-		);
+		// generate color
+		r = generator(auxFilterL);
+		g = 5;
+		b = generator(auxFilterR);
 
-		// update in-loop ticks and wait
+		// write rgb
+		writeRGB(r, g, b);
+
+		// debug via uart
+		if (DEBUG)
+		{
+			sprintf(
+				buffMsg,
+				"%d,%d,%d,%d\n",
+				auxValL,
+				auxFilterL,
+				r,
+				saturate(r)
+			);
+			HAL_UART_Transmit(&huart2, (uint8_t *)buffMsg, strlen(buffMsg), HAL_MAX_DELAY);
+		}
+
+		// update nanokernel tick and wait
 		ticks++;
 		HAL_Delay(DELAY);
     /* USER CODE END WHILE */

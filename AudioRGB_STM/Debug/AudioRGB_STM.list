@@ -1700,7 +1700,6 @@ int main(void)
  8000d34:	6b39      	ldr	r1, [r7, #48]	; 0x30
  8000d36:	6b78      	ldr	r0, [r7, #52]	; 0x34
  8000d38:	f7ff fdde 	bl	80008f8 <writeRGB>
-		//writeRGB(generator(auxFilterL), 5, generator(auxFilterR));
 
 		// debug via uart
 		if (DEBUG)

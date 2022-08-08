@@ -169,7 +169,6 @@ int main(void)
 
 		// write rgb
 		writeRGB(r, g, b);
-		//writeRGB(generator(auxFilterL), 5, generator(auxFilterR));
 
 		// debug via uart
 		if (DEBUG)

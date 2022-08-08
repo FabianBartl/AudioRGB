@@ -176,9 +176,11 @@ int main(void)
 		{
 			sprintf(
 				buffMsg,
-				"%d,%d\n",
+				"%d,%d,%d,%d\n",
 				auxValL,
-				auxFilterL
+				auxFilterL,
+				r,
+				saturate(r)
 			);
 			HAL_UART_Transmit(&huart2, (uint8_t *)buffMsg, strlen(buffMsg), HAL_MAX_DELAY);
 		}

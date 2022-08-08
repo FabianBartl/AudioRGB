@@ -74,7 +74,7 @@
 
 **UART record while playing music**
 
-![](img/fade-random-color-in-out.png)
+![](img/stm_uart_record_while_playing_music.png)
 
 | Graph  | Data           | Value      |
 | :----- | :------------- | :--------- |

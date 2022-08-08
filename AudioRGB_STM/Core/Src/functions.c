@@ -23,15 +23,9 @@ void bufferAppend(int val, int *arr, size_t *ind)
 }
 
 // apply an average-filter to the last elements of the buffer array
-int bufferFilter(int *arr, size_t *ind)
+int bufferFilter(int *arr)
 {
-	int sum = 0;
-	for(size_t i=0, p=0; i < FILTER_SIZE_AUX; i++)
-	{
-		p = (*ind-i < 0) ? BUFFER_SIZE_AUX-1 : *ind-i;
-		sum += arr[p];
-	}
-	return sum / BUFFER_SIZE_AUX;
+	return arrayAvr(arr, BUFFER_SIZE_AUX);
 }
 
 // ----------------------------

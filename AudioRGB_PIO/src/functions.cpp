@@ -2,7 +2,6 @@
 #include <util/delay.h>
 #include <stdlib.h>
 
-#include "functions.h"
 #include "config.h"
 
 // -------------------------
@@ -74,12 +73,12 @@ void writeRGB(int pin, int *rgb)
 {
   switch(pin)
   {
-    case LED_R:
+    case LED_L:
       analogWrite(LED_R_R, saturate(rgb[0]));
       analogWrite(LED_R_G, saturate(rgb[1]));
       analogWrite(LED_R_B, saturate(rgb[2]));
       break;
-    case LED_L:
+    case LED_R:
       analogWrite(LED_L_R, saturate(rgb[0]));
       analogWrite(LED_L_G, saturate(rgb[1]));
       analogWrite(LED_L_B, saturate(rgb[2]));

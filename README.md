@@ -76,14 +76,13 @@
 
 ![](img/stm_uart_record_while_playing_music.png)
 
-| Graph  | Data           | Value      |
-| :----- | :------------- | :--------- |
-| yellow | audio          | volume     |
-| purple | filtered audio | volume     |
-|        |                |            |
-| red    | red value      | brightness |
-| green  | green value    | brightness |
-| blue   | blue value     | brightness |
+| Graph  | Data            | Value      |
+| :----- | :-------------- | :--------- |
+| blue   | audio           | volume     |
+| red    | filtered audio  | volume     |
+|        |                 |            |
+| green  | color           | brightness |
+| yellow | saturated color | brightness |
 
 ## Miscellaneous
 

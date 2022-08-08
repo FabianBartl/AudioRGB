@@ -50,7 +50,22 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-// for in-loop ticks
+// left audio channel
+//uint16_t *buffArrL = (uint16_t *)malloc(BUFFER_SIZE_AUX * sizeof(uint16_t));
+size_t buffIndL = 0;
+uint16_t auxValL = 0, auxFilterL = 0;
+
+// right audio channel
+//uint16_t *buffArrR = (uint16_t *)malloc(BUFFER_SIZE_AUX * sizeof(uint16_t));
+size_t buffIndR = 0;
+uint16_t auxValR = 0, auxFilterR = 0;
+
+// rgb led (uint8_t doesn't work)
+//uint16_t *rgbArr = (uint16_t *)malloc(CHANNEL_COUNT_RGB * sizeof(uint16_t));
+size_t colSel = 0, colSelPrev = 0;
+uint16_t colVal = COLOR_HALF, colValPrev = COLOR_HALF;
+
+// nanokernel tick counter
 uint32_t ticks = 0;
 /* USER CODE END PV */
 
@@ -75,23 +90,14 @@ int main(void)
 	// left audio channel
 	uint16_t *buffArrL = (uint16_t *)malloc(BUFFER_SIZE_AUX * sizeof(uint16_t));
 	emptyArray(buffArrL, BUFFER_SIZE_AUX);
-	size_t buffIndL = 0;
-	uint16_t auxValL = 0, auxFilterL = 0;
 
 	// right audio channel
 	uint16_t *buffArrR = (uint16_t *)malloc(BUFFER_SIZE_AUX * sizeof(uint16_t));
 	emptyArray(buffArrR, BUFFER_SIZE_AUX);
-	size_t buffIndR = 0;
-	uint16_t auxValR = 0, auxFilterR = 0;
 
 	// rgb led (uint8_t doesn't work)
 	uint16_t *rgbArr = (uint16_t *)malloc(CHANNEL_COUNT_RGB * sizeof(uint16_t));
 	emptyArray(rgbArr, CHANNEL_COUNT_RGB);
-	size_t colSel = 0, colSelPrev = 0;
-	uint16_t colVal = COLOR_HALF, colValPrev = COLOR_HALF;
-
-	// touch sensor
-	uint8_t *touchArr = (uint8_t *)malloc(CHANNEL_COUNT_TCH * sizeof(uint8_t));
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -163,7 +169,7 @@ int main(void)
 			generator(auxFilterR)
 		);
 
-		// update in-loop ticks and wait
+		// update nanokernel tick and wait
 		ticks++;
 		HAL_Delay(DELAY);
     /* USER CODE END WHILE */

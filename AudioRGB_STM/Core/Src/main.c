@@ -78,13 +78,15 @@ int main(void)
 	int *buffArrL = (int *)malloc(BUFFER_SIZE_AUX * sizeof(int));
 	emptyArray(buffArrL, BUFFER_SIZE_AUX);
 	size_t buffIndL = 0;
-	int auxValL = 0, auxFilterL = 0;
+	int auxValL = 0;
+	float auxFilterL = 0;
 
 	// right audio channel
 	int *buffArrR = (int *)malloc(BUFFER_SIZE_AUX * sizeof(int));
 	emptyArray(buffArrR, BUFFER_SIZE_AUX);
 	size_t buffIndR = 0;
-	int auxValR = 0, auxFilterR = 0;
+	int auxValR = 0;
+	float auxFilterR = 0;
 
 	// rgb led (uint8_t doesn't work)
 	int *rgbArr = (int *)malloc(CHANNEL_COUNT_RGB * sizeof(int));
@@ -163,22 +165,23 @@ int main(void)
 		}
 
 		// generate color
-		r = generator(auxFilterL);
-		g = 5;
-		b = generator(auxFilterR);
+		rgbArr[0] = (int)generator(auxFilterL);
+		rgbArr[1] = 5;
+		rgbArr[2] = (int)generator(auxFilterR);
 
 		// write rgb
-		writeRGB(r, g, b);
-		//writeRGB(generator(auxFilterL), 5, generator(auxFilterR));
+		writeRGBArray(rgbArr);
 
 		// debug via uart
 		if (DEBUG)
 		{
 			sprintf(
 				buffMsg,
-				"%d,%d\n",
-				auxValL,
-				auxFilterL
+				"%d,%d,%d,%d\n",
+				(int)auxValL,
+				(int)auxFilterL,
+				(int)rgbArr[0],
+				(int)saturate(rgbArr[0])
 			);
 			HAL_UART_Transmit(&huart2, (uint8_t *)buffMsg, strlen(buffMsg), HAL_MAX_DELAY);
 		}

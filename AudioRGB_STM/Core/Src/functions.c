@@ -9,6 +9,41 @@
 #include "tim.h"
 #include "adc.h"
 
+// --------
+// min, max
+// --------
+
+float min(float a, float b) { return (a < b) ? a : b; }
+float max(float a, float b) { return (a > b) ? a : b; }
+
+// ------
+// arrays
+// ------
+
+void fillArray(int val, int *arr, const size_t arrLen) { for(int i=0; i < arrLen; i++) arr[i] = val; }
+void emptyArray(int *arr, const size_t arrLen) { fillArray(0, arr, arrLen); }
+
+int arraySum(int *arr, const size_t arrLen)
+{
+	int sum = 0;
+	for(size_t i=0; i < arrLen; i++) sum += arr[i];
+	return sum;
+}
+float arrayAvr(int *arr, const size_t arrLen) { return (float)arraySum(arr, arrLen) / (float)arrLen; }
+
+int arrayMin(int *arr, const size_t arrLen)
+{
+	int minVal = MAX_INT32;
+	for (size_t i=0; i < arrLen; i++) minVal = min(minVal, arr[i]);
+	return minVal;
+}
+int arrayMax(int *arr, const size_t arrLen)
+{
+	int maxVal = MIN_INT32;
+	for (size_t i=0; i < arrLen; i++) maxVal = max(maxVal, arr[i]);
+	return maxVal;
+}
+
 // ---------------
 // circular buffer
 // ---------------
@@ -23,7 +58,7 @@ void bufferAppend(int val, int *arr, size_t *ind)
 }
 
 // apply an average-filter to the last elements of the buffer array
-int bufferFilter(int *arr)
+float bufferFilter(int *arr)
 {
 	return arrayAvr(arr, BUFFER_SIZE_AUX);
 }
@@ -32,25 +67,18 @@ int bufferFilter(int *arr)
 // saturate, transform, amplify
 // ----------------------------
 
-int saturateLimits(int val, int lowerLim, int upperLim) { return (val < lowerLim) ? lowerLim : ((val > upperLim) ? upperLim : val); }
-int saturate(int val) { return saturateLimits(val, COLOR_MIN, COLOR_MAX); }
+float saturateLimits(float val, float lowerLim, float upperLim) { return (val < lowerLim) ? lowerLim : ((val > upperLim) ? upperLim : val); }
+float saturate(float val) { return saturateLimits(val, COLOR_MIN, COLOR_MAX); }
 
-int transform(int val, int inMin, int inMax, int outMin, int outMax)
+float transform(float val, float inMin, float inMax, float outMin, float outMax)
 {
-	int inHalf = inMin + (inMax - inMin) / 2;
-	int outHalf = outMin + (outMax - outMin) / 2;
+	float inHalf = inMin + (inMax - inMin) / 2;
+	float outHalf = outMin + (outMax - outMin) / 2;
 	return val - (inHalf - outHalf);
 }
 
-int amplifyFactor(int val, int fac) { return val * fac; }
-int amplify(int val) { return amplifyFactor(val, VOLUME_BOOST); }
-
-// --------
-// min, max
-// --------
-
-int min(int a, int b) { return (a < b) ? a : b; }
-int max(int a, int b) { return (a > b) ? a : b; }
+float amplifyFactor(float val, float fac) { return val * fac; }
+float amplify(float val) { return amplifyFactor(val, VOLUME_BOOST); }
 
 // ---------------
 // noise generator
@@ -66,6 +94,7 @@ int noise()
 		return HAL_ADC_GetValue(&hadc1);
 		HAL_ADC_Stop(&hadc1);
 	}
+	return -1;
 }
 int noiseLimit(int mod) { return noise() % mod; }
 
@@ -76,14 +105,14 @@ int noiseLimit(int mod) { return noise() % mod; }
 void writeRGB(int r, int g, int b)
 {
 	// prevent higher pulses than period
-	TIM4->CCR1 = min(saturate(r), TIM4->ARR);
-	TIM3->CCR2 = min(saturate(g), TIM3->ARR);
-	TIM3->CCR1 = min(saturate(b), TIM3->ARR);
+	TIM4->CCR1 = (int)min(saturate(r), TIM4->ARR);
+	TIM3->CCR2 = (int)min(saturate(g), TIM3->ARR);
+	TIM3->CCR1 = (int)min(saturate(b), TIM3->ARR);
 }
 void writeRGBArray(int *rgb) { writeRGB(rgb[0], rgb[1], rgb[2]); }
 
 // color generator
-int generatorLimit(int val, int lowerLim, int upperLim)
+float generatorLimit(float val, float lowerLim, float upperLim)
 {
 	return transform(
 		val,
@@ -93,32 +122,4 @@ int generatorLimit(int val, int lowerLim, int upperLim)
 		COLOR_MAX
 	);
 }
-int generator(int val) { return generatorLimit(amplify(val), VOLUME_MIN, VOLUME_MAX); }
-
-// ------
-// arrays
-// ------
-
-void fillArray(int val, int *arr, const size_t arrLen) { for(int i=0; i < arrLen; i++) arr[i] = val; }
-void emptyArray(int *arr, const size_t arrLen) { fillArray(0, arr, arrLen); }
-
-int arraySum(int *arr, const size_t arrLen)
-{
-	int sum = 0;
-	for(size_t i=0; i < arrLen; i++) sum += arr[i];
-	return sum;
-}
-int arrayAvr(int *arr, const size_t arrLen) { return arraySum(arr, arrLen) / arrLen; }
-
-int arrayMin(int *arr, const size_t arrLen)
-{
-	int minVal = MAX_INT32;
-	for (size_t i=0; i < arrLen; i++) minVal = min(minVal, arr[i]);
-	return minVal;
-}
-int arrayMax(int *arr, const size_t arrLen)
-{
-	int maxVal = MIN_INT32;
-	for (size_t i=0; i < arrLen; i++) maxVal = max(maxVal, arr[i]);
-	return maxVal;
-}
+float generator(float val) { return generatorLimit(amplify(val), VOLUME_MIN, VOLUME_MAX); }

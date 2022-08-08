@@ -57,19 +57,18 @@
 
 ![](img/nucleo-64-pin-configuration.png)
 
-| Pin Name | GPIO mode      | GPIO Config  | User Label  | Component        | Data                |
-| :------- | :------------- | :----------- | :---------- | :--------------- | :------------------ |
-| `PB6`    | `pwm output`   | `TIM4_CH1`   | `LED_R`     | LED left         | red                 |
-| `PC7`    | `pwm output`   | `TIM3_CH2`   | `LED_G`     | LED left         | green               |
-| `PB4`    | `pwm output`   | `TIM3_CH1`   | `LED_B`     | LED left         | blue                |
-|          |                |              |             |                  |                     |
-| `PA1`    | `analog input` | 12 bit       | `AUX_L`     | analog audio     | left audio channel  |
-| `PA4`    | `analog input` | 12 bit       | `AUX_R`     | analog audio     | right audio channel |
-|          |                |              |             |                  |                     |
-| `PC2`    | `analog input` | 12 bit       | `RNG`       | *none*           | noise               |
-|          |                |              |             |                  |                     |
-| `PA2`    | `USART`        | asynchronous | `USART2_TX` | Serial Interface | *none*              |
-| `PA3`    | `USART`        | asynchronous | `USART2_RX` | Serial Interface | debug data          |
+| Pin Name | GPIO mode            | GPIO Config | User Label  | Component        | Data                |
+| :------- | :------------------- | :---------- | :---------- | :--------------- | :------------------ |
+| `PB6`    | `pwm output`         | `TIM4_CH1`  | `LED_R`     | LED left         | red                 |
+| `PC7`    | `pwm output`         | `TIM3_CH2`  | `LED_G`     | LED left         | green               |
+| `PB4`    | `pwm output`         | `TIM3_CH1`  | `LED_B`     | LED left         | blue                |
+|          |                      |             |             |                  |                     |
+| `PA1`    | `analog input`       | 12 bit      | `AUX_L`     | analog audio     | left audio channel  |
+| `PA4`    | `analog input`       | 12 bit      | `AUX_R`     | analog audio     | right audio channel |
+|          |                      |             |             |                  |                     |
+| `PC2`    | `analog input`       | 12 bit      | `RNG`       | *none*           | noise               |
+|          |                      |             |             |                  |                     |
+| `PA2`    | `USART asynchronous` | 115200 baud | `USART2_TX` | Serial Interface | debug data          |
 
 ### Results
 

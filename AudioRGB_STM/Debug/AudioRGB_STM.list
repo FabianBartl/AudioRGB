@@ -39,9 +39,9 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING, OCTETS
  17 .debug_line   000172a5  00000000  00000000  000532c5  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 18 .debug_str    0009b4de  00000000  00000000  0006a56a  2**0
+ 18 .debug_str    0009b4dd  00000000  00000000  0006a56a  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 19 .comment      00000053  00000000  00000000  00105a48  2**0
+ 19 .comment      00000053  00000000  00000000  00105a47  2**0
                   CONTENTS, READONLY
  20 .debug_frame  00004ad8  00000000  00000000  00105a9c  2**2
                   CONTENTS, READONLY, DEBUGGING, OCTETS
@@ -1524,7 +1524,7 @@ int main(void)
  8000bc4:	482d      	ldr	r0, [pc, #180]	; (8000c7c <main+0x178>)
  8000bc6:	f000 fdff 	bl	80017c8 <HAL_ADC_Start>
 		if (HAL_ADC_PollForConversion(&hadc1, TIMEOUT_ADC) == HAL_OK)
- 8000bca:	2103      	movs	r1, #3
+ 8000bca:	2101      	movs	r1, #1
  8000bcc:	482b      	ldr	r0, [pc, #172]	; (8000c7c <main+0x178>)
  8000bce:	f000 fee2 	bl	8001996 <HAL_ADC_PollForConversion>
  8000bd2:	4603      	mov	r3, r0
@@ -1562,7 +1562,7 @@ int main(void)
  8000c06:	481d      	ldr	r0, [pc, #116]	; (8000c7c <main+0x178>)
  8000c08:	f000 fdde 	bl	80017c8 <HAL_ADC_Start>
 		if (HAL_ADC_PollForConversion(&hadc1, TIMEOUT_ADC) == HAL_OK)
- 8000c0c:	2103      	movs	r1, #3
+ 8000c0c:	2101      	movs	r1, #1
  8000c0e:	481b      	ldr	r0, [pc, #108]	; (8000c7c <main+0x178>)
  8000c10:	f000 fec1 	bl	8001996 <HAL_ADC_PollForConversion>
  8000c14:	4603      	mov	r3, r0
@@ -1619,7 +1619,7 @@ int main(void)
  8000c68:	4a05      	ldr	r2, [pc, #20]	; (8000c80 <main+0x17c>)
  8000c6a:	6013      	str	r3, [r2, #0]
 		HAL_Delay(DELAY);
- 8000c6c:	200a      	movs	r0, #10
+ 8000c6c:	2001      	movs	r0, #1
  8000c6e:	f000 fd43 	bl	80016f8 <HAL_Delay>
 	{
  8000c72:	e7a5      	b.n	8000bc0 <main+0xbc>

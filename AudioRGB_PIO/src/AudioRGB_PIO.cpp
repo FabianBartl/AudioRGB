@@ -27,8 +27,8 @@ void setup()
   pinMode(TCH_3, INPUT_PULLUP);
   pinMode(TCH_4, INPUT_PULLUP);
 
-  pinMode(AUX_L, INPUT_PULLUP);
-  pinMode(AUX_R, INPUT_PULLUP);
+  pinMode(AUX_L, INPUT);
+  pinMode(AUX_R, INPUT);
 
   pinMode(RNG_1, INPUT);
   pinMode(RNG_2, INPUT);

@@ -17,5 +17,5 @@ functions.c:87:5:noise	8	static
 functions.c:99:5:noiseLimit	16	static
 functions.c:105:6:writeRGB	24	static
 functions.c:112:6:writeRGBArray	16	static
-functions.c:115:7:generatorLimit	24	static
-functions.c:125:7:generator	16	static
+functions.c:115:7:generatorLimit	32	static
+functions.c:126:7:generator	16	static

@@ -50,10 +50,6 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-// for dynamic generator range
-uint16_t dynamic_VOLUME_MIN = MIN_UINT16;
-uint16_t dynamic_VOLUME_MAX = MAX_UINT16;
-
 // for in-loop ticks
 uint32_t ticks = 0;
 /* USER CODE END PV */
@@ -77,10 +73,16 @@ int main(void)
 {
   /* USER CODE BEGIN 1 */
 	// left audio channel
-	uint16_t *buffArr = (uint16_t *)malloc(BUFFER_SIZE_AUX * sizeof(uint16_t));
-	emptyArray(buffArr, BUFFER_SIZE_AUX);
-	size_t buffInd = 0;
-	uint16_t aux = 0, aux_filter = 0;
+	uint16_t *buffArrL = (uint16_t *)malloc(BUFFER_SIZE_AUX * sizeof(uint16_t));
+	emptyArray(buffArrL, BUFFER_SIZE_AUX);
+	size_t buffIndL = 0;
+	uint16_t auxValL = 0, auxFilterL = 0;
+
+	// right audio channel
+	uint16_t *buffArrR = (uint16_t *)malloc(BUFFER_SIZE_AUX * sizeof(uint16_t));
+	emptyArray(buffArrR, BUFFER_SIZE_AUX);
+	size_t buffIndR = 0;
+	uint16_t auxValR = 0, auxFilterR = 0;
 
 	// rgb led (uint8_t doesn't work)
 	uint16_t *rgbArr = (uint16_t *)malloc(CHANNEL_COUNT_RGB * sizeof(uint16_t));
@@ -123,56 +125,43 @@ int main(void)
 	HAL_TIM_PWM_Start(&htim4, TIM_CHANNEL_1);
 	HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_2);
 	HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_1);
-	writeRGBArray(rgbArr);
+	writeRGB(COLOR_HALF, COLOR_HALF, COLOR_HALF);
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
 	while (1)
 	{
-		// get audio from adc
+		// get left audio channel from adc
 		ADC_Select_CH1();
 		HAL_ADC_Start(&hadc1);
 		if (HAL_ADC_PollForConversion(&hadc1, TIMEOUT_ADC) == HAL_OK)
 		{
-			aux = HAL_ADC_GetValue(&hadc1);
+			auxValL = HAL_ADC_GetValue(&hadc1);
 			HAL_ADC_Stop(&hadc1);
 			// write buffer and apply filter
-			bufferAppend(aux, buffArr, &buffInd);
-			aux_filter = bufferFilter(buffArr, &buffInd);
+			bufferAppend(auxValL, buffArrL, &buffIndL);
+			auxFilterL = bufferFilter(buffArrL, &buffIndL);
 		}
 
-		// calculate min and max of buffer for dynamic generator range
-		dynamic_VOLUME_MIN = arrayMin(buffArr, BUFFER_SIZE_AUX);
-		dynamic_VOLUME_MAX = arrayMax(buffArr, BUFFER_SIZE_AUX);
-
-		// color generator
-		rgbArr[0] = generator(aux_filter);
-		rgbArr[1] = generator(aux_filter);
-		rgbArr[2] = generator(aux_filter);
-
-		// modify color
-		if (ticks % COLOR_CYCLE == 0)
+		// get right audio channel from adc
+		ADC_Select_CH4();
+		HAL_ADC_Start(&hadc1);
+		if (HAL_ADC_PollForConversion(&hadc1, TIMEOUT_ADC) == HAL_OK)
 		{
-			// save previous color
-			colSelPrev = colSel;
-			colValPrev = colVal;
-			// get next random color
-			colSel = noiseLimit(CHANNEL_COUNT_RGB);
-			colVal = rgbArr[colSel];
-		}
-		// fade in previous color
-		colValPrev += COLOR_FADE;
-		rgbArr[colSelPrev] = min(colValPrev, rgbArr[colSelPrev]);
-		// fade out next color, if unequal to the previous color
-		if (colSel != colSelPrev)
-		{
-			colVal -= COLOR_FADE;
-			rgbArr[colSel] = colVal;
+			auxValR = HAL_ADC_GetValue(&hadc1);
+			HAL_ADC_Stop(&hadc1);
+			// write buffer and apply filter
+			bufferAppend(auxValR, buffArrR, &buffIndR);
+			auxFilterR = bufferFilter(buffArrR, &buffIndR);
 		}
 
-		// set rgb of led
-		writeRGBArray(rgbArr);
+		// generate color and write rgb
+		writeRGB(
+			generator(auxFilterL),
+			5,
+			generator(auxFilterR)
+		);
 
 		// update in-loop ticks and wait
 		ticks++;

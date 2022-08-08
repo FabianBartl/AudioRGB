@@ -29,10 +29,7 @@
 #define DELAY 10
 #define TIMEOUT_ADC 3
 
-#define MIN_INT32 -4294967296
-#define MAX_INT32 4294967295
-
-#define MIN_UINT16 0
-#define MAX_UINT16 65535
+#define MIN_INT32 -2147483648
+#define MAX_INT32 2147483647
 
 #endif /* INC_CONFIG_H_ */

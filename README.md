@@ -28,18 +28,19 @@
 
 ![](img/nucleo-64-pin-configuration.png)
 
-| Pin Name | GPIO mode        | GPIO Config           | User Label    | Component       | Data               |
-| :------- | :--------------- | :-------------------- | :------------ | :-------------- | :----------------- |
-| `PB6`    | `pwm output`     | `TIM4_CH1` via `DMA1` | `LED_R`       | LED left        | red                |
-| `PC7`    | `pwm output`     | `TIM3_CH2` via `DMA1` | `LED_G`       | LED left        | green              |
-| `PB4`    | `pwm output`     | `TIM3_CH1` via `DMA1` | `LED_B`       | LED left        | blue               |
-|          |                  |                       |               |                 |                    |
-| `PA1`    | `analog input`   | 12 bit                | `AUX`         | analog audio    | left audio channel |
-|          |                  |                       |               |                 |                    |
-| `PC2`    | `analog input`   | 12 bit                | `RNG`         | *none*          | noise              |
-|          |                  |                       |               |                 |                    |
-| `PB8`    | `digital output` | `Pull-up`             | `LCD_I2C_SCL` | LCD Display     | I2C clock          |
-| `PB9`    | `digital output` | `Pull-up`             | `LCD_I2C_SDA` | LCD Display     | I2C data           |
+| Pin Name | GPIO mode        | GPIO Config           | User Label    | Component       | Data                |
+| :------- | :--------------- | :-------------------- | :------------ | :-------------- | :------------------ |
+| `PB6`    | `pwm output`     | `TIM4_CH1` via `DMA1` | `LED_R`       | LED left        | red                 |
+| `PC7`    | `pwm output`     | `TIM3_CH2` via `DMA1` | `LED_G`       | LED left        | green               |
+| `PB4`    | `pwm output`     | `TIM3_CH1` via `DMA1` | `LED_B`       | LED left        | blue                |
+|          |                  |                       |               |                 |                     |
+| `PA1`    | `analog input`   | 12 bit                | `AUX_L`       | analog audio    | left audio channel  |
+| `PA4`    | `analog input`   | 12 bit                | `AUX_R`       | analog audio    | right audio channel |
+|          |                  |                       |               |                 |                     |
+| `PC2`    | `analog input`   | 12 bit                | `RNG`         | *none*          | noise               |
+|          |                  |                       |               |                 |                     |
+| `PB8`    | `digital output` | `Pull-up`             | `LCD_I2C_SCL` | LCD Display     | I2C clock           |
+| `PB9`    | `digital output` | `Pull-up`             | `LCD_I2C_SDA` | LCD Display     | I2C data            |
 
 ## Audio-Jack Data
 

@@ -947,7 +947,7 @@ int amplify(int val) { return amplifyFactor(val, VOLUME_BOOST); }
  8000846:	b082      	sub	sp, #8
  8000848:	af00      	add	r7, sp, #0
  800084a:	6078      	str	r0, [r7, #4]
- 800084c:	2104      	movs	r1, #4
+ 800084c:	2101      	movs	r1, #1
  800084e:	6878      	ldr	r0, [r7, #4]
  8000850:	f7ff ffe9 	bl	8000826 <amplifyFactor>
  8000854:	4603      	mov	r3, r0
@@ -1080,8 +1080,8 @@ int generator(int val) { return generatorLimit(amplify(val), VOLUME_MIN, VOLUME_
  800091a:	6878      	ldr	r0, [r7, #4]
  800091c:	f7ff ff92 	bl	8000844 <amplify>
  8000920:	4603      	mov	r3, r0
- 8000922:	f44f 72fa 	mov.w	r2, #500	; 0x1f4
- 8000926:	2164      	movs	r1, #100	; 0x64
+ 8000922:	f640 2228 	movw	r2, #2600	; 0xa28
+ 8000926:	2132      	movs	r1, #50	; 0x32
  8000928:	4618      	mov	r0, r3
  800092a:	f7ff ffdf 	bl	80008ec <generatorLimit>
  800092e:	4603      	mov	r3, r0

@@ -15,9 +15,9 @@
 #define CHANNEL_COUNT_TCH 4
 #define CHANNEL_COUNT_ADC 2
 
-#define VOLUME_MIN 100
-#define VOLUME_MAX 500
-#define VOLUME_BOOST 4
+#define VOLUME_MIN 50
+#define VOLUME_MAX 2600
+#define VOLUME_BOOST 1
 
 #define COLOR_MIN 0
 #define COLOR_MAX 255

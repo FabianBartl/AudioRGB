@@ -89,9 +89,9 @@ void loop()
     touchArr[3] = digitalRead(TCH_4);
 
     // color generator for left side
-    rgbArrL[0] = generator(aux_l_filter);
-    rgbArrL[1] = generator(aux_l_filter);
-    rgbArrL[2] = generator(aux_l_filter);
+    // rgbArrL[0] = generator(aux_l_filter);
+    // rgbArrL[1] = generator(aux_l_filter);
+    // rgbArrL[2] = generator(aux_l_filter);
     // color generator for right side
     rgbArrR[0] = generator(aux_r_filter);
     rgbArrR[1] = generator(aux_r_filter);
@@ -155,17 +155,16 @@ void loop()
         if(touchArr[3]) rgbArrR[2] = 255;
         break;
     }
-
+    
     // set rgb of leds
-    writeRGB(LED_L, rgbArrL);
+    // writeRGB(LED_L, rgbArrL);
     writeRGB(LED_R, rgbArrR);
 
     // plot
     pltArr[0] = aux_l;                // blue
     pltArr[1] = aux_l_filter;         // red
-    pltArr[3] = saturate(rgbArrL[0]); // green
-    pltArr[4] = saturate(rgbArrL[1]); // yellow
-    pltArr[5] = saturate(rgbArrL[2]); // purple
+    pltArr[3] = rgbArrR[0];           // green
+    pltArr[4] = saturate(rgbArrR[0]); // yellow
     plot(pltArr, pltLen);
 
     // update timers

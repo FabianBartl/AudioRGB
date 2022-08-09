@@ -32,7 +32,7 @@
 
   #define VOLUME_MIN 0
   #define VOLUME_MAX 100
-  #define VOLUME_BOOST 1 //30%->5, 100%->1
+  #define VOLUME_BOOST 2 //30%->5, 100%->1
 
   #define COLOR_MIN 0
   #define COLOR_MAX 255

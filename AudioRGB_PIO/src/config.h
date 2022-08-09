@@ -31,7 +31,7 @@
   #define ARRAY_SIZE_TCH 4
 
   #define VOLUME_MIN 100
-  #define VOLUME_MAX 500
+  #define VOLUME_MAX 300
   #define VOLUME_BOOST 1 //30%->5, 100%->1
 
   #define COLOR_MIN 0

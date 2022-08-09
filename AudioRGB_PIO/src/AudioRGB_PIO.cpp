@@ -161,10 +161,10 @@ void loop()
     writeRGB(LED_R, rgbArrR);
 
     // plot
-    pltArr[0] = aux_l_filter; // blue
-    pltArr[1] = aux_r_filter; // red
-    pltArr[2] = arraySum(rgbArrL, ARRAY_SIZE_RGB); // green
-    pltArr[3] = arraySum(rgbArrR, ARRAY_SIZE_RGB); // yellow
+    pltArr[0] = aux_l; // blue
+    pltArr[1] = aux_l_filter; // red
+    pltArr[2] = rgbArrL[0]; // green
+    pltArr[3] = saturate(rgbArrL[0]); // yellow
     plot(pltArr, pltLen);
 
     // update timers

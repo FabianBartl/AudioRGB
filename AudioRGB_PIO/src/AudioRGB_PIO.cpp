@@ -104,7 +104,7 @@ void loop()
       colSelPrevL = colSelL;
       colValPrevL = colValL;
       // get next color
-      colSelL = noise(RNG_1, ARRAY_SIZE_RGB);
+      colSelL = noiseLimit(RNG_1, ARRAY_SIZE_RGB);
       colValL = rgbArrL[colSelL];
     }
     // fade in previous color
@@ -124,7 +124,7 @@ void loop()
       colSelPrevR = colSelR;
       colValPrevR = colValR;
       // get next color
-      colSelR = noise(RNG_2, ARRAY_SIZE_RGB);
+      colSelR = noiseLimit(RNG_2, ARRAY_SIZE_RGB);
       colValR = rgbArrR[colSelR];
     }
     // fade in previous color

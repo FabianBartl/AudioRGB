@@ -27,8 +27,8 @@ int bufferFilter(int *arr)
 // saturate, transform, amplify
 // ----------------------------
 
-int saturate(int val) { return saturate(val, COLOR_MIN, COLOR_MAX); }
-int saturate(int val, int lowerLim, int upperLim) { return (val < lowerLim) ? lowerLim : ((val > upperLim) ? upperLim : val); }
+int saturateLimits(int val, int lowerLim, int upperLim) { return (val < lowerLim) ? lowerLim : ((val > upperLim) ? upperLim : val); }
+int saturate(int val) { return saturateLimits(val, COLOR_MIN, COLOR_MAX); }
 
 int transform(int val, int inMin, int inMax, int outMin, int outMax)
 {
@@ -37,8 +37,8 @@ int transform(int val, int inMin, int inMax, int outMin, int outMax)
   return val - (inHalf - outHalf);
 }
 
-int amplify(int val) { return amplify(val, VOLUME_BOOST); }
-int amplify(int val, int fac) { return val * fac; }
+int amplifyFactor(int val, int fac) { return val * fac; }
+int amplify(int val) { return amplifyFactor(val, VOLUME_BOOST); }
 
 // --------------
 // serial plotter
@@ -63,7 +63,7 @@ void plot(int *valArr, int lenArr)
 // ---------------
 
 int noise(int pin) { return analogRead(pin); }
-int noise(int pin, int mod) { return noise(pin) % mod; }
+int noiseLimit(int pin, int mod) { return noise(pin) % mod; }
 
 // ---
 // rgb
@@ -103,13 +103,13 @@ float generator(float val)
 // array
 // -----
 
-void emptyArray(int *arr, size_t arrLen) { fillArray(0, arr, arrLen); }
 void fillArray(int val, int *arr, size_t arrLen) { for(int i=0; i < arrLen; i++) arr[i] = val; }
+void emptyArray(int *arr, size_t arrLen) { fillArray(0, arr, arrLen); }
 
-int arrayAvr(int *arr, int arrLen) { return arraySum(arr, arrLen) / arrLen; }
 int arraySum(int *arr, int arrLen)
 {
   int sum = 0;
   for(int i=0; i < arrLen; i++) sum += arr[i];
   return sum;
 }
+int arrayAvr(int *arr, int arrLen) { return arraySum(arr, arrLen) / arrLen; }

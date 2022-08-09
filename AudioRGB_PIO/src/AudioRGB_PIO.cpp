@@ -93,9 +93,9 @@ void loop()
     // rgbArrL[1] = generator(aux_l_filter);
     // rgbArrL[2] = generator(aux_l_filter);
     // color generator for right side
-    rgbArrR[0] = generator(aux_r_filter);
-    rgbArrR[1] = generator(aux_r_filter);
-    rgbArrR[2] = generator(aux_r_filter);
+    rgbArrR[0] = generator(aux_l_filter);
+    rgbArrR[1] = generator(aux_l_filter);
+    rgbArrR[2] = generator(aux_l_filter);
 
     // modify left color
     if(ticks % COLOR_L_CYCLE == 0)

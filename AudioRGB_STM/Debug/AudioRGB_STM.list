@@ -39,9 +39,9 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING, OCTETS
  17 .debug_line   00017461  00000000  00000000  00053773  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 18 .debug_str    0009c461  00000000  00000000  0006abd4  2**0
+ 18 .debug_str    0009c45f  00000000  00000000  0006abd4  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 19 .comment      00000053  00000000  00000000  00107035  2**0
+ 19 .comment      00000053  00000000  00000000  00107033  2**0
                   CONTENTS, READONLY
  20 .debug_frame  00004d14  00000000  00000000  00107088  2**2
                   CONTENTS, READONLY, DEBUGGING, OCTETS
@@ -854,7 +854,7 @@ int bufferFilter(int *arr)
 	return arrayAvr(arr, BUFFER_SIZE_AUX);
  80007f6:	2102      	movs	r1, #2
  80007f8:	6878      	ldr	r0, [r7, #4]
- 80007fa:	f000 f925 	bl	8000a48 <arrayAvr>
+ 80007fa:	f000 f924 	bl	8000a46 <arrayAvr>
  80007fe:	4603      	mov	r3, r0
 }
  8000800:	4618      	mov	r0, r3
@@ -977,7 +977,7 @@ int amplify(int val) { return amplifyFactor(val, VOLUME_BOOST); }
  80008be:	b082      	sub	sp, #8
  80008c0:	af00      	add	r7, sp, #0
  80008c2:	6078      	str	r0, [r7, #4]
- 80008c4:	2101      	movs	r1, #1
+ 80008c4:	2102      	movs	r1, #2
  80008c6:	6878      	ldr	r0, [r7, #4]
  80008c8:	f7ff ffe9 	bl	800089e <amplifyFactor>
  80008cc:	4603      	mov	r3, r0
@@ -1110,126 +1110,127 @@ int generator(int val) { return generatorLimit(amplify(val), VOLUME_MIN, VOLUME_
  8000992:	6878      	ldr	r0, [r7, #4]
  8000994:	f7ff ff92 	bl	80008bc <amplify>
  8000998:	4603      	mov	r3, r0
- 800099a:	f44f 7261 	mov.w	r2, #900	; 0x384
- 800099e:	f44f 712f 	mov.w	r1, #700	; 0x2bc
- 80009a2:	4618      	mov	r0, r3
- 80009a4:	f7ff ffde 	bl	8000964 <generatorLimit>
- 80009a8:	4603      	mov	r3, r0
- 80009aa:	4618      	mov	r0, r3
- 80009ac:	3708      	adds	r7, #8
- 80009ae:	46bd      	mov	sp, r7
- 80009b0:	bd80      	pop	{r7, pc}
+ 800099a:	f44f 7216 	mov.w	r2, #600	; 0x258
+ 800099e:	2100      	movs	r1, #0
+ 80009a0:	4618      	mov	r0, r3
+ 80009a2:	f7ff ffdf 	bl	8000964 <generatorLimit>
+ 80009a6:	4603      	mov	r3, r0
+ 80009a8:	4618      	mov	r0, r3
+ 80009aa:	3708      	adds	r7, #8
+ 80009ac:	46bd      	mov	sp, r7
+ 80009ae:	bd80      	pop	{r7, pc}
 
-080009b2 <fillArray>:
+080009b0 <fillArray>:
 
 // ------
 // arrays
 // ------
 
 void fillArray(int val, int *arr, const size_t arrLen) { for(int i=0; i < arrLen; i++) arr[i] = val; }
- 80009b2:	b480      	push	{r7}
- 80009b4:	b087      	sub	sp, #28
- 80009b6:	af00      	add	r7, sp, #0
- 80009b8:	60f8      	str	r0, [r7, #12]
- 80009ba:	60b9      	str	r1, [r7, #8]
- 80009bc:	607a      	str	r2, [r7, #4]
- 80009be:	2300      	movs	r3, #0
- 80009c0:	617b      	str	r3, [r7, #20]
- 80009c2:	e008      	b.n	80009d6 <fillArray+0x24>
- 80009c4:	697b      	ldr	r3, [r7, #20]
- 80009c6:	009b      	lsls	r3, r3, #2
- 80009c8:	68ba      	ldr	r2, [r7, #8]
- 80009ca:	4413      	add	r3, r2
- 80009cc:	68fa      	ldr	r2, [r7, #12]
- 80009ce:	601a      	str	r2, [r3, #0]
- 80009d0:	697b      	ldr	r3, [r7, #20]
- 80009d2:	3301      	adds	r3, #1
- 80009d4:	617b      	str	r3, [r7, #20]
- 80009d6:	697b      	ldr	r3, [r7, #20]
- 80009d8:	687a      	ldr	r2, [r7, #4]
- 80009da:	429a      	cmp	r2, r3
- 80009dc:	d8f2      	bhi.n	80009c4 <fillArray+0x12>
+ 80009b0:	b480      	push	{r7}
+ 80009b2:	b087      	sub	sp, #28
+ 80009b4:	af00      	add	r7, sp, #0
+ 80009b6:	60f8      	str	r0, [r7, #12]
+ 80009b8:	60b9      	str	r1, [r7, #8]
+ 80009ba:	607a      	str	r2, [r7, #4]
+ 80009bc:	2300      	movs	r3, #0
+ 80009be:	617b      	str	r3, [r7, #20]
+ 80009c0:	e008      	b.n	80009d4 <fillArray+0x24>
+ 80009c2:	697b      	ldr	r3, [r7, #20]
+ 80009c4:	009b      	lsls	r3, r3, #2
+ 80009c6:	68ba      	ldr	r2, [r7, #8]
+ 80009c8:	4413      	add	r3, r2
+ 80009ca:	68fa      	ldr	r2, [r7, #12]
+ 80009cc:	601a      	str	r2, [r3, #0]
+ 80009ce:	697b      	ldr	r3, [r7, #20]
+ 80009d0:	3301      	adds	r3, #1
+ 80009d2:	617b      	str	r3, [r7, #20]
+ 80009d4:	697b      	ldr	r3, [r7, #20]
+ 80009d6:	687a      	ldr	r2, [r7, #4]
+ 80009d8:	429a      	cmp	r2, r3
+ 80009da:	d8f2      	bhi.n	80009c2 <fillArray+0x12>
+ 80009dc:	bf00      	nop
  80009de:	bf00      	nop
- 80009e0:	bf00      	nop
- 80009e2:	371c      	adds	r7, #28
- 80009e4:	46bd      	mov	sp, r7
- 80009e6:	f85d 7b04 	ldr.w	r7, [sp], #4
- 80009ea:	4770      	bx	lr
+ 80009e0:	371c      	adds	r7, #28
+ 80009e2:	46bd      	mov	sp, r7
+ 80009e4:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 80009e8:	4770      	bx	lr
 
-080009ec <emptyArray>:
+080009ea <emptyArray>:
 void emptyArray(int *arr, const size_t arrLen) { fillArray(0, arr, arrLen); }
- 80009ec:	b580      	push	{r7, lr}
- 80009ee:	b082      	sub	sp, #8
- 80009f0:	af00      	add	r7, sp, #0
- 80009f2:	6078      	str	r0, [r7, #4]
- 80009f4:	6039      	str	r1, [r7, #0]
- 80009f6:	683a      	ldr	r2, [r7, #0]
- 80009f8:	6879      	ldr	r1, [r7, #4]
- 80009fa:	2000      	movs	r0, #0
- 80009fc:	f7ff ffd9 	bl	80009b2 <fillArray>
- 8000a00:	bf00      	nop
- 8000a02:	3708      	adds	r7, #8
- 8000a04:	46bd      	mov	sp, r7
- 8000a06:	bd80      	pop	{r7, pc}
+ 80009ea:	b580      	push	{r7, lr}
+ 80009ec:	b082      	sub	sp, #8
+ 80009ee:	af00      	add	r7, sp, #0
+ 80009f0:	6078      	str	r0, [r7, #4]
+ 80009f2:	6039      	str	r1, [r7, #0]
+ 80009f4:	683a      	ldr	r2, [r7, #0]
+ 80009f6:	6879      	ldr	r1, [r7, #4]
+ 80009f8:	2000      	movs	r0, #0
+ 80009fa:	f7ff ffd9 	bl	80009b0 <fillArray>
+ 80009fe:	bf00      	nop
+ 8000a00:	3708      	adds	r7, #8
+ 8000a02:	46bd      	mov	sp, r7
+ 8000a04:	bd80      	pop	{r7, pc}
 
-08000a08 <arraySum>:
+08000a06 <arraySum>:
 
 int arraySum(int *arr, const size_t arrLen)
 {
- 8000a08:	b480      	push	{r7}
- 8000a0a:	b085      	sub	sp, #20
- 8000a0c:	af00      	add	r7, sp, #0
- 8000a0e:	6078      	str	r0, [r7, #4]
- 8000a10:	6039      	str	r1, [r7, #0]
+ 8000a06:	b480      	push	{r7}
+ 8000a08:	b085      	sub	sp, #20
+ 8000a0a:	af00      	add	r7, sp, #0
+ 8000a0c:	6078      	str	r0, [r7, #4]
+ 8000a0e:	6039      	str	r1, [r7, #0]
 	int sum = 0;
- 8000a12:	2300      	movs	r3, #0
- 8000a14:	60fb      	str	r3, [r7, #12]
+ 8000a10:	2300      	movs	r3, #0
+ 8000a12:	60fb      	str	r3, [r7, #12]
 	for(size_t i=0; i < arrLen; i++) sum += arr[i];
- 8000a16:	2300      	movs	r3, #0
- 8000a18:	60bb      	str	r3, [r7, #8]
- 8000a1a:	e00a      	b.n	8000a32 <arraySum+0x2a>
- 8000a1c:	68bb      	ldr	r3, [r7, #8]
- 8000a1e:	009b      	lsls	r3, r3, #2
- 8000a20:	687a      	ldr	r2, [r7, #4]
- 8000a22:	4413      	add	r3, r2
- 8000a24:	681b      	ldr	r3, [r3, #0]
- 8000a26:	68fa      	ldr	r2, [r7, #12]
- 8000a28:	4413      	add	r3, r2
- 8000a2a:	60fb      	str	r3, [r7, #12]
- 8000a2c:	68bb      	ldr	r3, [r7, #8]
- 8000a2e:	3301      	adds	r3, #1
- 8000a30:	60bb      	str	r3, [r7, #8]
- 8000a32:	68ba      	ldr	r2, [r7, #8]
- 8000a34:	683b      	ldr	r3, [r7, #0]
- 8000a36:	429a      	cmp	r2, r3
- 8000a38:	d3f0      	bcc.n	8000a1c <arraySum+0x14>
+ 8000a14:	2300      	movs	r3, #0
+ 8000a16:	60bb      	str	r3, [r7, #8]
+ 8000a18:	e00a      	b.n	8000a30 <arraySum+0x2a>
+ 8000a1a:	68bb      	ldr	r3, [r7, #8]
+ 8000a1c:	009b      	lsls	r3, r3, #2
+ 8000a1e:	687a      	ldr	r2, [r7, #4]
+ 8000a20:	4413      	add	r3, r2
+ 8000a22:	681b      	ldr	r3, [r3, #0]
+ 8000a24:	68fa      	ldr	r2, [r7, #12]
+ 8000a26:	4413      	add	r3, r2
+ 8000a28:	60fb      	str	r3, [r7, #12]
+ 8000a2a:	68bb      	ldr	r3, [r7, #8]
+ 8000a2c:	3301      	adds	r3, #1
+ 8000a2e:	60bb      	str	r3, [r7, #8]
+ 8000a30:	68ba      	ldr	r2, [r7, #8]
+ 8000a32:	683b      	ldr	r3, [r7, #0]
+ 8000a34:	429a      	cmp	r2, r3
+ 8000a36:	d3f0      	bcc.n	8000a1a <arraySum+0x14>
 	return sum;
- 8000a3a:	68fb      	ldr	r3, [r7, #12]
+ 8000a38:	68fb      	ldr	r3, [r7, #12]
 }
- 8000a3c:	4618      	mov	r0, r3
- 8000a3e:	3714      	adds	r7, #20
- 8000a40:	46bd      	mov	sp, r7
- 8000a42:	f85d 7b04 	ldr.w	r7, [sp], #4
- 8000a46:	4770      	bx	lr
+ 8000a3a:	4618      	mov	r0, r3
+ 8000a3c:	3714      	adds	r7, #20
+ 8000a3e:	46bd      	mov	sp, r7
+ 8000a40:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 8000a44:	4770      	bx	lr
 
-08000a48 <arrayAvr>:
+08000a46 <arrayAvr>:
 int arrayAvr(int *arr, const size_t arrLen) { return arraySum(arr, arrLen) / arrLen; }
- 8000a48:	b580      	push	{r7, lr}
- 8000a4a:	b082      	sub	sp, #8
- 8000a4c:	af00      	add	r7, sp, #0
- 8000a4e:	6078      	str	r0, [r7, #4]
- 8000a50:	6039      	str	r1, [r7, #0]
- 8000a52:	6839      	ldr	r1, [r7, #0]
- 8000a54:	6878      	ldr	r0, [r7, #4]
- 8000a56:	f7ff ffd7 	bl	8000a08 <arraySum>
- 8000a5a:	4603      	mov	r3, r0
- 8000a5c:	461a      	mov	r2, r3
- 8000a5e:	683b      	ldr	r3, [r7, #0]
- 8000a60:	fbb2 f3f3 	udiv	r3, r2, r3
- 8000a64:	4618      	mov	r0, r3
- 8000a66:	3708      	adds	r7, #8
- 8000a68:	46bd      	mov	sp, r7
- 8000a6a:	bd80      	pop	{r7, pc}
+ 8000a46:	b580      	push	{r7, lr}
+ 8000a48:	b082      	sub	sp, #8
+ 8000a4a:	af00      	add	r7, sp, #0
+ 8000a4c:	6078      	str	r0, [r7, #4]
+ 8000a4e:	6039      	str	r1, [r7, #0]
+ 8000a50:	6839      	ldr	r1, [r7, #0]
+ 8000a52:	6878      	ldr	r0, [r7, #4]
+ 8000a54:	f7ff ffd7 	bl	8000a06 <arraySum>
+ 8000a58:	4603      	mov	r3, r0
+ 8000a5a:	461a      	mov	r2, r3
+ 8000a5c:	683b      	ldr	r3, [r7, #0]
+ 8000a5e:	fbb2 f3f3 	udiv	r3, r2, r3
+ 8000a62:	4618      	mov	r0, r3
+ 8000a64:	3708      	adds	r7, #8
+ 8000a66:	46bd      	mov	sp, r7
+ 8000a68:	bd80      	pop	{r7, pc}
+	...
 
 08000a6c <MX_GPIO_Init>:
         * Output
@@ -1489,32 +1490,32 @@ int main(void)
 	emptyArray(buffArrL, BUFFER_SIZE_AUX);
  8000bf0:	2102      	movs	r1, #2
  8000bf2:	6c78      	ldr	r0, [r7, #68]	; 0x44
- 8000bf4:	f7ff fefa 	bl	80009ec <emptyArray>
+ 8000bf4:	f7ff fef9 	bl	80009ea <emptyArray>
 	size_t buffIndL = 0;
  8000bf8:	2300      	movs	r3, #0
  8000bfa:	61bb      	str	r3, [r7, #24]
 	int auxValL = 0, auxFilterL = 0;
  8000bfc:	2300      	movs	r3, #0
- 8000bfe:	657b      	str	r3, [r7, #84]	; 0x54
+ 8000bfe:	643b      	str	r3, [r7, #64]	; 0x40
  8000c00:	2300      	movs	r3, #0
- 8000c02:	653b      	str	r3, [r7, #80]	; 0x50
+ 8000c02:	657b      	str	r3, [r7, #84]	; 0x54
 
 	// right audio channel
 	int *buffArrR = (int *)malloc(BUFFER_SIZE_AUX * sizeof(int));
  8000c04:	2008      	movs	r0, #8
  8000c06:	f003 fe8d 	bl	8004924 <malloc>
  8000c0a:	4603      	mov	r3, r0
- 8000c0c:	643b      	str	r3, [r7, #64]	; 0x40
+ 8000c0c:	63fb      	str	r3, [r7, #60]	; 0x3c
 	emptyArray(buffArrR, BUFFER_SIZE_AUX);
  8000c0e:	2102      	movs	r1, #2
- 8000c10:	6c38      	ldr	r0, [r7, #64]	; 0x40
- 8000c12:	f7ff feeb 	bl	80009ec <emptyArray>
+ 8000c10:	6bf8      	ldr	r0, [r7, #60]	; 0x3c
+ 8000c12:	f7ff feea 	bl	80009ea <emptyArray>
 	size_t buffIndR = 0;
  8000c16:	2300      	movs	r3, #0
  8000c18:	617b      	str	r3, [r7, #20]
 	int auxValR = 0, auxFilterR = 0;
  8000c1a:	2300      	movs	r3, #0
- 8000c1c:	63fb      	str	r3, [r7, #60]	; 0x3c
+ 8000c1c:	653b      	str	r3, [r7, #80]	; 0x50
  8000c1e:	2300      	movs	r3, #0
  8000c20:	64fb      	str	r3, [r7, #76]	; 0x4c
 
@@ -1527,7 +1528,7 @@ int main(void)
 	emptyArray(rgbArr, CHANNEL_COUNT_RGB);
  8000c2c:	2103      	movs	r1, #3
  8000c2e:	6bb8      	ldr	r0, [r7, #56]	; 0x38
- 8000c30:	f7ff fedc 	bl	80009ec <emptyArray>
+ 8000c30:	f7ff fedb 	bl	80009ea <emptyArray>
 	int r = 0, g = 0, b = 0;
  8000c34:	2300      	movs	r3, #0
  8000c36:	637b      	str	r3, [r7, #52]	; 0x34
@@ -1628,7 +1629,7 @@ int main(void)
  8000cba:	4832      	ldr	r0, [pc, #200]	; (8000d84 <main+0x1a4>)
  8000cbc:	f000 ff7c 	bl	8001bb8 <HAL_ADC_GetValue>
  8000cc0:	4603      	mov	r3, r0
- 8000cc2:	657b      	str	r3, [r7, #84]	; 0x54
+ 8000cc2:	643b      	str	r3, [r7, #64]	; 0x40
 			HAL_ADC_Stop(&hadc1);
  8000cc4:	482f      	ldr	r0, [pc, #188]	; (8000d84 <main+0x1a4>)
  8000cc6:	f000 feb9 	bl	8001a3c <HAL_ADC_Stop>
@@ -1637,12 +1638,12 @@ int main(void)
  8000cca:	f107 0318 	add.w	r3, r7, #24
  8000cce:	461a      	mov	r2, r3
  8000cd0:	6c79      	ldr	r1, [r7, #68]	; 0x44
- 8000cd2:	6d78      	ldr	r0, [r7, #84]	; 0x54
+ 8000cd2:	6c38      	ldr	r0, [r7, #64]	; 0x40
  8000cd4:	f7ff fd6c 	bl	80007b0 <bufferAppend>
 			auxFilterL = bufferFilter(buffArrL);
  8000cd8:	6c78      	ldr	r0, [r7, #68]	; 0x44
  8000cda:	f7ff fd88 	bl	80007ee <bufferFilter>
- 8000cde:	6538      	str	r0, [r7, #80]	; 0x50
+ 8000cde:	6578      	str	r0, [r7, #84]	; 0x54
 		}
 
 		// get right audio channel from adc
@@ -1663,7 +1664,7 @@ int main(void)
  8000cf8:	4822      	ldr	r0, [pc, #136]	; (8000d84 <main+0x1a4>)
  8000cfa:	f000 ff5d 	bl	8001bb8 <HAL_ADC_GetValue>
  8000cfe:	4603      	mov	r3, r0
- 8000d00:	63fb      	str	r3, [r7, #60]	; 0x3c
+ 8000d00:	653b      	str	r3, [r7, #80]	; 0x50
 			HAL_ADC_Stop(&hadc1);
  8000d02:	4820      	ldr	r0, [pc, #128]	; (8000d84 <main+0x1a4>)
  8000d04:	f000 fe9a 	bl	8001a3c <HAL_ADC_Stop>
@@ -1671,18 +1672,18 @@ int main(void)
 			bufferAppend(auxValR, buffArrR, &buffIndR);
  8000d08:	f107 0314 	add.w	r3, r7, #20
  8000d0c:	461a      	mov	r2, r3
- 8000d0e:	6c39      	ldr	r1, [r7, #64]	; 0x40
- 8000d10:	6bf8      	ldr	r0, [r7, #60]	; 0x3c
+ 8000d0e:	6bf9      	ldr	r1, [r7, #60]	; 0x3c
+ 8000d10:	6d38      	ldr	r0, [r7, #80]	; 0x50
  8000d12:	f7ff fd4d 	bl	80007b0 <bufferAppend>
 			auxFilterR = bufferFilter(buffArrR);
- 8000d16:	6c38      	ldr	r0, [r7, #64]	; 0x40
+ 8000d16:	6bf8      	ldr	r0, [r7, #60]	; 0x3c
  8000d18:	f7ff fd69 	bl	80007ee <bufferFilter>
  8000d1c:	64f8      	str	r0, [r7, #76]	; 0x4c
 		}
 
 		// generate color
 		r = generator(auxFilterL);
- 8000d1e:	6d38      	ldr	r0, [r7, #80]	; 0x50
+ 8000d1e:	6d78      	ldr	r0, [r7, #84]	; 0x54
  8000d20:	f7ff fe33 	bl	800098a <generator>
  8000d24:	6378      	str	r0, [r7, #52]	; 0x34
 		g = 5;
@@ -1704,21 +1705,21 @@ int main(void)
 		if (DEBUG)
 		{
 			sprintf(
- 8000d3c:	6b78      	ldr	r0, [r7, #52]	; 0x34
+ 8000d3c:	6af8      	ldr	r0, [r7, #44]	; 0x2c
  8000d3e:	f7ff fd7a 	bl	8000836 <saturate>
  8000d42:	4603      	mov	r3, r0
  8000d44:	4638      	mov	r0, r7
  8000d46:	9301      	str	r3, [sp, #4]
- 8000d48:	6b7b      	ldr	r3, [r7, #52]	; 0x34
+ 8000d48:	6afb      	ldr	r3, [r7, #44]	; 0x2c
  8000d4a:	9300      	str	r3, [sp, #0]
- 8000d4c:	6d3b      	ldr	r3, [r7, #80]	; 0x50
- 8000d4e:	6d7a      	ldr	r2, [r7, #84]	; 0x54
+ 8000d4c:	6cfb      	ldr	r3, [r7, #76]	; 0x4c
+ 8000d4e:	6d3a      	ldr	r2, [r7, #80]	; 0x50
  8000d50:	490d      	ldr	r1, [pc, #52]	; (8000d88 <main+0x1a8>)
  8000d52:	f003 feb1 	bl	8004ab8 <siprintf>
-				auxValL,
-				auxFilterL,
-				r,
-				saturate(r)
+				auxValR,
+				auxFilterR,
+				b,
+				saturate(b)
 			);
 			HAL_UART_Transmit(&huart2, (uint8_t *)buffMsg, strlen(buffMsg), HAL_MAX_DELAY);
  8000d56:	463b      	mov	r3, r7

@@ -30,8 +30,8 @@
   #define ARRAY_SIZE_RGB 3
   #define ARRAY_SIZE_TCH 4
 
-  #define VOLUME_MIN 100
-  #define VOLUME_MAX 300
+  #define VOLUME_MIN 0
+  #define VOLUME_MAX 100
   #define VOLUME_BOOST 1 //30%->5, 100%->1
 
   #define COLOR_MIN 0
@@ -41,8 +41,8 @@
   #define COLOR_L_CYCLE 30
   #define COLOR_L_FADE 10
 
-  #define COLOR_R_CYCLE 30
-  #define COLOR_R_FADE 10
+  #define COLOR_R_CYCLE 50
+  #define COLOR_R_FADE 2
 
   #define DELAY 1
 

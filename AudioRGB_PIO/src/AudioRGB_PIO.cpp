@@ -66,7 +66,7 @@ void loop()
   int *touchArr = (int *)malloc(ARRAY_SIZE_TCH * sizeof(int));
 
   // plot array
-  int pltLen = 4;
+  int pltLen = 7;
   int *pltArr = (int *)malloc(pltLen * sizeof(int));
   emptyArray(pltArr, pltLen);
 
@@ -163,8 +163,9 @@ void loop()
     // plot
     pltArr[0] = aux_l;                // blue
     pltArr[1] = aux_l_filter;         // red
-    pltArr[2] = rgbArrL[0];           // green
-    pltArr[3] = saturate(rgbArrL[0]); // yellow
+    pltArr[3] = saturate(rgbArrL[0]); // green
+    pltArr[4] = saturate(rgbArrL[1]); // yellow
+    pltArr[5] = saturate(rgbArrL[2]); // purple
     plot(pltArr, pltLen);
 
     // update timers

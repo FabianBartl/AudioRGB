@@ -161,9 +161,9 @@ void loop()
     writeRGB(LED_R, rgbArrR);
 
     // plot
-    pltArr[0] = aux_l; // blue
-    pltArr[1] = aux_l_filter; // red
-    pltArr[2] = rgbArrL[0]; // green
+    pltArr[0] = aux_l;                // blue
+    pltArr[1] = aux_l_filter;         // red
+    pltArr[2] = rgbArrL[0];           // green
     pltArr[3] = saturate(rgbArrL[0]); // yellow
     plot(pltArr, pltLen);
 

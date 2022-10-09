@@ -1,6 +1,8 @@
 
 # AudioRGB
 
+[![GitHub License](https://img.shields.io/badge/license-MIT-green)](LICENSE)&nbsp;
+
 ## Arduino Uno
 
 ### Pin Configuration

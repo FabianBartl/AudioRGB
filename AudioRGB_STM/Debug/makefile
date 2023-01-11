@@ -1,6 +1,6 @@
 ################################################################################
 # Automatically-generated file. Do not edit!
-# Toolchain: GNU Tools for STM32 (9-2020-q2-update)
+# Toolchain: GNU Tools for STM32 (10.3-2021.10)
 ################################################################################
 
 -include ../makefile.init
@@ -43,14 +43,14 @@ BUILD_ARTIFACT := $(BUILD_ARTIFACT_PREFIX)$(BUILD_ARTIFACT_NAME)$(if $(BUILD_ART
 EXECUTABLES += \
 AudioRGB_STM.elf \
 
+MAP_FILES += \
+AudioRGB_STM.map \
+
 SIZE_OUTPUT += \
 default.size.stdout \
 
 OBJDUMP_LIST += \
 AudioRGB_STM.list \
-
-OBJCOPY_BIN += \
-AudioRGB_STM.bin \
 
 
 # All Target
@@ -60,7 +60,7 @@ all: main-build
 main-build: AudioRGB_STM.elf secondary-outputs
 
 # Tool invocations
-AudioRGB_STM.elf: $(OBJS) $(USER_OBJS) C:\Users\fabia\OneDrive\Dokumente\GitHub\AudioRGB\AudioRGB_STM\STM32F401RETX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+AudioRGB_STM.elf AudioRGB_STM.map: $(OBJS) $(USER_OBJS) C:\Users\fabia\OneDrive\Dokumente\GitHub\AudioRGB\AudioRGB_STM\STM32F401RETX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
 	arm-none-eabi-gcc -o "AudioRGB_STM.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\fabia\OneDrive\Dokumente\GitHub\AudioRGB\AudioRGB_STM\STM32F401RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="AudioRGB_STM.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
@@ -75,17 +75,12 @@ AudioRGB_STM.list: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
 	@echo 'Finished building: $@'
 	@echo ' '
 
-AudioRGB_STM.bin: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-objcopy  -O binary $(EXECUTABLES) "AudioRGB_STM.bin"
-	@echo 'Finished building: $@'
-	@echo ' '
-
 # Other Targets
 clean:
-	-$(RM) AudioRGB_STM.bin AudioRGB_STM.elf AudioRGB_STM.list default.size.stdout
+	-$(RM) AudioRGB_STM.elf AudioRGB_STM.list AudioRGB_STM.map default.size.stdout
 	-@echo ' '
 
-secondary-outputs: $(SIZE_OUTPUT) $(OBJDUMP_LIST) $(OBJCOPY_BIN)
+secondary-outputs: $(SIZE_OUTPUT) $(OBJDUMP_LIST)
 
 fail-specified-linker-script-missing:
 	@echo 'Error: Cannot find the specified linker script. Check the linker settings in the build configuration.'
